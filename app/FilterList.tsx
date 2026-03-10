@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams, useRouter } from "next/navigation";
-import { useTransition } from "react";
+import { useOptimistic, useTransition } from "react";
 
 function FilterList() {
   const searchParams = useSearchParams();
@@ -15,23 +15,34 @@ function FilterList() {
   ];
 
   const currentSubject = searchParams.get("subject") || "All";
-  const currentWeek = searchParams.get("week") || "All";
+  const [optimisticSubject, setOptimisticSubject] =
+    useOptimistic(currentSubject);
 
-  const handleChange = (key: string, value: string) => {
+  const currentWeek = searchParams.get("week") || "All";
+  const [optimisticWeek, setOptimisticWeek] = useOptimistic(currentWeek);
+
+  const handleChange = (
+    key: string,
+    value: string,
+    setOptimistic?: (
+      action: string | ((pendingState: string) => string),
+    ) => void,
+  ) => {
     const params = new URLSearchParams(searchParams);
     if (value === "All") params.delete(key);
     else params.set(key, value);
     startTransition(() => {
+      if (setOptimistic) setOptimistic(value);
       router.replace(`?${params.toString()}`);
     });
   };
 
   const handleSubjectChange = (value: string) => {
-    handleChange("subject", value);
+    handleChange("subject", value, setOptimisticSubject);
   };
 
   const handleWeekChange = (value: string) => {
-    handleChange("week", value);
+    handleChange("week", value, setOptimisticWeek);
   };
 
   return (
@@ -45,7 +56,7 @@ function FilterList() {
         </label>
         <select
           id="subject"
-          value={currentSubject}
+          value={optimisticSubject}
           onChange={(e) => handleSubjectChange(e.target.value)}
           className="outline-background grow p-1 outline"
         >
@@ -62,7 +73,7 @@ function FilterList() {
         </label>
         <select
           id="week"
-          value={currentWeek}
+          value={optimisticWeek}
           onChange={(e) => handleWeekChange(e.target.value)}
           className="outline-background grow p-1 outline"
         >
