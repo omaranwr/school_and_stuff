@@ -4,16 +4,14 @@ import FilterList from "./FilterList";
 export default async function Home({
   searchParams,
 }: {
-  searchParams: Promise<{ [key: string]: string | undefined }>;
+  searchParams: Promise<{ week?: string; subject?: string }>;
 }) {
-  const params = await searchParams;
+  const week = parseInt((await searchParams).week || "0");
+  const subject = (await searchParams).subject || "all";
   return (
     <>
       <FilterList />
-      <List
-        week={parseInt(params["week"]!) || 0}
-        subject={params["subject"]!}
-      />
+      <List week={week} subject={subject} />
     </>
   );
 }
