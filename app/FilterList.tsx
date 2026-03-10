@@ -1,10 +1,12 @@
 "use client";
 
 import { useSearchParams, useRouter } from "next/navigation";
+import { useTransition } from "react";
 
 function FilterList() {
   const searchParams = useSearchParams();
   const router = useRouter();
+  const [isPending, startTransition] = useTransition();
 
   const subjects = ["All", "Math", "Science", "English", "History"];
   const weeks = [
@@ -19,7 +21,9 @@ function FilterList() {
     const params = new URLSearchParams(searchParams);
     if (value === "All") params.delete(key);
     else params.set(key, value);
-    router.replace(`?${params.toString()}`);
+    startTransition(() => {
+      router.replace(`?${params.toString()}`);
+    });
   };
 
   const handleSubjectChange = (value: string) => {
@@ -31,7 +35,10 @@ function FilterList() {
   };
 
   return (
-    <div className="bg-foreground text-background flex w-full flex-col gap-4 px-2 py-5">
+    <div
+      className="bg-foreground text-background flex w-full flex-col gap-4 px-2 py-5 data-[pending=true]:opacity-50"
+      data-pending={isPending}
+    >
       <div className="wrapper flex">
         <label htmlFor="subject" className="mr-2">
           Subject:

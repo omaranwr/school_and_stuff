@@ -1,16 +1,19 @@
-import { Suspense } from "react";
-import FilterList from "./FilterList";
 import List from "./List";
+import FilterList from "./FilterList";
 
-export default function Home() {
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | undefined }>;
+}) {
+  const params = await searchParams;
   return (
     <>
-      <Suspense>
-        <FilterList />
-      </Suspense>
-      <Suspense>
-        <List />
-      </Suspense>
+      <FilterList />
+      <List
+        week={parseInt(params["week"]!) || 0}
+        subject={params["subject"]!}
+      />
     </>
   );
 }
