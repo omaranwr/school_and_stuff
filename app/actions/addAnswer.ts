@@ -3,6 +3,8 @@
 import { db } from "@/db";
 import { post, subject } from "@/db/schema";
 import { newValue } from "@/app/lib/constants";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 export async function addAnswer(formData: FormData) {
   const subjectId = formData.get("subjectId");
@@ -43,4 +45,7 @@ export async function addAnswer(formData: FormData) {
     week: parseInt(week),
     content,
   });
+
+  revalidatePath("/");
+  redirect("/");
 }
