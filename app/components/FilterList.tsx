@@ -1,7 +1,16 @@
 "use client";
 
 import { use } from "react";
-import { parseAsInteger, useQueryState } from "nuqs";
+import { useQueryState } from "nuqs";
+import { Label } from "@/app/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/app/components/ui/select";
 
 function FilterList({
   postsPromise,
@@ -13,10 +22,9 @@ function FilterList({
   subjectParam: string;
 }) {
   const posts = use(postsPromise);
-  const [currentWeek, setCurrentWeek] = useQueryState(
-    weekParam,
-    parseAsInteger.withDefault(0),
-  );
+  const [currentWeek, setCurrentWeek] = useQueryState(weekParam, {
+    defaultValue: "0",
+  });
   const [currentSubject, setCurrentSubject] = useQueryState(subjectParam, {
     defaultValue: "",
   });
@@ -31,46 +39,60 @@ function FilterList({
   });
 
   return (
-    <div className="bg-foreground text-background flex w-full flex-col gap-4 px-2 py-5">
-      <div className="wrapper flex">
-        <label htmlFor="subject" className="mr-2">
+    <>
+      <div className="wrapper">
+        <Label htmlFor="subject" className="mr-2">
           Subject:
-        </label>
-        <select
-          id="subject"
+        </Label>
+
+        <Select
           value={currentSubject}
-          onChange={(e) => setCurrentSubject(e.target.value)}
-          className="outline-background grow p-1 outline"
+          onValueChange={(value) => setCurrentSubject(value)}
         >
-          {subjects.map((subject) => (
-            <option key={subject} value={subject}>
-              {subject}
-            </option>
-          ))}
-        </select>
+          <SelectTrigger id="subject">
+            <SelectValue placeholder="Select a subject" />
+          </SelectTrigger>
+
+          <SelectContent>
+            <SelectGroup>
+              {subjects.map((subject) => (
+                <SelectItem key={subject} value={subject}>
+                  {subject}
+                </SelectItem>
+              ))}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
       </div>
-      <div className="wrapper flex">
-        <label htmlFor="week" className="mr-2">
+
+      <div className="wrapper">
+        <Label htmlFor="week" className="mr-2">
           Week:
-        </label>
-        <select
-          id="week"
+        </Label>
+        <Select
           value={currentWeek}
-          onChange={(e) => setCurrentWeek(parseInt(e.target.value))}
-          className="outline-background grow p-1 outline"
+          onValueChange={(value) => setCurrentWeek(value)}
         >
-          {new Array(maxWeek).fill(0).map((_, i) => (
-            <option
-              key={i + 1}
-              value={i + 1}
-              disabled={!weeks[currentSubject]?.includes(i + 1)}
-            >
-              {i + 1}
-            </option>
-          ))}
-        </select>
+          <SelectTrigger id="week">
+            <SelectValue placeholder="Select a week" />
+          </SelectTrigger>
+
+          <SelectContent>
+            <SelectGroup>
+              {new Array(maxWeek).fill(0).map((_, i) => (
+                <SelectItem
+                  key={i + 1}
+                  value={String(i + 1)}
+                  disabled={!weeks[currentSubject]?.includes(i + 1)}
+                >
+                  {i + 1}
+                </SelectItem>
+              ))}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
       </div>
-    </div>
+    </>
   );
 }
 
