@@ -1,6 +1,8 @@
 "use client";
 
 import { use, useState } from "react";
+import { addAnswer } from "@/app/actions/addAnswer";
+import { newValue } from "@/app/lib/constants";
 
 function AdminForm({
   subjectsPromise,
@@ -8,14 +10,16 @@ function AdminForm({
   subjectsPromise: Promise<{ id: number; name: string }[]>;
 }) {
   const subjects = use(subjectsPromise);
-  const newValue = "new" as const;
   const [subjectState, setSubjectState] = useState(
     String(subjects[0]?.id) || newValue,
   );
 
   return (
     <>
-      <form className="wrapper flex flex-col items-center gap-4 p-4">
+      <form
+        action={addAnswer}
+        className="wrapper flex flex-col items-center gap-4 p-4"
+      >
         <label htmlFor="subjectSelect">Select a subject: </label>
         <select
           id="subjectSelect"
@@ -38,6 +42,12 @@ function AdminForm({
         )}
         <input type="number" name="week" placeholder="Week number" required />
         <textarea name="content" placeholder="Content" required></textarea>
+        <input
+          type="password"
+          name="adminPassword"
+          placeholder="Admin Password"
+          required
+        />
         <button type="submit">Submit</button>
       </form>
     </>
