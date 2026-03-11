@@ -17,7 +17,7 @@ export default async function Home({
       subject: subjectTable.name,
     })
     .from(post)
-    .leftJoin(subjectTable, eq(post.subjectId, subjectTable.id))
+    .innerJoin(subjectTable, eq(post.subjectId, subjectTable.id))
     .all();
   return (
     <>
