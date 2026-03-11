@@ -15,25 +15,25 @@ function List({
   subjectParam: string;
 }) {
   const posts = use(postsPromise);
-  const [queryWeek] = useQueryState(weekParam, parseAsInteger);
-  const [querySubject] = useQueryState(subjectParam);
+  const [queryWeek] = useQueryState(weekParam, parseAsInteger.withDefault(0));
+  const [querySubject] = useQueryState(subjectParam, { defaultValue: "" });
 
   if (posts.length === 0)
     return <div className="wrapper py-3">No Answers found</div>;
 
-  const week = queryWeek || 0;
-  const subject = querySubject || "all";
-
   const filteredPosts = posts.filter((post) => {
-    if (week && post.week !== week) return false;
-    if (subject !== "all" && post.subject !== subject) return false;
+    if (queryWeek && post.week !== queryWeek) return false;
+    if (querySubject !== "" && post.subject !== querySubject) return false;
     return true;
   });
 
   return (
     <div className="wrapper py-3">
       {filteredPosts.map((post) => (
-        <div key={post.id}>{post.content}</div>
+        <div key={post.id}>
+          <p>{post.content}</p>
+          <h6>Week: {post.week}</h6>
+        </div>
       ))}
     </div>
   );
