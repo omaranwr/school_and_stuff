@@ -84,8 +84,10 @@ function FilterList({
                   key={i + 1}
                   value={i + 1}
                   disabled={
-                    currentSubject !== "" &&
-                    !weeks[currentSubject]?.includes(i + 1)
+                    !(
+                      !currentSubject &&
+                      new Set([...Object.values(weeks)].flat()).has(i + 1)
+                    ) && !weeks[currentSubject]?.includes(i + 1)
                   }
                 >
                   {i + 1}
