@@ -2,7 +2,7 @@ import List from "@/app/components/List";
 import FilterList from "./components/FilterList";
 import { db } from "@/db";
 import { post, subject as subjectTable } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 
 const weekParam = "week";
 const subjectParam = "subject";
@@ -17,6 +17,7 @@ export default async function Home() {
     })
     .from(post)
     .innerJoin(subjectTable, eq(post.subjectId, subjectTable.id))
+    .orderBy(desc(post.week))
     .all();
   return (
     <>

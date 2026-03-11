@@ -2,6 +2,7 @@
 
 import { use } from "react";
 import { parseAsInteger, useQueryState } from "nuqs";
+import Post from "./Post";
 
 function List({
   postsPromise,
@@ -23,17 +24,21 @@ function List({
 
   const filteredPosts = posts.filter((post) => {
     if (queryWeek && post.week !== queryWeek) return false;
-    if (querySubject !== "" && post.subject !== querySubject) return false;
+    if (querySubject && post.subject !== querySubject) return false;
     return true;
   });
 
   return (
-    <div className="wrapper py-3">
+    <div className="wrapper grid gap-3 py-3">
       {filteredPosts.map((post) => (
-        <div key={post.id}>
-          <p>{post.content}</p>
-          <h6>Week: {post.week}</h6>
-        </div>
+        <Post
+          key={post.id}
+          week={post.week}
+          subject={post.subject}
+          content={post.content}
+          showSubject={!querySubject}
+          showWeek={!queryWeek}
+        />
       ))}
     </div>
   );
