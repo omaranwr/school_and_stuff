@@ -1,32 +1,38 @@
-import { post, subject as subjectTable } from "@/db/schema";
-import Post from "./Post";
-import { db } from "@/db";
-import { and, eq } from "drizzle-orm";
+"use client";
 
-async function List({ week, subject }: { week: number; subject: string }) {
-  const subjectId = (
-    await db
-      .select({ id: subjectTable.id })
-      .from(subjectTable)
-      .where(eq(subjectTable.name, subject))
-      .limit(1)
-  )[0]?.id;
+import { use } from "react";
+import { parseAsInteger, useQueryState } from "nuqs";
 
-  if (!subjectId) {
-    return <div className="wrapper py-3">Subject not found</div>;
-  }
-  const posts = await db
-    .select()
-    .from(post)
-    .where(and(eq(post.week, week), eq(post.subjectId, subjectId)));
+function List({
+  postsPromise,
+  weekParam,
+  subjectParam,
+}: {
+  postsPromise: Promise<
+    { id: number; content: string; week: number; subject: string }[]
+  >;
+  weekParam: string;
+  subjectParam: string;
+}) {
+  const posts = use(postsPromise);
+  const [queryWeek] = useQueryState(weekParam, parseAsInteger);
+  const [querySubject] = useQueryState(subjectParam);
 
-  if (posts.length === 0) {
+  if (posts.length === 0)
     return <div className="wrapper py-3">No Answers found</div>;
-  }
+
+  const week = queryWeek || 0;
+  const subject = querySubject || "all";
+
+  const filteredPosts = posts.filter((post) => {
+    if (week && post.week !== week) return false;
+    if (subject !== "all" && post.subject !== subject) return false;
+    return true;
+  });
 
   return (
     <div className="wrapper py-3">
-      {posts.map((post) => (
+      {filteredPosts.map((post) => (
         <div key={post.id}>{post.content}</div>
       ))}
     </div>

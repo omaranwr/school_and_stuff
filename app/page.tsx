@@ -4,15 +4,14 @@ import { db } from "@/db";
 import { post, subject as subjectTable } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
-export default async function Home({
-  searchParams,
-}: {
-  searchParams: Promise<{ week?: string; subject?: string }>;
-}) {
-  const week = parseInt((await searchParams).week || "0");
-  const subject = (await searchParams).subject || "all";
+const weekParam = "week";
+const subjectParam = "subject";
+
+export default async function Home() {
   const postsPromise = db
     .select({
+      id: post.id,
+      content: post.content,
       week: post.week,
       subject: subjectTable.name,
     })
@@ -21,8 +20,16 @@ export default async function Home({
     .all();
   return (
     <>
-      <FilterList postsPromise={postsPromise} />
-      <List week={week} subject={subject} />
+      <FilterList
+        postsPromise={postsPromise}
+        weekParam={weekParam}
+        subjectParam={subjectParam}
+      />
+      <List
+        postsPromise={postsPromise}
+        weekParam={weekParam}
+        subjectParam={subjectParam}
+      />
     </>
   );
 }

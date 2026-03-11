@@ -5,8 +5,9 @@ import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 import { extractRouterConfig } from "uploadthing/server";
 import { postFileRouter } from "@/uploadthing";
 import { cn } from "@/lib/utils";
+import Providers from "@/app/lib/providers";
 
-const inter = Inter({subsets:['latin'],variable:'--font-sans'});
+const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,7 +35,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <NextSSRPlugin routerConfig={extractRouterConfig(postFileRouter)} />
-        {children}
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
