@@ -1,5 +1,5 @@
-import List from "./List";
-import FilterList from "./FilterList";
+import List from "@/app/components/List";
+import FilterList from "./components/FilterList";
 
 export default async function Home({
   searchParams,

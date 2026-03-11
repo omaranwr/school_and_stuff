@@ -1,7 +1,7 @@
 import { post, subject as subjectTable } from "@/db/schema";
 import Post from "./Post";
 import { db } from "@/db";
-import { and, eq } from "drizzle-orm";
+import { and, eq, is } from "drizzle-orm";
 
 async function List({ week, subject }: { week: number; subject: string }) {
   const subjectId = (
@@ -11,6 +11,7 @@ async function List({ week, subject }: { week: number; subject: string }) {
       .where(eq(subjectTable.name, subject))
       .limit(1)
   )[0]?.id;
+
   if (!subjectId) {
     return <div className="wrapper py-3">No subject found</div>;
   }
@@ -18,6 +19,11 @@ async function List({ week, subject }: { week: number; subject: string }) {
     .select()
     .from(post)
     .where(and(eq(post.week, week), eq(post.subjectId, subjectId)));
+
+  if (posts.length === 0) {
+    return <div className="wrapper py-3">No Answers found</div>;
+  }
+
   return (
     <div className="wrapper py-3">
       {posts.map((post) => (
