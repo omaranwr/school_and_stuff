@@ -1,7 +1,7 @@
 import { post, subject as subjectTable } from "@/db/schema";
 import Post from "./Post";
 import { db } from "@/db";
-import { and, eq, is } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 
 async function List({ week, subject }: { week: number; subject: string }) {
   const subjectId = (
@@ -13,7 +13,7 @@ async function List({ week, subject }: { week: number; subject: string }) {
   )[0]?.id;
 
   if (!subjectId) {
-    return <div className="wrapper py-3">No subject found</div>;
+    return <div className="wrapper py-3">Subject not found</div>;
   }
   const posts = await db
     .select()

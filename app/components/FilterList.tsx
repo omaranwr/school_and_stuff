@@ -1,18 +1,26 @@
 "use client";
 
 import { useSearchParams, useRouter } from "next/navigation";
-import { useOptimistic, useTransition } from "react";
+import { use, useOptimistic, useTransition } from "react";
 
-function FilterList() {
+function FilterList({
+  postsPromise,
+}: {
+  postsPromise: Promise<{ week: number; subject: string }[]>;
+}) {
+  const posts = use(postsPromise);
   const searchParams = useSearchParams();
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
-  const subjects = ["All", "Math", "Science", "English", "History"];
-  const weeks = [
-    "All",
-    ...Array.from({ length: 52 }, (_, i) => (i + 1).toString()),
-  ];
+  const subjects = [...new Set(posts.map((post) => post.subject))];
+  let maxWeek = 0;
+  const weeks: { [key: string]: Array<number> } = {};
+  posts.forEach((post) => {
+    weeks[post.subject] ||= [];
+    weeks[post.subject].push(post.week);
+    if (post.week > maxWeek) maxWeek = post.week;
+  });
 
   const currentSubject = searchParams.get("subject") || "All";
   const [optimisticSubject, setOptimisticSubject] =
@@ -77,9 +85,13 @@ function FilterList() {
           onChange={(e) => handleWeekChange(e.target.value)}
           className="outline-background grow p-1 outline"
         >
-          {weeks.map((week) => (
-            <option key={week} value={week}>
-              {week}
+          {new Array(maxWeek).fill(0).map((_, i) => (
+            <option
+              key={i + 1}
+              value={i + 1}
+              disabled={!weeks[currentSubject]?.includes(i + 1)}
+            >
+              {i + 1}
             </option>
           ))}
         </select>
