@@ -40,16 +40,14 @@ function FilterList({
 
   return (
     <>
-      <div className="wrapper">
-        <Label htmlFor="subject" className="mr-2">
-          Subject:
-        </Label>
+      <div className="wrapper flex">
+        <Label htmlFor="subject">Subject:</Label>
 
         <Select
           value={currentSubject}
           onValueChange={(value) => setCurrentSubject(value)}
         >
-          <SelectTrigger id="subject">
+          <SelectTrigger id="subject" className="grow">
             <SelectValue placeholder="Select a subject" />
           </SelectTrigger>
 
@@ -65,15 +63,14 @@ function FilterList({
         </Select>
       </div>
 
-      <div className="wrapper">
-        <Label htmlFor="week" className="mr-2">
-          Week:
-        </Label>
+      <div className="wrapper flex">
+        <Label htmlFor="week">Week:</Label>
+
         <Select
           value={currentWeek}
           onValueChange={(value) => setCurrentWeek(value)}
         >
-          <SelectTrigger id="week">
+          <SelectTrigger id="week" className="grow">
             <SelectValue placeholder="Select a week" />
           </SelectTrigger>
 
