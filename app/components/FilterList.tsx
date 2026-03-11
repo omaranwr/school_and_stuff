@@ -40,8 +40,8 @@ function FilterList({
   });
 
   return (
-    <div className="wrapper grid grid-cols-[3fr_1fr] gap-4 px-2 py-3">
-      <div className="wrapper flex">
+    <div className="wrapper grid grid-cols-[2fr_1fr] gap-4 px-2 py-3">
+      <div className="wrapper flex gap-1">
         <Label htmlFor="subject">Subject: </Label>
 
         <Select
@@ -65,7 +65,7 @@ function FilterList({
         </Select>
       </div>
 
-      <div className="wrapper flex">
+      <div className="wrapper flex gap-1">
         <Label htmlFor="week">Week: </Label>
 
         <Select
