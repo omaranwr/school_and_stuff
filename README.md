@@ -1,1 +1,1 @@
-hosted version: [https://lucky-valkyrie-4a788c.netlify.app/](https://lucky-valkyrie-4a788c.netlify.app/)
+hosted version: [https://school-assessments.netlify.app/](https://school-assessments.netlify.app/)
