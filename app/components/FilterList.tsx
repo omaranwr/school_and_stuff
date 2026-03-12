@@ -40,8 +40,8 @@ function FilterList({
   });
 
   return (
-    <div className="wrapper grid grid-cols-[2fr_1fr] gap-4 px-2 py-3">
-      <div className="wrapper flex gap-1">
+    <div className="wrapper flex flex-col gap-4 px-2 py-3 sm:grid sm:grid-cols-[2fr_1fr]">
+      <div className="flex gap-1">
         <Label htmlFor="subject">Subject: </Label>
 
         <Select
@@ -65,7 +65,7 @@ function FilterList({
         </Select>
       </div>
 
-      <div className="wrapper flex gap-1">
+      <div className="flex gap-1">
         <Label htmlFor="week">Week: </Label>
 
         <Select
@@ -90,7 +90,7 @@ function FilterList({
                     ) && !weeks[currentSubject]?.includes(i + 1)
                   }
                 >
-                  {i + 1}
+                  Week {i + 1}
                 </SelectItem>
               ))}
             </SelectGroup>

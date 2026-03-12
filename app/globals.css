@@ -2,6 +2,9 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
+@import "uploadthing/tw/v4";
+@source "../node_modules/@uploadthing/react/dist";
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -49,7 +52,7 @@
 
 @layer components {
   .wrapper {
-    @apply mx-auto w-full max-w-4xl;
+    @apply mx-auto w-full max-w-2xl;
   }
 }
 
