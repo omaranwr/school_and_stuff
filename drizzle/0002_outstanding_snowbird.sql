@@ -1,0 +1,1 @@
+ALTER TABLE `image` ADD `order` real NOT NULL;
