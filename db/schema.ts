@@ -11,7 +11,7 @@ export const post = sqliteTable("post", {
 
 export const subject = sqliteTable("subject", {
   id: integer("id").primaryKey({ autoIncrement: true }),
-  name: text("name").notNull(),
+  name: text("name").notNull().unique(),
 });
 
 export const image = sqliteTable("image", {

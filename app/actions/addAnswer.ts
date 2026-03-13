@@ -1,6 +1,7 @@
 "use server";
 
 import { db } from "@/db";
+import { eq } from "drizzle-orm";
 import { post, subject } from "@/db/schema";
 import { newValue } from "@/app/lib/constants";
 import { revalidatePath } from "next/cache";
@@ -28,18 +29,24 @@ export async function addAnswer(formData: FormData) {
     if (typeof newSubjectName !== "string") {
       throw new Error("Invalid form data for new subject");
     }
-    // Insert new subject and get its ID
-    const result = await db
-      .insert(subject)
-      .values({ name: newSubjectName })
-      .returning({ id: subject.id });
-    finalSubjectId = result[0].id;
+    const matchingSubjects = await db
+      .select({ id: subject.id })
+      .from(subject)
+      .where(eq(subject.name, newSubjectName));
+
+    if (matchingSubjects.length > 0) {
+      finalSubjectId = matchingSubjects[0].id;
+    } else {
+      const result = await db
+        .insert(subject)
+        .values({ name: newSubjectName })
+        .returning({ id: subject.id });
+      finalSubjectId = result[0].id;
+    }
   } else {
-    console.log("Selected subject ID:", subjectId);
     finalSubjectId = parseInt(subjectId as string);
   }
 
-  // Insert the answer with the final subject ID
   await db.insert(post).values({
     subjectId: finalSubjectId,
     week: parseInt(week),
