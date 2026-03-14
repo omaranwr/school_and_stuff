@@ -6,7 +6,7 @@ export const post = sqliteTable("post", {
     .notNull()
     .references(() => subject.id),
   week: integer("week").notNull(),
-  content: text("content").notNull(),
+  content: text("content"),
 });
 
 export const subject = sqliteTable("subject", {

@@ -9,6 +9,19 @@ import {
   generateClientDropzoneAccept,
   generatePermittedFileTypes,
 } from "uploadthing/client";
+import { Field, FieldGroup, FieldLabel, FieldSeparator } from "./ui/field";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+  SelectSeparator,
+} from "./ui/select";
+import { Input } from "./ui/input";
+import { Button } from "./ui/button";
+import { Textarea } from "./ui/textarea";
 
 function AdminForm({
   subjectsPromise,
@@ -16,9 +29,7 @@ function AdminForm({
   subjectsPromise: Promise<{ id: number; name: string }[]>;
 }) {
   const subjects = use(subjectsPromise);
-  const [subjectState, setSubjectState] = useState(
-    String(subjects[0]?.id) || newValue,
-  );
+  const [subjectIsNew, setSubjectIsNew] = useState(false);
   const [files, setFiles] = useState<File[]>([]);
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -62,42 +73,87 @@ function AdminForm({
         }}
         className="wrapper flex flex-col items-center gap-4 p-4"
       >
-        <label htmlFor="subjectSelect">Select a subject: </label>
-        <select
-          id="subjectSelect"
-          name="subjectId"
-          onChange={(e) => setSubjectState(e.target.value)}
-          required
-        >
-          {subjects.map((s) => (
-            <option key={s.id} value={s.id}>
-              {s.name}
-            </option>
-          ))}
-          <option value={newValue}>Add new subject</option>
-        </select>
-        {subjectState === newValue && (
-          <div>
-            <label htmlFor="newSubject">New Subject Name: </label>
-            <input type="text" id="newSubject" name="newSubjectName" required />
-          </div>
-        )}
-        <input type="number" name="week" placeholder="Week number" required />
-        <div {...getRootProps()}>
-          <input {...getInputProps()} />
-          Drop files here!
-        </div>
-        <textarea name="content" placeholder="Content" required></textarea>
-        <input
-          type="password"
-          name="adminPassword"
-          placeholder="Admin Password"
-          required
-        />
-        <button type="submit" disabled={isUploading}>
-          {loading ? "Uploading..." : `Submit ${files.length} file(s)`}
-          {isUploading && <progress value={progress} max="100" />}
-        </button>
+        <FieldGroup>
+          <Field>
+            <FieldLabel htmlFor="subjectId">Select a subject: </FieldLabel>
+            <Select
+              name="subjectId"
+              id="subjectId"
+              onValueChange={(value) =>
+                value === newValue
+                  ? setSubjectIsNew(true)
+                  : setSubjectIsNew(false)
+              }
+              required
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Select a subject" />
+              </SelectTrigger>
+              <SelectContent alignItemWithTrigger={false}>
+                <SelectGroup>
+                  {subjects.map((s) => (
+                    <SelectItem key={s.id} value={s.id}>
+                      {s.name}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+                <SelectSeparator />
+                <SelectGroup>
+                  <SelectItem value={newValue}>Add new subject</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </Field>
+          {subjectIsNew && (
+            <Field>
+              <FieldLabel htmlFor="newSubjectName">
+                New Subject Name:
+              </FieldLabel>
+              <Input name="newSubjectName" id="newSubjectName" required />
+            </Field>
+          )}
+          <Field>
+            <FieldLabel htmlFor="week">Week Number:</FieldLabel>
+            <Input
+              type="number"
+              name="week"
+              id="week"
+              placeholder="Week number"
+              required
+            />
+          </Field>
+        </FieldGroup>
+        <FieldGroup>
+          <Field>
+            <FieldLabel htmlFor="uploadFiles">Upload files:</FieldLabel>
+            <div {...getRootProps()}>
+              <Button>
+                <input {...getInputProps()} id="uploadFiles" />
+                Drop files here!
+              </Button>
+            </div>
+          </Field>
+          <Field>
+            <Textarea name="content" placeholder="Content"></Textarea>
+          </Field>
+        </FieldGroup>
+        <FieldSeparator />
+        <FieldGroup>
+          <Field>
+            <FieldLabel htmlFor="adminPassword">Admin Password:</FieldLabel>
+            <Input
+              id="adminPassword"
+              type="password"
+              name="adminPassword"
+              placeholder="Admin Password"
+              required
+            />
+          </Field>
+          <Button type="submit" disabled={isUploading}>
+            {loading ? "Uploading..." : `Submit ${files.length} image(s)`}
+            {isUploading && <progress value={progress} max="100" />}
+          </Button>
+        </FieldGroup>
       </form>
     </>
   );
