@@ -5,7 +5,6 @@ import { eq } from "drizzle-orm";
 import { post, subject } from "@/db/schema";
 import { newValue } from "@/app/lib/constants";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 
 export async function addAnswer(formData: FormData) {
   const subjectId = formData.get("subjectId");
@@ -15,19 +14,25 @@ export async function addAnswer(formData: FormData) {
 
   // Simple admin password check (replace with a more secure method in production)
   if (adminPassword !== process.env.ADMIN_PASSWORD) {
-    throw new Error("Unauthorized");
+    return { status: "error", message: "Unauthorized" } as const;
   }
   const content = formData.get("content");
 
   if (typeof week !== "string" || typeof content !== "string") {
-    throw new Error("Invalid form data");
+    return {
+      status: "error",
+      message: "Invalid form data for week or content",
+    } as const;
   }
 
   let finalSubjectId: number;
 
   if (subjectId === newValue) {
     if (typeof newSubjectName !== "string") {
-      throw new Error("Invalid form data for new subject");
+      return {
+        status: "error",
+        message: "Invalid form data for new subject",
+      } as const;
     }
     const matchingSubjects = await db
       .select({ id: subject.id })
@@ -47,12 +52,16 @@ export async function addAnswer(formData: FormData) {
     finalSubjectId = parseInt(subjectId as string);
   }
 
-  await db.insert(post).values({
-    subjectId: finalSubjectId,
-    week: parseInt(week),
-    content,
-  });
+  const postId = await db
+    .insert(post)
+    .values({
+      subjectId: finalSubjectId,
+      week: parseInt(week),
+      content,
+    })
+    .returning({ id: post.id })
+    .then((res) => res[0].id);
 
   revalidatePath("/");
-  redirect("/");
+  return { status: "success" as const, postId };
 }

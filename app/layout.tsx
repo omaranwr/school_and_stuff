@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 import { extractRouterConfig } from "uploadthing/server";
-import { postFileRouter } from "@/uploadthing";
+import { postFileRouter } from "@/app/api/uploadthing/core";
 import { cn } from "@/app/lib/utils";
 import Providers from "@/app/lib/providers";
 
