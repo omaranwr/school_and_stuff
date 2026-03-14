@@ -3,19 +3,19 @@ import { Card, CardContent, CardFooter } from "@/app/components/ui/card";
 function Post({
   week,
   subject,
-  content,
+  content = "",
   showWeek = true,
   showSubject = true,
 }: {
   week: number;
   subject: string;
-  content: string;
+  content?: string;
   showWeek?: boolean;
   showSubject?: boolean;
 }) {
   return (
     <Card size="sm">
-      <CardContent>{content}</CardContent>
+      {content && <CardContent>{content}</CardContent>}
       {(showWeek || showSubject) && (
         <CardFooter>
           <h3 className="text-muted-foreground text-sm">
