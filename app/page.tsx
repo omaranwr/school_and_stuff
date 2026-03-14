@@ -23,6 +23,8 @@ export default async function Home() {
     .select({
       postId: image.postId,
       url: image.url,
+      width: image.width,
+      height: image.height,
     })
     .from(image)
     .orderBy(image.order)

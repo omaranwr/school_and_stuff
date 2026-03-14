@@ -17,6 +17,8 @@ function List({
     {
       postId: number;
       url: string;
+      width: number | null;
+      height: number | null;
     }[]
   >;
   weekParam: string;
@@ -46,9 +48,12 @@ function List({
           content={post.content}
           showSubject={!querySubject}
           showWeek={!queryWeek}
-          imageUrls={images
+          images={images
             .filter((image) => image.postId === post.id)
-            .map((image) => image.url)}
+            .map((image, index) => ({
+              ...image,
+              alt: `${post.content} ${index}` || String(index),
+            }))}
         />
       ))}
     </div>

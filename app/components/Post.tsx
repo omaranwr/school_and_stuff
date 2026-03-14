@@ -6,6 +6,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "./ui/carousel";
+import Image from "next/image";
 
 function Post({
   week,
@@ -13,27 +14,42 @@ function Post({
   content = "",
   showWeek = true,
   showSubject = true,
-  imageUrls = [],
+  images = [],
 }: {
   week: number;
   subject: string;
   content: string | null;
   showWeek?: boolean;
   showSubject?: boolean;
-  imageUrls?: string[];
+  images?: {
+    url: string;
+    width: number | null;
+    height: number | null;
+    alt: string;
+  }[];
 }) {
   return (
     <Card size="sm">
       <CardContent>
         <Carousel>
           <CarouselContent>
-            {imageUrls.map((url, index) => (
+            {images.map((image, index) => (
               <CarouselItem key={index}>
-                <img
-                  src={url}
-                  alt={`Image ${index + 1}`}
-                  className="h-64 w-full object-cover"
-                />
+                {image.height && image.width ? (
+                  <Image
+                    src={image.url}
+                    alt={image.alt}
+                    className="h-64 w-full object-cover"
+                    width={image.width || undefined}
+                    height={image.height || undefined}
+                  />
+                ) : (
+                  <img
+                    src={image.url}
+                    alt={image.alt}
+                    className="h-64 w-full object-cover"
+                  />
+                )}
               </CarouselItem>
             ))}
           </CarouselContent>

@@ -21,4 +21,6 @@ export const image = sqliteTable("image", {
     .references(() => post.id),
   url: text("url").notNull(),
   order: real("order").notNull(),
+  width: integer("width"),
+  height: integer("height"),
 });
