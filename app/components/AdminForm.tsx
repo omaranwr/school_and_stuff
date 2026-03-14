@@ -22,6 +22,7 @@ import {
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { Textarea } from "./ui/textarea";
+import { Progress } from "./ui/progress";
 
 function AdminForm({
   subjectsPromise,
@@ -34,7 +35,11 @@ function AdminForm({
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
   const onDrop = useCallback((acceptedFiles: File[]) => {
-    setFiles(acceptedFiles);
+    setFiles((f) => {
+      const temp = f.slice();
+      temp.push(...acceptedFiles);
+      return temp;
+    });
   }, []);
   const { startUpload, isUploading, routeConfig } = useUploadThing(
     "imageUploader",
@@ -70,6 +75,8 @@ function AdminForm({
           await startUpload(files, input);
           setLoading(false);
           alert("Answer added successfully!");
+          e.target.reset();
+          setFiles([]);
         }}
         className="wrapper flex flex-col items-center gap-4 p-4"
       >
@@ -132,6 +139,9 @@ function AdminForm({
                 Drop files here!
               </Button>
             </div>
+            <Button variant={"destructive"} onClick={() => setFiles([])}>
+              Remove files
+            </Button>
           </Field>
           <Field>
             <Textarea name="content" placeholder="Content"></Textarea>
@@ -151,8 +161,8 @@ function AdminForm({
           </Field>
           <Button type="submit" disabled={isUploading}>
             {loading ? "Uploading..." : `Submit ${files.length} image(s)`}
-            {isUploading && <progress value={progress} max="100" />}
           </Button>
+          {isUploading && <Progress value={progress} />}
         </FieldGroup>
       </form>
     </>
