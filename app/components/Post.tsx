@@ -9,7 +9,7 @@ function Post({
 }: {
   week: number;
   subject: string;
-  content?: string;
+  content: string | null;
   showWeek?: boolean;
   showSubject?: boolean;
 }) {

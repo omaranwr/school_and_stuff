@@ -10,7 +10,7 @@ function List({
   subjectParam,
 }: {
   postsPromise: Promise<
-    { id: number; content?: string; week: number; subject: string }[]
+    { id: number; content: string | null; week: number; subject: string }[]
   >;
   weekParam: string;
   subjectParam: string;
