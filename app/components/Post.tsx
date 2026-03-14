@@ -44,6 +44,7 @@ function Post({
                     height={image.height || undefined}
                   />
                 ) : (
+                  // eslint-disable-next-line @next/next/no-img-element
                   <img
                     src={image.url}
                     alt={image.alt}
