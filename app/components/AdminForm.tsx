@@ -126,8 +126,8 @@ function AdminForm({
         <FieldGroup>
           <Field>
             <FieldLabel htmlFor="uploadFiles">Upload files:</FieldLabel>
-            <div {...getRootProps()}>
-              <Button>
+            <div {...getRootProps()} className="w-full">
+              <Button className="w-full" type="button">
                 <input {...getInputProps()} id="uploadFiles" />
                 Drop files here!
               </Button>
