@@ -6,16 +6,24 @@ import Post from "./Post";
 
 function List({
   postsPromise,
+  imagesPromise,
   weekParam,
   subjectParam,
 }: {
   postsPromise: Promise<
     { id: number; content: string | null; week: number; subject: string }[]
   >;
+  imagesPromise: Promise<
+    {
+      postId: number;
+      url: string;
+    }[]
+  >;
   weekParam: string;
   subjectParam: string;
 }) {
   const posts = use(postsPromise);
+  const images = use(imagesPromise);
   const [queryWeek] = useQueryState(weekParam, parseAsInteger.withDefault(0));
   const [querySubject] = useQueryState(subjectParam, { defaultValue: "" });
 
@@ -38,6 +46,9 @@ function List({
           content={post.content}
           showSubject={!querySubject}
           showWeek={!queryWeek}
+          imageUrls={images
+            .filter((image) => image.postId === post.id)
+            .map((image) => image.url)}
         />
       ))}
     </div>

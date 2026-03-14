@@ -1,7 +1,7 @@
 import List from "@/app/components/List";
 import FilterList from "./components/FilterList";
 import { db } from "@/db";
-import { post, subject as subjectTable } from "@/db/schema";
+import { image, post, subject as subjectTable } from "@/db/schema";
 import { desc, eq } from "drizzle-orm";
 
 const weekParam = "week";
@@ -19,6 +19,14 @@ export default async function Home() {
     .innerJoin(subjectTable, eq(post.subjectId, subjectTable.id))
     .orderBy(desc(post.week))
     .all();
+  const imagesPromise = db
+    .select({
+      postId: image.postId,
+      url: image.url,
+    })
+    .from(image)
+    .orderBy(image.order)
+    .all();
   return (
     <>
       <FilterList
@@ -28,6 +36,7 @@ export default async function Home() {
       />
       <List
         postsPromise={postsPromise}
+        imagesPromise={imagesPromise}
         weekParam={weekParam}
         subjectParam={subjectParam}
       />
