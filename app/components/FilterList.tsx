@@ -6,7 +6,6 @@ import { Label } from "@/app/components/ui/label";
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
   SelectTrigger,
   SelectValue,
@@ -45,22 +44,21 @@ function FilterList({
         <Label htmlFor="subject">Subject: </Label>
 
         <Select
+          id="subject"
           value={currentSubject}
           onValueChange={(value) => setCurrentSubject(value)}
         >
-          <SelectTrigger id="subject" className="grow">
+          <SelectTrigger className="grow">
             <SelectValue placeholder="Select a subject" />
           </SelectTrigger>
 
           <SelectContent alignItemWithTrigger={false}>
-            <SelectGroup>
-              <SelectItem value="">All</SelectItem>
-              {subjects.map((subject) => (
-                <SelectItem key={subject} value={subject}>
-                  {subject}
-                </SelectItem>
-              ))}
-            </SelectGroup>
+            <SelectItem value="">All</SelectItem>
+            {subjects.map((subject) => (
+              <SelectItem key={subject} value={subject}>
+                {subject}
+              </SelectItem>
+            ))}
           </SelectContent>
         </Select>
       </div>
@@ -69,31 +67,30 @@ function FilterList({
         <Label htmlFor="week">Week: </Label>
 
         <Select
+          id="week"
           value={currentWeek}
           onValueChange={(value) => setCurrentWeek(value)}
         >
-          <SelectTrigger id="week" className="grow">
+          <SelectTrigger className="grow">
             <SelectValue placeholder="Select a week" />
           </SelectTrigger>
 
           <SelectContent alignItemWithTrigger={false}>
-            <SelectGroup>
-              <SelectItem value={null}>All</SelectItem>
-              {new Array(maxWeek).fill(0).map((_, i) => (
-                <SelectItem
-                  key={i + 1}
-                  value={i + 1}
-                  disabled={
-                    !(
-                      !currentSubject &&
-                      new Set([...Object.values(weeks)].flat()).has(i + 1)
-                    ) && !weeks[currentSubject]?.includes(i + 1)
-                  }
-                >
-                  Week {i + 1}
-                </SelectItem>
-              ))}
-            </SelectGroup>
+            <SelectItem value={null}>All</SelectItem>
+            {new Array(maxWeek).fill(0).map((_, i) => (
+              <SelectItem
+                key={i + 1}
+                value={i + 1}
+                disabled={
+                  !(
+                    !currentSubject &&
+                    new Set([...Object.values(weeks)].flat()).has(i + 1)
+                  ) && !weeks[currentSubject]?.includes(i + 1)
+                }
+              >
+                Week {i + 1}
+              </SelectItem>
+            ))}
           </SelectContent>
         </Select>
       </div>
