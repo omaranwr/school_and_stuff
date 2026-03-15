@@ -38,6 +38,11 @@ function List({
     return true;
   });
 
+  if (filteredPosts.length === 0)
+    return (
+      <h2 className="grid w-full justify-center py-10">No answers found.</h2>
+    );
+
   return (
     <div className="wrapper grid gap-3 py-3">
       {filteredPosts.map((post) => (
