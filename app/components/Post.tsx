@@ -39,7 +39,7 @@ function Post({
                   <Image
                     src={image.url}
                     alt={image.alt}
-                    className="h-128 w-full object-contain"
+                    className="max-h-128 w-full object-contain sm:h-128"
                     width={image.width || undefined}
                     height={image.height || undefined}
                   />

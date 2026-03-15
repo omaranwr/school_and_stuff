@@ -10,6 +10,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/app/components/ui/select";
+import Link from "next/link";
+import { Button } from "./ui/button";
 
 function FilterList({
   postsPromise,
@@ -39,8 +41,8 @@ function FilterList({
   });
 
   return (
-    <div className="wrapper flex flex-col gap-4 px-2 py-3 sm:grid sm:grid-cols-[2fr_1fr]">
-      <div className="flex gap-1">
+    <div className="wrapper flex flex-col justify-center gap-4 px-2 py-3 sm:flex-row sm:items-center">
+      <div className="flex grow items-center gap-1">
         <Label htmlFor="subject">Subject: </Label>
 
         <Select
@@ -63,36 +65,41 @@ function FilterList({
         </Select>
       </div>
 
-      <div className="flex gap-1">
-        <Label htmlFor="week">Week: </Label>
+      <div className="flex items-center gap-3">
+        <div className="flex grow items-center gap-1">
+          <Label htmlFor="week">Week: </Label>
 
-        <Select
-          id="week"
-          value={currentWeek}
-          onValueChange={(value) => setCurrentWeek(value)}
-        >
-          <SelectTrigger className="grow">
-            <SelectValue placeholder="Select a week" />
-          </SelectTrigger>
+          <Select
+            id="week"
+            value={currentWeek}
+            onValueChange={(value) => setCurrentWeek(value)}
+          >
+            <SelectTrigger className="grow" size="sm">
+              <SelectValue placeholder="Select a week" />
+            </SelectTrigger>
 
-          <SelectContent alignItemWithTrigger={false}>
-            <SelectItem value={null}>All</SelectItem>
-            {new Array(maxWeek).fill(0).map((_, i) => (
-              <SelectItem
-                key={i + 1}
-                value={i + 1}
-                disabled={
-                  !(
-                    !currentSubject &&
-                    new Set([...Object.values(weeks)].flat()).has(i + 1)
-                  ) && !weeks[currentSubject]?.includes(i + 1)
-                }
-              >
-                Week {i + 1}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+            <SelectContent alignItemWithTrigger={false}>
+              <SelectItem value={null}>All</SelectItem>
+              {new Array(maxWeek).fill(0).map((_, i) => (
+                <SelectItem
+                  key={i + 1}
+                  value={i + 1}
+                  disabled={
+                    !(
+                      !currentSubject &&
+                      new Set([...Object.values(weeks)].flat()).has(i + 1)
+                    ) && !weeks[currentSubject]?.includes(i + 1)
+                  }
+                >
+                  Week {i + 1}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+        <Link href={"/admin"} className="hidden">
+          <Button variant={"secondary"}>Add a post</Button>
+        </Link>
       </div>
     </div>
   );
