@@ -1,12 +1,5 @@
 import { Card, CardContent, CardFooter } from "@/app/components/ui/card";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "./ui/carousel";
-import Image from "next/image";
+import PostCarousel from "./PostCarousel";
 
 function Post({
   week,
@@ -31,33 +24,10 @@ function Post({
   return (
     <Card size="sm">
       <CardContent>
-        <Carousel>
-          <CarouselContent>
-            {images.map((image, index) => (
-              <CarouselItem key={index}>
-                {image.height && image.width ? (
-                  <Image
-                    src={image.url}
-                    alt={image.alt}
-                    className="max-h-128 w-full object-contain sm:h-128"
-                    width={image.width || undefined}
-                    height={image.height || undefined}
-                  />
-                ) : (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={image.url}
-                    alt={image.alt}
-                    className="h-64 w-full object-contain"
-                  />
-                )}
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <CarouselPrevious className="left-2 hidden sm:flex" />
-          <CarouselNext className="right-2 hidden sm:flex" />
-        </Carousel>
-        {content && <h2>{content}</h2>}
+        <div className="grid gap-4">
+          <PostCarousel images={images} />
+          {content && <h2 className="text-xl">{content}</h2>}
+        </div>
       </CardContent>
       {(!weekSelected || !subjectSelected) && (
         <CardFooter>
