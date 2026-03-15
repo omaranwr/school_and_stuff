@@ -1,6 +1,6 @@
 "use client";
 
-import { use, useCallback, useState } from "react";
+import { use, useCallback, useRef, useState } from "react";
 import { newValue } from "@/app/lib/constants";
 import { useUploadThing } from "@/app/lib/utils";
 import { addAnswer } from "@/app/actions/addAnswer";
@@ -23,6 +23,7 @@ import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { Textarea } from "./ui/textarea";
 import { Progress } from "./ui/progress";
+import { toast } from "sonner";
 
 function AdminForm({
   subjectsPromise,
@@ -34,6 +35,7 @@ function AdminForm({
   const [files, setFiles] = useState<File[]>([]);
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
+  const formRef = useRef<HTMLFormElement>(null);
   const onDrop = useCallback((acceptedFiles: File[]) => {
     setFiles((f) => {
       const temp = f.slice();
@@ -44,6 +46,11 @@ function AdminForm({
   const { startUpload, isUploading, routeConfig } = useUploadThing(
     "imageUploader",
     {
+      onClientUploadComplete: () => {
+        toast.success("Answer added successfully!");
+        formRef.current?.reset();
+        setFiles([]);
+      },
       onUploadProgress: (progress) => {
         setProgress(progress);
       },
@@ -59,13 +66,15 @@ function AdminForm({
   return (
     <>
       <form
+        ref={formRef}
         onSubmit={async (e) => {
           e.preventDefault();
           setLoading(true);
           const formData = new FormData(e.currentTarget);
           const { postId, status, message } = await addAnswer(formData);
           if (status === "error") {
-            alert(message);
+            setLoading(false);
+            toast.error(message);
             return;
           }
           const input = {
@@ -74,9 +83,6 @@ function AdminForm({
           };
           await startUpload(files, input);
           setLoading(false);
-          alert("Answer added successfully!");
-          e.target.reset();
-          setFiles([]);
         }}
         className="wrapper flex flex-col items-center gap-4 p-4"
       >

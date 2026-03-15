@@ -6,6 +6,7 @@ import { extractRouterConfig } from "uploadthing/server";
 import { postFileRouter } from "@/app/api/uploadthing/core";
 import { cn } from "@/app/lib/utils";
 import Providers from "@/app/lib/providers";
+import { Toaster } from "@/app/components/ui/sonner";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -29,6 +30,7 @@ export default function RootLayout({
         <NextSSRPlugin routerConfig={extractRouterConfig(postFileRouter)} />
         <Providers>
           <main>{children}</main>
+          <Toaster />
         </Providers>
       </body>
     </html>

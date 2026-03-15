@@ -14,14 +14,15 @@ export async function addAnswer(formData: FormData) {
 
   // Simple admin password check (replace with a more secure method in production)
   if (adminPassword !== process.env.ADMIN_PASSWORD) {
-    return { status: "error", message: "Unauthorized" } as const;
+    return { status: "error", message: "Wrong password" } as const;
   }
   const content = formData.get("content");
 
   if (typeof week !== "string" || typeof content !== "string") {
+    const problem = typeof week !== "string" ? "week" : "content";
     return {
       status: "error",
-      message: "Invalid form data for week or content",
+      message: `Invalid form data for ${problem}`,
     } as const;
   }
 
