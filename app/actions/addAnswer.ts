@@ -62,6 +62,6 @@ export async function addAnswer(formData: FormData) {
     .returning({ id: post.id })
     .then((res) => res[0].id);
 
-  revalidatePath("/");
+  revalidatePath("/", "layout");
   return { status: "success" as const, postId };
 }
