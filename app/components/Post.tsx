@@ -12,15 +12,15 @@ function Post({
   week,
   subject,
   content = "",
-  showWeek = true,
-  showSubject = true,
+  weekSelected = false,
+  subjectSelected = false,
   images = [],
 }: {
   week: number;
   subject: string;
   content: string | null;
-  showWeek?: boolean;
-  showSubject?: boolean;
+  weekSelected?: boolean;
+  subjectSelected?: boolean;
   images?: {
     url: string;
     width: number | null;
@@ -39,7 +39,7 @@ function Post({
                   <Image
                     src={image.url}
                     alt={image.alt}
-                    className="h-64 w-full object-cover"
+                    className="h-128 w-full object-contain"
                     width={image.width || undefined}
                     height={image.height || undefined}
                   />
@@ -48,22 +48,22 @@ function Post({
                   <img
                     src={image.url}
                     alt={image.alt}
-                    className="h-64 w-full object-cover"
+                    className="h-64 w-full object-contain"
                   />
                 )}
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious />
-          <CarouselNext />
+          <CarouselPrevious className="left-2 hidden sm:flex" />
+          <CarouselNext className="right-2 hidden sm:flex" />
         </Carousel>
-        {content}
+        {content && <h2>{content}</h2>}
       </CardContent>
-      {(showWeek || showSubject) && (
+      {(!weekSelected || !subjectSelected) && (
         <CardFooter>
           <h3 className="text-muted-foreground text-sm">
-            {showWeek && <div>week: {week}</div>}
-            {showSubject && <div>subject: {subject}</div>}
+            {!weekSelected && <div>week: {week}</div>}
+            {!subjectSelected && <div>subject: {subject}</div>}
           </h3>
         </CardFooter>
       )}

@@ -46,8 +46,8 @@ function List({
           week={post.week}
           subject={post.subject}
           content={post.content}
-          showSubject={!querySubject}
-          showWeek={!queryWeek}
+          subjectSelected={Boolean(querySubject)}
+          weekSelected={Boolean(queryWeek)}
           images={images
             .filter((image) => image.postId === post.id)
             .map((image, index) => ({
