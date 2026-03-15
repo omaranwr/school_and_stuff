@@ -8,12 +8,14 @@ function Post({
   weekSelected = false,
   subjectSelected = false,
   images = [],
+  eager = false,
 }: {
   week: number;
   subject: string;
   content: string | null;
   weekSelected?: boolean;
   subjectSelected?: boolean;
+  eager?: boolean;
   images?: {
     url: string;
     width: number | null;
@@ -25,7 +27,7 @@ function Post({
     <Card size="sm">
       <CardContent>
         <div className="grid gap-4">
-          <PostCarousel images={images} />
+          <PostCarousel images={images} eager={eager} />
           {content && <h2 className="text-xl">{content}</h2>}
         </div>
       </CardContent>

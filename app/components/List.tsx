@@ -45,7 +45,7 @@ function List({
 
   return (
     <div className="wrapper grid gap-3 py-3">
-      {filteredPosts.map((post) => (
+      {filteredPosts.map((post, index) => (
         <Post
           key={post.id}
           week={post.week}
@@ -53,6 +53,7 @@ function List({
           content={post.content}
           subjectSelected={Boolean(querySubject)}
           weekSelected={Boolean(queryWeek)}
+          eager={index < 2}
           images={images
             .filter((image) => image.postId === post.id)
             .map((image, index) => ({

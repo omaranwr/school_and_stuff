@@ -13,6 +13,7 @@ import Image from "next/image";
 
 function PostCarousel({
   images = [],
+  eager = false,
 }: {
   images?: {
     url: string;
@@ -20,6 +21,7 @@ function PostCarousel({
     height: number | null;
     alt: string;
   }[];
+  eager?: boolean;
 }) {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
@@ -44,6 +46,7 @@ function PostCarousel({
                       className="max-h-128 w-min object-contain"
                       width={image.width!}
                       height={image.height!}
+                      loading={eager ? "eager" : "lazy"}
                     />
                   ) : (
                     // eslint-disable-next-line @next/next/no-img-element
@@ -58,8 +61,14 @@ function PostCarousel({
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious className="left-2 sm:p-5" variant={"secondary"} />
-        <CarouselNext className="right-2 sm:p-5" variant={"secondary"} />
+        <CarouselPrevious
+          className="left-2 disabled:opacity-0 sm:p-5"
+          variant={"secondary"}
+        />
+        <CarouselNext
+          className="right-2 disabled:opacity-0 sm:p-5"
+          variant={"secondary"}
+        />
       </Carousel>
       <div className="grid justify-center">
         {current + 1} of {length}
