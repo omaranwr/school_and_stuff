@@ -1,5 +1,5 @@
 import { db } from "@/db";
-import { subject } from "@/db/schema";
+import { post, subject } from "@/db/schema";
 import AdminForm from "@/app/components/AdminForm";
 
 async function AdminPage() {
@@ -7,8 +7,9 @@ async function AdminPage() {
     .select({ id: subject.id, name: subject.name })
     .from(subject)
     .all();
+  const types = post.type.enumValues;
 
-  return <AdminForm subjectsPromise={subjects} />;
+  return <AdminForm subjectsPromise={subjects} types={types} />;
 }
 
 export default AdminPage;

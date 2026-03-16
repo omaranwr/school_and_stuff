@@ -10,6 +10,7 @@ export async function addAnswer(formData: FormData) {
   const subjectId = formData.get("subjectId");
   const newSubjectName = formData.get("newSubjectName");
   const week = formData.get("week");
+  const type = formData.get("type");
   const adminPassword = formData.get("adminPassword");
 
   // Simple admin password check (replace with a more secure method in production)
@@ -23,6 +24,13 @@ export async function addAnswer(formData: FormData) {
     return {
       status: "error",
       message: `Invalid form data for ${problem}`,
+    } as const;
+  }
+
+  if (typeof type !== "string" || !post.type.enumValues.includes(type)) {
+    return {
+      status: "error",
+      message: "Invalid form data for type",
     } as const;
   }
 
@@ -53,16 +61,20 @@ export async function addAnswer(formData: FormData) {
     finalSubjectId = parseInt(subjectId as string);
   }
 
-  const postId = await db
-    .insert(post)
-    .values({
-      subjectId: finalSubjectId,
-      week: parseInt(week),
-      content,
-    })
-    .returning({ id: post.id })
-    .then((res) => res[0].id);
-
-  revalidatePath("/", "layout");
-  return { status: "success" as const, postId };
+  try {
+    const postId = await db
+      .insert(post)
+      .values({
+        subjectId: finalSubjectId,
+        week: parseInt(week),
+        content,
+        type: type,
+      })
+      .returning({ id: post.id })
+      .then((res) => res[0].id);
+    revalidatePath("/", "layout");
+    return { status: "success", postId } as const;
+  } catch (e) {
+    return { status: "error", message: String(e) } as const;
+  }
 }

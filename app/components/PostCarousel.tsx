@@ -38,12 +38,12 @@ function PostCarousel({
           {images.map((image, index) => (
             <CarouselItem key={index}>
               <div className="grid justify-center">
-                <div className="overflow-hidden rounded-xl outline">
+                <div className="overflow-hidden lg:rounded-xl">
                   {image.height && image.width ? (
                     <Image
                       src={image.url}
                       alt={image.alt}
-                      className="max-h-128 w-min object-contain"
+                      className="max-h-128 w-max object-contain"
                       width={image.width!}
                       height={image.height!}
                       loading={eager ? "eager" : "lazy"}
@@ -62,15 +62,15 @@ function PostCarousel({
           ))}
         </CarouselContent>
         <CarouselPrevious
-          className="left-2 disabled:opacity-0 sm:p-5"
-          variant={"secondary"}
+          className="left-2 hidden lg:flex lg:p-5"
+          variant={"outline"}
         />
         <CarouselNext
-          className="right-2 disabled:opacity-0 sm:p-5"
-          variant={"secondary"}
+          className="right-2 hidden lg:flex lg:p-5"
+          variant={"outline"}
         />
       </Carousel>
-      <div className="grid justify-center">
+      <div className="hidden justify-center lg:grid">
         {current + 1} of {length}
       </div>
     </div>
