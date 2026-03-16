@@ -1,0 +1,1 @@
+ALTER TABLE `post` ADD `type` text DEFAULT 'تقييم';
