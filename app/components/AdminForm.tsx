@@ -27,8 +27,10 @@ import { toast } from "sonner";
 
 function AdminForm({
   subjectsPromise,
+  types,
 }: {
   subjectsPromise: Promise<{ id: number; name: string }[]>;
+  types: string[];
 }) {
   const subjects = use(subjectsPromise);
   const [subjectIsNew, setSubjectIsNew] = useState(false);
@@ -134,6 +136,21 @@ function AdminForm({
               placeholder="Week number"
               required
             />
+          </Field>
+          <Field>
+            <FieldLabel htmlFor="type">Type: </FieldLabel>
+            <Select id="type" name="type">
+              <SelectTrigger>
+                <SelectValue placeholder="Select a type" />
+              </SelectTrigger>
+              <SelectContent alignItemWithTrigger={false}>
+                {types.map((type) => (
+                  <SelectItem key={type} value={type}>
+                    {type}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </Field>
         </FieldGroup>
         <FieldGroup>
