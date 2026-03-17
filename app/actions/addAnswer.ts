@@ -10,7 +10,7 @@ export async function addAnswer(formData: FormData) {
   const subjectId = formData.get("subjectId");
   const newSubjectName = formData.get("newSubjectName");
   const week = formData.get("week");
-  const type = formData.get("type");
+  const type = formData.get("type") as (typeof post.type.enumValues)[number];
   const adminPassword = formData.get("adminPassword");
 
   // Simple admin password check (replace with a more secure method in production)
