@@ -31,13 +31,16 @@ function FilterList({
     defaultValue: "",
   });
 
-  const subjects = [...new Set(posts.map((post) => post.subject))];
+  const subjects: { [key: number]: Set<string> } = {};
   let maxWeek = 0;
-  const weeks: { [key: string]: Array<number> } = {};
+  const weeks: { [key: string]: Set<number> } = {};
   posts.forEach((post) => {
-    weeks[post.subject] ||= [];
-    weeks[post.subject].push(post.week);
+    weeks[post.subject] ||= new Set();
+    weeks[post.subject].add(post.week);
     if (post.week > maxWeek) maxWeek = post.week;
+
+    subjects[post.week] ||= new Set();
+    subjects[post.week].add(post.subject);
   });
 
   return (
@@ -56,8 +59,17 @@ function FilterList({
 
           <SelectContent alignItemWithTrigger={false}>
             <SelectItem value="">All</SelectItem>
-            {subjects.map((subject) => (
-              <SelectItem key={subject} value={subject}>
+            {Object.keys(weeks).map((subject) => (
+              <SelectItem
+                key={subject}
+                value={subject}
+                className={
+                  currentWeek &&
+                  !(subjects[currentWeek] && subjects[currentWeek].has(subject))
+                    ? "text-muted-foreground"
+                    : ""
+                }
+              >
                 {subject}
               </SelectItem>
             ))}
@@ -84,11 +96,11 @@ function FilterList({
                 <SelectItem
                   key={i + 1}
                   value={i + 1}
-                  disabled={
-                    !(
-                      !currentSubject &&
-                      new Set([...Object.values(weeks)].flat()).has(i + 1)
-                    ) && !weeks[currentSubject]?.includes(i + 1)
+                  className={
+                    currentSubject &&
+                    !(weeks[currentSubject] && weeks[currentSubject].has(i + 1))
+                      ? "text-muted-foreground"
+                      : ""
                   }
                 >
                   Week {i + 1}
