@@ -10,6 +10,7 @@ import {
   CarouselPrevious,
 } from "./ui/carousel";
 import Image from "next/image";
+import { shimmer, toBase64 } from "@/app/lib/constants";
 
 function PostCarousel({
   images = [],
@@ -44,8 +45,10 @@ function PostCarousel({
                       src={image.url}
                       alt={image.alt}
                       className="max-h-128 w-max object-contain"
-                      width={image.width!}
-                      height={image.height!}
+                      width={image.width}
+                      height={image.height}
+                      fill={!image.width}
+                      placeholder={`data:image/svg+xml;base64,${toBase64(shimmer(image.width, image.width))}`}
                       loading={eager ? "eager" : "lazy"}
                     />
                   ) : (
