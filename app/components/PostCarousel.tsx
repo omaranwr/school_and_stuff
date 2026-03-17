@@ -37,39 +37,36 @@ function PostCarousel({
       <Carousel setApi={setApi}>
         <CarouselContent>
           {images.map((image, index) => (
-            <CarouselItem key={index}>
-              <div className="grid justify-center">
-                <div className="overflow-hidden lg:rounded-xl">
-                  {image.height && image.width ? (
-                    <Image
-                      src={image.url}
-                      alt={image.alt}
-                      className="max-h-128 w-max object-contain"
-                      width={image.width}
-                      height={image.height}
-                      fill={!image.width}
-                      placeholder={`data:image/svg+xml;base64,${toBase64(shimmer(image.width, image.width))}`}
-                      loading={eager ? "eager" : "lazy"}
-                    />
-                  ) : (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={image.url}
-                      alt={image.alt}
-                      className="max-h-128 w-min object-contain"
-                    />
-                  )}
-                </div>
+            <CarouselItem key={index} className="max-w-9/10lg:max-w-full">
+              <div className="overflow-hidden lg:rounded-xl">
+                {image.height && image.width ? (
+                  <Image
+                    src={image.url}
+                    alt={image.alt}
+                    className="max-h-128 w-min object-contain"
+                    width={image.width}
+                    height={image.height}
+                    placeholder={`data:image/svg+xml;base64,${toBase64(shimmer(image.width, image.width))}`}
+                    loading={eager ? "eager" : "lazy"}
+                  />
+                ) : (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={image.url}
+                    alt={image.alt}
+                    className="max-h-128 w-min object-contain"
+                  />
+                )}
               </div>
             </CarouselItem>
           ))}
         </CarouselContent>
         <CarouselPrevious
-          className="left-2 hidden lg:flex lg:p-5"
+          className="left-16 hidden disabled:opacity-0 lg:flex lg:p-5"
           variant={"outline"}
         />
         <CarouselNext
-          className="right-2 hidden lg:flex lg:p-5"
+          className="right-16 hidden disabled:opacity-0 lg:flex lg:p-5"
           variant={"outline"}
         />
       </Carousel>

@@ -61,6 +61,7 @@ function Carousel({
       breakpoints: {
         "(min-width: 1024px)": {
           dragFree: false,
+          watchDrag: false,
           containScroll: "keepSnaps",
         },
       },
@@ -130,7 +131,7 @@ function Carousel({
       <div
         onKeyDownCapture={handleKeyDown}
         className={cn(
-          "outline-primary relative flex justify-center",
+          "outline-primary relative flex justify-center overflow-hidden",
           className,
         )}
         role="region"
@@ -168,7 +169,7 @@ function CarouselItem({ className, ...props }: React.ComponentProps<"div">) {
       aria-roledescription="slide"
       data-slot="carousel-item"
       className={cn(
-        "max-w-full min-w-0 shrink-0 grow-0 lg:basis-full",
+        "grid max-w-full min-w-0 shrink-0 grow-0 justify-center lg:basis-full",
         className,
       )}
       {...props}
