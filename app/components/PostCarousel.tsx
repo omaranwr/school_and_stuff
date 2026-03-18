@@ -54,7 +54,7 @@ function PostCarousel({
       <Carousel setApi={setApi}>
         <CarouselContent>
           {images.map((image, index) => (
-            <CarouselItem key={index} className="max-w-9/10lg:max-w-full">
+            <CarouselItem key={index} className="max-w-[80vw] lg:max-w-full">
               <div
                 className="overflow-hidden lg:rounded-xl"
                 onClick={() => {
