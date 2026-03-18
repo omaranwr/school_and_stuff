@@ -10,13 +10,20 @@ import {
   CarouselPrevious,
 } from "./ui/carousel";
 import Image from "next/image";
-import { shimmer, toBase64 } from "@/app/lib/constants";
+import {
+  selectedImageIndexParamName,
+  selectedPostIdParamName,
+  shimmer,
+  toBase64,
+} from "@/app/lib/constants";
+import { parseAsInteger, useQueryState } from "nuqs";
 
 function PostCarousel({
   images = [],
   eager = false,
 }: {
   images?: {
+    postId: number;
     url: string;
     width: number | null;
     height: number | null;
@@ -24,6 +31,16 @@ function PostCarousel({
   }[];
   eager?: boolean;
 }) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [_postId, setPostId] = useQueryState(
+    selectedPostIdParamName,
+    parseAsInteger,
+  );
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [_imageIndex, setImageIndex] = useQueryState(
+    selectedImageIndexParamName,
+    parseAsInteger,
+  );
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
   const length = api?.scrollSnapList().length;
@@ -38,7 +55,14 @@ function PostCarousel({
         <CarouselContent>
           {images.map((image, index) => (
             <CarouselItem key={index} className="max-w-9/10lg:max-w-full">
-              <div className="overflow-hidden lg:rounded-xl">
+              <div
+                className="overflow-hidden lg:rounded-xl"
+                onClick={() => {
+                  if (window.matchMedia("(min-width: 64rem)").matches) return;
+                  setPostId(image.postId);
+                  setImageIndex(index);
+                }}
+              >
                 {image.height && image.width ? (
                   <Image
                     src={image.url}
@@ -62,11 +86,11 @@ function PostCarousel({
           ))}
         </CarouselContent>
         <CarouselPrevious
-          className="left-16 hidden disabled:opacity-0 lg:flex lg:p-5"
+          className="inset-s-16! left-0 hidden disabled:opacity-0 lg:flex lg:p-5"
           variant={"outline"}
         />
         <CarouselNext
-          className="right-16 hidden disabled:opacity-0 lg:flex lg:p-5"
+          className="inset-e-16! right-0 hidden disabled:opacity-0 lg:flex lg:p-5"
           variant={"outline"}
         />
       </Carousel>

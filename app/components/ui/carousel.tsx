@@ -53,18 +53,18 @@ function Carousel({
 }: React.ComponentProps<"div"> & CarouselProps) {
   const [carouselRef, api] = useEmblaCarousel(
     {
-      ...opts,
       axis: orientation === "horizontal" ? "x" : "y",
       dragFree: true,
       containScroll: "trimSnaps",
       align: "center",
       breakpoints: {
-        "(min-width: 1024px)": {
+        "(min-width: 64rem)": {
           dragFree: false,
           watchDrag: false,
           containScroll: "keepSnaps",
         },
       },
+      ...opts,
     },
     plugins,
   );

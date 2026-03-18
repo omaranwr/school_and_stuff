@@ -12,22 +12,19 @@ import {
 } from "@/app/components/ui/select";
 import Link from "next/link";
 import { Button } from "./ui/button";
+import { subjectParamName, weekParamName } from "@/app/lib/constants";
 
 function FilterList({
   postsPromise,
-  weekParam,
-  subjectParam,
 }: {
   postsPromise: Promise<{ week: number; subject: string }[]>;
-  weekParam: string;
-  subjectParam: string;
 }) {
   const posts = use(postsPromise);
   const [currentWeek, setCurrentWeek] = useQueryState(
-    weekParam,
+    weekParamName,
     parseAsInteger,
   );
-  const [currentSubject, setCurrentSubject] = useQueryState(subjectParam, {
+  const [currentSubject, setCurrentSubject] = useQueryState(subjectParamName, {
     defaultValue: "",
   });
 

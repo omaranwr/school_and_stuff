@@ -7,8 +7,8 @@ function Post({
   content = "",
   weekSelected = false,
   subjectSelected = false,
-  images = [],
   eager = false,
+  images = [],
 }: {
   week: number;
   subject: string;
@@ -17,6 +17,7 @@ function Post({
   subjectSelected?: boolean;
   eager?: boolean;
   images?: {
+    postId: number;
     url: string;
     width: number | null;
     height: number | null;

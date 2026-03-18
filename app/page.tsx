@@ -4,9 +4,6 @@ import { db } from "@/db";
 import { image, post, subject as subjectTable } from "@/db/schema";
 import { desc, eq } from "drizzle-orm";
 
-const weekParam = "week";
-const subjectParam = "subject";
-
 export default async function Home() {
   const postsPromise = db
     .select({
@@ -31,17 +28,8 @@ export default async function Home() {
     .all();
   return (
     <>
-      <FilterList
-        postsPromise={postsPromise}
-        weekParam={weekParam}
-        subjectParam={subjectParam}
-      />
-      <List
-        postsPromise={postsPromise}
-        imagesPromise={imagesPromise}
-        weekParam={weekParam}
-        subjectParam={subjectParam}
-      />
+      <FilterList postsPromise={postsPromise} />
+      <List postsPromise={postsPromise} imagesPromise={imagesPromise} />
     </>
   );
 }
