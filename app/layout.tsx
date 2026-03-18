@@ -1,9 +1,6 @@
 import type { Metadata } from "next";
-import { Inter, Noto_Sans } from "next/font/google";
+import { Noto_Sans } from "next/font/google";
 import "./globals.css";
-import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
-import { extractRouterConfig } from "uploadthing/server";
-import { postFileRouter } from "@/app/api/uploadthing/core";
 import { cn } from "@/app/lib/utils";
 import Providers from "@/app/lib/providers";
 import { Toaster } from "@/app/components/ui/sonner";
@@ -27,7 +24,6 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className={`antialiased`}>
-        <NextSSRPlugin routerConfig={extractRouterConfig(postFileRouter)} />
         <Providers>
           <main>{children}</main>
           <Toaster />
