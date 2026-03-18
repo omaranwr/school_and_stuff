@@ -38,7 +38,7 @@ function List({
     selectedPostIdParamName,
     parseAsInteger,
   );
-  const [imageIndex] = useQueryState(
+  const [imageIndex, setImageIndex] = useQueryState(
     selectedImageIndexParamName,
     parseAsInteger.withDefault(0),
   );
@@ -88,7 +88,10 @@ function List({
       <PopoverCarousel
         selectedImages={selectedImages}
         imageIndex={imageIndex}
-        setClosed={() => setSelectedPostId(null)}
+        setClosed={() => {
+          setSelectedPostId(null);
+          setImageIndex(null);
+        }}
       />
     </>
   );
