@@ -11,6 +11,7 @@ import {
 } from "./ui/carousel";
 import Image from "next/image";
 import {
+  selectedImageIndexParamName,
   selectedPostIdParamName,
   shimmer,
   toBase64,
@@ -31,7 +32,15 @@ function PostCarousel({
   eager?: boolean;
 }) {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [_, setPostId] = useQueryState(selectedPostIdParamName, parseAsInteger);
+  const [_postId, setPostId] = useQueryState(
+    selectedPostIdParamName,
+    parseAsInteger,
+  );
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [_imageIndex, setImageIndex] = useQueryState(
+    selectedImageIndexParamName,
+    parseAsInteger,
+  );
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
   const length = api?.scrollSnapList().length;
@@ -51,6 +60,7 @@ function PostCarousel({
                 onClick={() => {
                   if (window.matchMedia("(min-width: 64rem)").matches) return;
                   setPostId(image.postId);
+                  setImageIndex(index);
                 }}
               >
                 {image.height && image.width ? (

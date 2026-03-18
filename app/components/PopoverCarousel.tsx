@@ -31,7 +31,7 @@ function PopoverCarousel({
         <X />
       </Button>
       <div className="flex h-full w-full items-center justify-center">
-        <Carousel opts={{ dragFree: false }}>
+        <Carousel opts={{ dragFree: false, startIndex: imageIndex }}>
           <CarouselContent>
             {selectedImages.map((image, index) => (
               <CarouselItem key={index} className="basis-full">
