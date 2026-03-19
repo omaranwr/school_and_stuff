@@ -8,6 +8,7 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
+  SelectSeparator,
   SelectTrigger,
   SelectValue,
 } from "@/app/components/ui/select";
@@ -81,6 +82,9 @@ function FilterList({
           <SelectContent alignItemWithTrigger={false}>
             <SelectGroup>
               <SelectItem value="">All</SelectItem>
+            </SelectGroup>
+            <SelectSeparator />
+            <SelectGroup>
               {subjects.map((subject) => (
                 <SelectItem
                   key={subject}
@@ -114,6 +118,9 @@ function FilterList({
           <SelectContent alignItemWithTrigger={false}>
             <SelectGroup>
               <SelectItem value="">All</SelectItem>
+            </SelectGroup>
+            <SelectSeparator />
+            <SelectGroup>
               {post.type.enumValues.map((type) => (
                 <SelectItem
                   key={type}
@@ -150,6 +157,9 @@ function FilterList({
             <SelectContent alignItemWithTrigger={false}>
               <SelectGroup>
                 <SelectItem value={null}>All</SelectItem>
+              </SelectGroup>
+              <SelectSeparator />
+              <SelectGroup>
                 {new Array(maxWeek).fill(0).map((_, i) => (
                   <SelectItem
                     key={i + 1}
