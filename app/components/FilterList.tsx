@@ -23,7 +23,13 @@ import { post } from "@/db/schema";
 function FilterList({
   postsPromise,
 }: {
-  postsPromise: Promise<{ week: number; subject: string }[]>;
+  postsPromise: Promise<
+    {
+      week: number;
+      subject: string;
+      type: (typeof post.type.enumValues)[number];
+    }[]
+  >;
 }) {
   const posts = use(postsPromise);
   const [currentWeek, setCurrentWeek] = useQueryState(
@@ -33,19 +39,30 @@ function FilterList({
   const [currentSubject, setCurrentSubject] = useQueryState(subjectParamName, {
     defaultValue: "",
   });
-  const [currentType, setCurrentType] = useQueryState(typeParamName);
-
-  const subjects: { [key: number]: Set<string> } = {};
-  let maxWeek = 0;
-  const weeks: { [key: string]: Set<number> } = {};
-  posts.forEach((post) => {
-    weeks[post.subject] ||= new Set();
-    weeks[post.subject].add(post.week);
-    if (post.week > maxWeek) maxWeek = post.week;
-
-    subjects[post.week] ||= new Set();
-    subjects[post.week].add(post.subject);
+  const [currentType, setCurrentType] = useQueryState(typeParamName, {
+    defaultValue: "",
   });
+
+  let maxWeek = 0;
+  for (const post of posts) {
+    maxWeek = Math.max(maxWeek, post.week);
+  }
+
+  const postHas = (
+    week?: number | null,
+    subject?: string | null,
+    type?: string | null,
+  ) => {
+    const filteredPosts = posts.filter((post) => {
+      if (week && post.week !== week) return false;
+      if (subject && post.subject !== subject) return false;
+      if (type && post.type !== type) return false;
+      return true;
+    });
+    return filteredPosts.length > 0;
+  };
+
+  const subjects = [...new Set(posts.map((post) => post.subject))];
 
   return (
     <div className="wrapper flex flex-col justify-center gap-4 px-2 py-3 sm:flex-row sm:items-center">
@@ -64,18 +81,14 @@ function FilterList({
           <SelectContent alignItemWithTrigger={false}>
             <SelectGroup>
               <SelectItem value="">All</SelectItem>
-              {Object.keys(weeks).map((subject) => (
+              {subjects.map((subject) => (
                 <SelectItem
                   key={subject}
                   value={subject}
                   className={
-                    currentWeek &&
-                    !(
-                      subjects[currentWeek] &&
-                      subjects[currentWeek].has(subject)
-                    )
-                      ? "text-muted-foreground"
-                      : ""
+                    postHas(currentWeek, subject, currentType)
+                      ? ""
+                      : "text-muted-foreground"
                   }
                 >
                   {subject}
@@ -102,7 +115,15 @@ function FilterList({
             <SelectGroup>
               <SelectItem value="">All</SelectItem>
               {post.type.enumValues.map((type) => (
-                <SelectItem key={type} value={type}>
+                <SelectItem
+                  key={type}
+                  value={type}
+                  className={
+                    postHas(currentWeek, currentSubject, type)
+                      ? ""
+                      : "text-muted-foreground"
+                  }
+                >
                   {type}
                 </SelectItem>
               ))}
@@ -134,13 +155,9 @@ function FilterList({
                     key={i + 1}
                     value={i + 1}
                     className={
-                      currentSubject &&
-                      !(
-                        weeks[currentSubject] &&
-                        weeks[currentSubject].has(i + 1)
-                      )
-                        ? "text-muted-foreground"
-                        : ""
+                      postHas(i + 1, currentSubject, currentType)
+                        ? ""
+                        : "text-muted-foreground"
                     }
                   >
                     Week {i + 1}
