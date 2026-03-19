@@ -21,5 +21,6 @@ export const shimmer = (w: number, h: number) => `
 
 export const weekParamName = "week";
 export const subjectParamName = "subject";
+export const typeParamName = "type";
 export const selectedPostIdParamName = "post";
 export const selectedImageIndexParamName = "index";

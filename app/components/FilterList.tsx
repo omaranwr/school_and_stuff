@@ -13,7 +13,12 @@ import {
 } from "@/app/components/ui/select";
 import Link from "next/link";
 import { Button } from "./ui/button";
-import { subjectParamName, weekParamName } from "@/app/lib/constants";
+import {
+  subjectParamName,
+  typeParamName,
+  weekParamName,
+} from "@/app/lib/constants";
+import { post } from "@/db/schema";
 
 function FilterList({
   postsPromise,
@@ -28,6 +33,7 @@ function FilterList({
   const [currentSubject, setCurrentSubject] = useQueryState(subjectParamName, {
     defaultValue: "",
   });
+  const [currentType, setCurrentType] = useQueryState(typeParamName);
 
   const subjects: { [key: number]: Set<string> } = {};
   let maxWeek = 0;
@@ -73,6 +79,31 @@ function FilterList({
                   }
                 >
                   {subject}
+                </SelectItem>
+              ))}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+      </div>
+
+      <div className="flex items-center gap-1">
+        <Label htmlFor="type">Type: </Label>
+
+        <Select
+          id="type"
+          value={currentType}
+          onValueChange={(value) => setCurrentType(value)}
+        >
+          <SelectTrigger className="grow">
+            <SelectValue placeholder="Select a Type" />
+          </SelectTrigger>
+
+          <SelectContent alignItemWithTrigger={false}>
+            <SelectGroup>
+              <SelectItem value="">All</SelectItem>
+              {post.type.enumValues.map((type) => (
+                <SelectItem key={type} value={type}>
+                  {type}
                 </SelectItem>
               ))}
             </SelectGroup>

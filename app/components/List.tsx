@@ -7,6 +7,7 @@ import {
   selectedImageIndexParamName,
   selectedPostIdParamName,
   subjectParamName,
+  typeParamName,
   weekParamName,
 } from "@/app/lib/constants";
 import { post } from "@/db/schema";
@@ -41,6 +42,7 @@ function List({
     weekParamName,
     parseAsInteger.withDefault(0),
   );
+  const [queryType] = useQueryState(typeParamName);
   const [selectedPostId, setSelectedPostId] = useQueryState(
     selectedPostIdParamName,
     parseAsInteger,
@@ -84,6 +86,7 @@ function List({
   const filteredPosts = posts.filter((post) => {
     if (queryWeek && post.week !== queryWeek) return false;
     if (querySubject && post.subject !== querySubject) return false;
+    if (queryType && post.type !== queryType) return false;
     return true;
   });
 
