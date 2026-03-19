@@ -28,7 +28,7 @@ function FilterList({
     {
       week: number;
       subject: string;
-      type: (typeof post.type.enumValues)[number];
+      type?: (typeof post.type.enumValues)[number] | null;
     }[]
   >;
 }) {
