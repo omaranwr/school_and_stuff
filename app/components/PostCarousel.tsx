@@ -56,7 +56,7 @@ function PostCarousel({
           {images.map((image, index) => (
             <CarouselItem key={index} className="max-w-[80vw] lg:max-w-full">
               <div
-                className="overflow-hidden lg:rounded-xl"
+                className="border-secondary overflow-hidden lg:rounded-xl lg:border-4"
                 onClick={() => {
                   if (window.matchMedia("(min-width: 64rem)").matches) return;
                   setPostId(image.postId);
@@ -87,11 +87,11 @@ function PostCarousel({
         </CarouselContent>
         <CarouselPrevious
           className="inset-s-16! left-0 hidden disabled:opacity-0 lg:flex lg:p-5"
-          variant={"outline"}
+          variant={"default"}
         />
         <CarouselNext
           className="inset-e-16! right-0 hidden disabled:opacity-0 lg:flex lg:p-5"
-          variant={"outline"}
+          variant={"default"}
         />
       </Carousel>
       <div className="hidden justify-center lg:grid">
