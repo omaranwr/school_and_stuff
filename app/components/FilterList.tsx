@@ -6,6 +6,7 @@ import { Label } from "@/app/components/ui/label";
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
   SelectTrigger,
   SelectValue,
@@ -55,21 +56,26 @@ function FilterList({
           </SelectTrigger>
 
           <SelectContent alignItemWithTrigger={false}>
-            <SelectItem value="">All</SelectItem>
-            {Object.keys(weeks).map((subject) => (
-              <SelectItem
-                key={subject}
-                value={subject}
-                className={
-                  currentWeek &&
-                  !(subjects[currentWeek] && subjects[currentWeek].has(subject))
-                    ? "text-muted-foreground"
-                    : ""
-                }
-              >
-                {subject}
-              </SelectItem>
-            ))}
+            <SelectGroup>
+              <SelectItem value="">All</SelectItem>
+              {Object.keys(weeks).map((subject) => (
+                <SelectItem
+                  key={subject}
+                  value={subject}
+                  className={
+                    currentWeek &&
+                    !(
+                      subjects[currentWeek] &&
+                      subjects[currentWeek].has(subject)
+                    )
+                      ? "text-muted-foreground"
+                      : ""
+                  }
+                >
+                  {subject}
+                </SelectItem>
+              ))}
+            </SelectGroup>
           </SelectContent>
         </Select>
       </div>
@@ -84,25 +90,32 @@ function FilterList({
             onValueChange={(value) => setCurrentWeek(value)}
           >
             <SelectTrigger className="grow" size="sm">
-              <SelectValue placeholder="Select a week" />
+              <SelectValue>
+                {(value) => (value ? "Week " + value : "Select a week")}
+              </SelectValue>
             </SelectTrigger>
 
             <SelectContent alignItemWithTrigger={false}>
-              <SelectItem value={null}>All</SelectItem>
-              {new Array(maxWeek).fill(0).map((_, i) => (
-                <SelectItem
-                  key={i + 1}
-                  value={i + 1}
-                  className={
-                    currentSubject &&
-                    !(weeks[currentSubject] && weeks[currentSubject].has(i + 1))
-                      ? "text-muted-foreground"
-                      : ""
-                  }
-                >
-                  Week {i + 1}
-                </SelectItem>
-              ))}
+              <SelectGroup>
+                <SelectItem value={null}>All</SelectItem>
+                {new Array(maxWeek).fill(0).map((_, i) => (
+                  <SelectItem
+                    key={i + 1}
+                    value={i + 1}
+                    className={
+                      currentSubject &&
+                      !(
+                        weeks[currentSubject] &&
+                        weeks[currentSubject].has(i + 1)
+                      )
+                        ? "text-muted-foreground"
+                        : ""
+                    }
+                  >
+                    Week {i + 1}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
             </SelectContent>
           </Select>
         </div>

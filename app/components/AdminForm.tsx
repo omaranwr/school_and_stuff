@@ -102,7 +102,15 @@ function AdminForm({
               required
             >
               <SelectTrigger>
-                <SelectValue placeholder="Select a subject" />
+                <SelectValue placeholder="Select a subject">
+                  {(value) =>
+                    value && value !== newValue
+                      ? subjects.find((s) => s.id === value)?.name
+                      : value === newValue
+                        ? "Add new subject"
+                        : "Select a subject"
+                  }
+                </SelectValue>
               </SelectTrigger>
               <SelectContent alignItemWithTrigger={false}>
                 <SelectGroup>
