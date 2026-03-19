@@ -20,7 +20,7 @@ function PopoverCarousel({
 }) {
   return (
     <div
-      className={`${selectedImages.length > 0 ? "fixed" : "hidden"} bg-popover inset-0 lg:hidden`}
+      className={`${selectedImages.length > 0 ? "fixed" : "hidden"} bg-popover inset-0 touch-pinch-zoom lg:hidden`}
     >
       <Button
         size={"icon-xs"}
