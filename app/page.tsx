@@ -11,6 +11,7 @@ export default async function Home() {
       content: post.content,
       week: post.week,
       subject: subjectTable.name,
+      type: post.type,
     })
     .from(post)
     .innerJoin(subjectTable, eq(post.subjectId, subjectTable.id))

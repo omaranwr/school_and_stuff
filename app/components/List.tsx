@@ -9,6 +9,7 @@ import {
   subjectParamName,
   weekParamName,
 } from "@/app/lib/constants";
+import { post } from "@/db/schema";
 import PopoverCarousel from "./PopoverCarousel";
 
 function List({
@@ -16,7 +17,13 @@ function List({
   imagesPromise,
 }: {
   postsPromise: Promise<
-    { id: number; content: string | null; week: number; subject: string }[]
+    {
+      id: number;
+      content: string | null;
+      week: number;
+      subject: string;
+      type?: (typeof post.type.enumValues)[number] | null;
+    }[]
   >;
   imagesPromise: Promise<
     {
@@ -27,7 +34,7 @@ function List({
     }[]
   >;
 }) {
-  const posts = use(postsPromise);
+  const uncontentedPosts = use(postsPromise);
   const images = use(imagesPromise);
   const [querySubject] = useQueryState(subjectParamName, { defaultValue: "" });
   const [queryWeek] = useQueryState(
@@ -42,6 +49,28 @@ function List({
     selectedImageIndexParamName,
     parseAsInteger.withDefault(0),
   );
+
+  const posts = uncontentedPosts.map((post) => {
+    let newContent: string = "";
+    switch (post.type) {
+      case "تقييم":
+        newContent = "تقييم ال" + post.subject + " أسبوع " + post.week;
+        break;
+      case "أداء صفي":
+        newContent = "أداء ال" + post.subject + " الصفي أسبوع " + post.week;
+        break;
+      case "أداء منزلي":
+        newContent = "أداء ال" + post.subject + " المنزلي أسبوع " + post.week;
+        break;
+      default:
+        newContent = post.subject + " أسبوع " + post.week;
+        break;
+    }
+    return {
+      ...post,
+      content: post.content || newContent,
+    };
+  });
 
   const selectedPost = posts.find((post) => post.id === selectedPostId);
 
