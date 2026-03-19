@@ -54,13 +54,13 @@ function FilterList({
     subject?: string | null,
     type?: string | null,
   ) => {
-    const filteredPosts = posts.filter((post) => {
+    const foundPost = posts.find((post) => {
       if (week && post.week !== week) return false;
       if (subject && post.subject !== subject) return false;
       if (type && post.type !== type) return false;
       return true;
     });
-    return filteredPosts.length > 0;
+    return Boolean(foundPost);
   };
 
   const subjects = [...new Set(posts.map((post) => post.subject))];
