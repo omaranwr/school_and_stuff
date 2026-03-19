@@ -31,7 +31,7 @@ function PopoverCarousel({
   }, [selectedImages, y]);
   return (
     <div
-      className={`${selectedImages.length > 0 ? "fixed" : "hidden"} inset-0 touch-pinch-zoom lg:hidden`}
+      className={`${selectedImages.length > 0 ? "fixed" : "hidden"} inset-0 lg:hidden`}
     >
       <motion.div
         className="bg-popover fixed inset-0"
