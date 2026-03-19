@@ -103,7 +103,7 @@ function FilterList({
         </Select>
       </div>
 
-      <div className="flex items-center gap-1">
+      <div className="flex grow items-center gap-1">
         <Label htmlFor="type">Type: </Label>
 
         <Select
