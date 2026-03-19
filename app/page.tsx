@@ -15,7 +15,7 @@ export default async function Home() {
     })
     .from(post)
     .innerJoin(subjectTable, eq(post.subjectId, subjectTable.id))
-    .orderBy(desc(post.week))
+    .orderBy(desc(post.week), post.type, subjectTable.name)
     .all();
   const imagesPromise = db
     .select({
