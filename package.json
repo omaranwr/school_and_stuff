@@ -13,13 +13,13 @@
   "dependencies": {
     "@base-ui/react": "^1.3.0",
     "@libsql/client": "^0.17.0",
-    "@types/image-size": "^0.8.0",
     "@uploadthing/react": "^7.3.3",
     "@vercel/analytics": "^2.0.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "drizzle-orm": "^0.45.1",
     "embla-carousel-react": "^8.6.0",
+    "hammerjs": "^2.0.8",
     "image-size": "^2.0.2",
     "lucide-react": "^0.577.0",
     "motion": "^12.38.0",
@@ -38,6 +38,7 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.2.1",
+    "@types/hammerjs": "^2.0.46",
     "@types/node": "^20.19.37",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
