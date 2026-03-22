@@ -116,15 +116,16 @@ function List({
           />
         ))}
       </div>
-
-      <PopoverCarousel
-        selectedImages={selectedImages}
-        imageIndex={imageIndex}
-        setClosed={() => {
-          setSelectedPostId(null);
-          setImageIndex(null);
-        }}
-      />
+      {selectedImages.length > 0 && (
+        <PopoverCarousel
+          selectedImages={selectedImages}
+          imageIndex={imageIndex}
+          setClosed={() => {
+            setSelectedPostId(null);
+            setImageIndex(null);
+          }}
+        />
+      )}
     </>
   );
 }
