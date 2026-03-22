@@ -35,34 +35,12 @@ function PopoverCarousel({
   setClosed: () => void;
 }) {
   const [api, setApi] = useState<CarouselApi>();
-  const [isTransitioning, setIsTransitioning] = useState<boolean>(false);
 
   const y = useMotionValue(0);
   const yPercentage = useTransform(
     y,
     (value) => 1 - Math.abs(value) / (screenHeight / 3),
   );
-
-  useEffect(() => {
-    api?.on("select", () => setIsTransitioning(true));
-    api?.on("settle", () => setIsTransitioning(false));
-    api?.on("scroll", (emblaApi) => {
-      const settlePixelThreshold = 50;
-      const { dragHandler, location, target } = emblaApi.internalEngine();
-      if (dragHandler.pointerDown()) {
-        setIsTransitioning(true);
-        return;
-      }
-
-      const displacement = target.get() - location.get();
-      if (Math.abs(displacement) < settlePixelThreshold) {
-        setIsTransitioning(false);
-        return;
-      }
-
-      setIsTransitioning(true);
-    });
-  }, [api]);
 
   useEffect(() => {
     if (selectedImages.length > 0) y.set(0);
@@ -90,21 +68,71 @@ function PopoverCarousel({
           className="h-full"
           setApi={setApi}
         >
-          <CarouselContent className="h-full">
-            {selectedImages.map((image, index) => (
-              <CarouselItem key={index} className="basis-full">
-                <PopoverCarouselItem
-                  image={image}
-                  y={y}
-                  setClosed={setClosed}
-                  isScrolling={isTransitioning}
-                />
-              </CarouselItem>
-            ))}
-          </CarouselContent>
+          <PopoverCarouselInner
+            selectedImages={selectedImages}
+            setClosed={setClosed}
+            api={api}
+            y={y}
+          />
         </Carousel>
       </div>
     </div>
+  );
+}
+
+function PopoverCarouselInner({
+  selectedImages,
+  setClosed,
+  api,
+  y,
+}: {
+  selectedImages: {
+    alt: string;
+    postId: number;
+    url: string;
+    width: number | null;
+    height: number | null;
+  }[];
+  setClosed: () => void;
+  api: CarouselApi;
+  y: MotionValue;
+}) {
+  const [isTransitioning, setIsTransitioning] = useState<boolean>(false);
+
+  useEffect(() => {
+    api?.on("select", () => setIsTransitioning(true));
+    api?.on("settle", () => setIsTransitioning(false));
+    api?.on("scroll", (emblaApi) => {
+      const settlePixelThreshold = 50;
+      const { dragHandler, location, target } = emblaApi.internalEngine();
+      if (dragHandler.pointerDown()) {
+        setIsTransitioning(true);
+        return;
+      }
+
+      const displacement = target.get() - location.get();
+      if (Math.abs(displacement) < settlePixelThreshold) {
+        setIsTransitioning(false);
+        return;
+      }
+
+      setIsTransitioning(true);
+    });
+  }, [api]);
+
+  return (
+    <CarouselContent className="h-full">
+      {selectedImages.map((image, index) => (
+        <CarouselItem key={index} className="basis-full">
+          <PopoverCarouselItem
+            image={image}
+            y={y}
+            setClosed={setClosed}
+            isScrolling={isTransitioning}
+          />
+        </CarouselItem>
+      ))}
+    </CarouselContent>
   );
 }
 
