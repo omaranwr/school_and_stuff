@@ -15,7 +15,8 @@ import {
   useMotionValue,
   useTransform,
 } from "motion/react";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import PrismaZoom from "react-prismazoom";
 
 const screenHeight = typeof window !== "undefined" ? window.screen.height : 1;
 
@@ -98,11 +99,21 @@ function PopoverCarouselInner({
   y: MotionValue;
 }) {
   const [isTransitioning, setIsTransitioning] = useState<boolean>(false);
+  const [isZoomed, setIsZoomed] = useState<boolean>(false);
 
   useEffect(() => {
-    api?.on("select", () => setIsTransitioning(true));
-    api?.on("settle", () => setIsTransitioning(false));
+    let destroyed = false;
+
+    api?.on("select", () => {
+      if (destroyed) return;
+      setIsTransitioning(true);
+    });
+    api?.on("settle", () => {
+      if (destroyed) return;
+      setIsTransitioning(false);
+    });
     api?.on("scroll", (emblaApi) => {
+      if (destroyed) return;
       const settlePixelThreshold = 50;
       const { dragHandler, location, target } = emblaApi.internalEngine();
       if (dragHandler.pointerDown()) {
@@ -118,13 +129,21 @@ function PopoverCarouselInner({
 
       setIsTransitioning(true);
     });
+
+    return () => {
+      destroyed = true;
+    };
   }, [api]);
+
+  useEffect(() => {
+    api?.reInit({ watchDrag: !isZoomed });
+  }, [isZoomed, api]);
 
   return (
     <motion.div
       className="z-2 flex items-center"
       drag="y"
-      dragListener={!isTransitioning}
+      dragListener={!isTransitioning && !isZoomed}
       dragDirectionLock={true}
       dragTransition={{ bounceStiffness: 700, bounceDamping: 40 }}
       dragConstraints={{ top: 0, bottom: 0 }}
@@ -144,7 +163,11 @@ function PopoverCarouselInner({
       <CarouselContent className="h-full">
         {selectedImages.map((image, index) => (
           <CarouselItem key={index} className="basis-full">
-            <PopoverCarouselItem image={image} />
+            <PopoverCarouselItem
+              image={image}
+              isTransitioning={isTransitioning}
+              setIsZoomed={setIsZoomed}
+            />
           </CarouselItem>
         ))}
       </CarouselContent>
@@ -154,6 +177,8 @@ function PopoverCarouselInner({
 
 function PopoverCarouselItem({
   image,
+  isTransitioning,
+  setIsZoomed,
 }: {
   image: {
     alt: string;
@@ -162,26 +187,31 @@ function PopoverCarouselItem({
     width: number | null;
     height: number | null;
   };
+  isTransitioning: boolean;
+  setIsZoomed: Dispatch<SetStateAction<boolean>>;
 }) {
-  if (image.width && image.height) {
-    return (
-      <Image
-        src={image.url}
-        alt={image.alt}
-        width={image.width}
-        height={image.height}
-        className="max-h-svh max-w-full object-contain"
-      />
-    );
-  }
-
   return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
-      src={image.url}
-      alt={image.alt}
-      className="max-h-svh max-w-full object-contain"
-    />
+    <PrismaZoom
+      allowZoom={!isTransitioning}
+      onZoomChange={(zoom) => setIsZoomed(zoom > 1)}
+    >
+      {image.width && image.height ? (
+        <Image
+          src={image.url}
+          alt={image.alt}
+          width={image.width}
+          height={image.height}
+          className="max-h-svh max-w-full object-contain"
+        />
+      ) : (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={image.url}
+          alt={image.alt}
+          className="max-h-svh max-w-full object-contain"
+        />
+      )}
+    </PrismaZoom>
   );
 }
 
