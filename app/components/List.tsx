@@ -1,6 +1,6 @@
 "use client";
 
-import { use, useEffect, useState } from "react";
+import { use, useState } from "react";
 import { parseAsInteger, useQueryState } from "nuqs";
 import Post from "./Post";
 import {
@@ -86,10 +86,6 @@ function List({
       ...image,
       alt: `${selectedPost?.content} ${index}` || String(index),
     }));
-
-  useEffect(() => {
-    console.log(selectedPostId);
-  }, [selectedPostId]);
 
   const filteredPosts = posts.filter((post) => {
     if (queryWeek && post.week !== queryWeek) return false;

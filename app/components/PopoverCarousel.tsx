@@ -52,24 +52,33 @@ function PopoverCarousel({
       className={`${selectedImages.length > 0 ? "fixed" : "hidden"} inset-0 touch-none lg:hidden`}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ delay: 0.1, duration: 0.2 }}
+      exit={{
+        opacity: 0,
+        transition: {
+          delay: 0.1,
+          duration: 0.1,
+        },
+      }}
+      transition={{
+        duration: 0.2,
+      }}
     >
       <motion.div
         className="bg-popover fixed inset-0"
         style={{ opacity: yPercentage }}
-      />
-      <Button
-        size={"icon-xs"}
-        variant={"outline"}
-        className="absolute inset-s-5 inset-bs-5 z-10"
-        onClick={() => setClosed()}
       >
-        <X />
-      </Button>
+        <Button
+          size={"icon-xs"}
+          variant={"outline"}
+          className="absolute inset-s-5 inset-bs-5 z-10"
+          onClick={() => setClosed()}
+        >
+          <X />
+        </Button>
+      </motion.div>
       <div className="flex h-full w-full justify-center">
         <Carousel
-          opts={{ dragFree: false, startIndex: imageIndex }}
+          opts={{ dragFree: false, startIndex: imageIndex, dragThreshold: 3 }}
           className="h-full"
           setApi={setApi}
         >
@@ -148,8 +157,8 @@ function PopoverCarouselInner({
       className="z-2 flex items-center"
       drag="y"
       dragListener={!isTransitioning && !isZoomed}
-      dragDirectionLock={true}
-      dragTransition={{ bounceStiffness: 700, bounceDamping: 40 }}
+      dragDirectionLock
+      dragTransition={{ bounceStiffness: 700, bounceDamping: 50 }}
       dragConstraints={{ top: 0, bottom: 0 }}
       dragElastic={0.8}
       onDragEnd={(_, info) => {
