@@ -58,7 +58,7 @@ function PopoverCarousel({
       <Button
         size={"icon-xs"}
         variant={"outline"}
-        className="absolute inset-s-5 inset-bs-5 z-1"
+        className="absolute inset-s-5 inset-bs-5 z-10"
         onClick={() => setClosed()}
       >
         <X />
