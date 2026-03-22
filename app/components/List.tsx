@@ -1,6 +1,6 @@
 "use client";
 
-import { use } from "react";
+import { use, useEffect, useState } from "react";
 import { parseAsInteger, useQueryState } from "nuqs";
 import Post from "./Post";
 import {
@@ -12,6 +12,7 @@ import {
 } from "@/app/lib/constants";
 import { post } from "@/db/schema";
 import PopoverCarousel from "./PopoverCarousel";
+import { AnimatePresence } from "motion/react";
 
 function List({
   postsPromise,
@@ -51,6 +52,7 @@ function List({
     selectedImageIndexParamName,
     parseAsInteger.withDefault(0),
   );
+  const [isClosing, setIsClosing] = useState(false);
 
   const posts = uncontentedPosts.map((post) => {
     let newContent: string = "";
@@ -74,7 +76,9 @@ function List({
     };
   });
 
-  const selectedPost = posts.find((post) => post.id === selectedPostId);
+  const selectedPost = !isClosing
+    ? posts.find((post) => post.id === selectedPostId)
+    : undefined;
 
   const selectedImages = images
     .filter((image) => image.postId === selectedPost?.id)
@@ -82,6 +86,10 @@ function List({
       ...image,
       alt: `${selectedPost?.content} ${index}` || String(index),
     }));
+
+  useEffect(() => {
+    console.log(selectedPostId);
+  }, [selectedPostId]);
 
   const filteredPosts = posts.filter((post) => {
     if (queryWeek && post.week !== queryWeek) return false;
@@ -116,16 +124,23 @@ function List({
           />
         ))}
       </div>
-      {selectedImages.length > 0 && (
-        <PopoverCarousel
-          selectedImages={selectedImages}
-          imageIndex={imageIndex}
-          setClosed={() => {
-            setSelectedPostId(null);
-            setImageIndex(null);
-          }}
-        />
-      )}
+      <AnimatePresence
+        onExitComplete={() => {
+          setSelectedPostId(null);
+          setImageIndex(null);
+          setIsClosing(false);
+        }}
+      >
+        {selectedImages.length > 0 && !isClosing && (
+          <PopoverCarousel
+            selectedImages={selectedImages}
+            imageIndex={imageIndex}
+            setClosed={() => {
+              setIsClosing(true);
+            }}
+          />
+        )}
+      </AnimatePresence>
     </>
   );
 }

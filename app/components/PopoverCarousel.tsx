@@ -48,8 +48,12 @@ function PopoverCarousel({
   }, [selectedImages, y]);
 
   return (
-    <div
+    <motion.div
       className={`${selectedImages.length > 0 ? "fixed" : "hidden"} inset-0 touch-none lg:hidden`}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ delay: 0.1, duration: 0.2 }}
     >
       <motion.div
         className="bg-popover fixed inset-0"
@@ -77,7 +81,7 @@ function PopoverCarousel({
           />
         </Carousel>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
@@ -154,8 +158,8 @@ function PopoverCarouselInner({
           Math.abs(info.offset.y) > screenHeight / 3 ||
           info.velocity.y > 500
         ) {
+          y.stop();
           setClosed();
-          y.set(0);
         }
       }}
       style={{ y }}
