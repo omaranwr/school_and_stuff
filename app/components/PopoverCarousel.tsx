@@ -37,6 +37,8 @@ function PopoverCarousel({
 }) {
   const [api, setApi] = useState<CarouselApi>();
 
+  const [showBar, setShowBar] = useState<boolean>(true);
+
   const y = useMotionValue(0);
   const yPercentage = useTransform(
     y,
@@ -66,15 +68,18 @@ function PopoverCarousel({
       <motion.div
         className="bg-popover fixed inset-0"
         style={{ opacity: yPercentage }}
-      >
-        <Button
-          size={"icon-xs"}
-          variant={"outline"}
-          className="absolute inset-s-5 inset-bs-5 z-10"
-          onClick={() => setClosed()}
-        >
-          <X />
-        </Button>
+      />
+      <motion.div style={{ opacity: yPercentage }}>
+        <motion.div animate={{ opacity: showBar ? 1 : 0 }}>
+          <Button
+            size={"icon-xs"}
+            variant={"outline"}
+            className="absolute inset-s-5 inset-bs-5 z-10"
+            onClick={() => setClosed()}
+          >
+            <X />
+          </Button>
+        </motion.div>
       </motion.div>
       <div className="flex h-full w-full justify-center">
         <Carousel
@@ -87,6 +92,7 @@ function PopoverCarousel({
             setClosed={setClosed}
             api={api}
             y={y}
+            setShowBar={setShowBar}
           />
         </Carousel>
       </div>
@@ -99,6 +105,7 @@ function PopoverCarouselInner({
   setClosed,
   api,
   y,
+  setShowBar,
 }: {
   selectedImages: {
     alt: string;
@@ -110,6 +117,7 @@ function PopoverCarouselInner({
   setClosed: () => void;
   api: CarouselApi;
   y: MotionValue;
+  setShowBar: Dispatch<SetStateAction<boolean>>;
 }) {
   const [isTransitioning, setIsTransitioning] = useState<boolean>(false);
   const [isZoomed, setIsZoomed] = useState<boolean>(false);
@@ -180,6 +188,7 @@ function PopoverCarouselInner({
               image={image}
               isTransitioning={isTransitioning}
               setIsZoomed={setIsZoomed}
+              setShowBar={setShowBar}
             />
           </CarouselItem>
         ))}
@@ -192,6 +201,7 @@ function PopoverCarouselItem({
   image,
   isTransitioning,
   setIsZoomed,
+  setShowBar,
 }: {
   image: {
     alt: string;
@@ -202,11 +212,16 @@ function PopoverCarouselItem({
   };
   isTransitioning: boolean;
   setIsZoomed: Dispatch<SetStateAction<boolean>>;
+  setShowBar: Dispatch<SetStateAction<boolean>>;
 }) {
   return (
     <PrismaZoom
       allowZoom={!isTransitioning}
-      onZoomChange={(zoom) => setIsZoomed(zoom > 1)}
+      onZoomChange={(zoom) => {
+        if (zoom > 1) setShowBar(false);
+        else setShowBar(true);
+        setIsZoomed(zoom > 1);
+      }}
     >
       {image.width && image.height ? (
         <Image
