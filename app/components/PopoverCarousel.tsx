@@ -17,7 +17,7 @@ import {
 } from "motion/react";
 import { useEffect, useState } from "react";
 
-const screenHeight = typeof window === undefined ? window.screen.height : 1;
+const screenHeight = typeof window !== "undefined" ? window.screen.height : 1;
 
 function PopoverCarousel({
   selectedImages,
@@ -135,7 +135,10 @@ function PopoverCarouselItem({
       dragElastic={0.8}
       onDragEnd={(_, info) => {
         if (Math.abs(y.get()) < 1) return;
-        if (Math.abs(info.offset.y) > screenHeight || info.velocity.y > 500) {
+        if (
+          Math.abs(info.offset.y) > screenHeight / 3 ||
+          info.velocity.y > 500
+        ) {
           setClosed();
           y.set(0);
         }
