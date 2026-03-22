@@ -121,44 +121,12 @@ function PopoverCarouselInner({
   }, [api]);
 
   return (
-    <CarouselContent className="h-full">
-      {selectedImages.map((image, index) => (
-        <CarouselItem key={index} className="basis-full">
-          <PopoverCarouselItem
-            image={image}
-            y={y}
-            setClosed={setClosed}
-            isScrolling={isTransitioning}
-          />
-        </CarouselItem>
-      ))}
-    </CarouselContent>
-  );
-}
-
-function PopoverCarouselItem({
-  image,
-  y,
-  setClosed,
-  isScrolling,
-}: {
-  image: {
-    alt: string;
-    postId: number;
-    url: string;
-    width: number | null;
-    height: number | null;
-  };
-  y: MotionValue<number>;
-  setClosed: () => void;
-  isScrolling: boolean;
-}) {
-  return (
     <motion.div
-      className="z-2"
+      className="z-2 flex items-center"
       drag="y"
-      dragListener={!isScrolling}
+      dragListener={!isTransitioning}
       dragDirectionLock={true}
+      dragTransition={{ bounceStiffness: 700, bounceDamping: 40 }}
       dragConstraints={{ top: 0, bottom: 0 }}
       dragElastic={0.8}
       onDragEnd={(_, info) => {
@@ -173,23 +141,47 @@ function PopoverCarouselItem({
       }}
       style={{ y }}
     >
-      {image.width && image.height ? (
-        <Image
-          src={image.url}
-          alt={image.alt}
-          width={image.width}
-          height={image.height}
-          className="max-h-svh max-w-full object-contain"
-        />
-      ) : (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src={image.url}
-          alt={image.alt}
-          className="max-h-svh max-w-full object-contain"
-        />
-      )}
+      <CarouselContent className="h-full">
+        {selectedImages.map((image, index) => (
+          <CarouselItem key={index} className="basis-full">
+            <PopoverCarouselItem image={image} />
+          </CarouselItem>
+        ))}
+      </CarouselContent>
     </motion.div>
+  );
+}
+
+function PopoverCarouselItem({
+  image,
+}: {
+  image: {
+    alt: string;
+    postId: number;
+    url: string;
+    width: number | null;
+    height: number | null;
+  };
+}) {
+  if (image.width && image.height) {
+    return (
+      <Image
+        src={image.url}
+        alt={image.alt}
+        width={image.width}
+        height={image.height}
+        className="max-h-svh max-w-full object-contain"
+      />
+    );
+  }
+
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={image.url}
+      alt={image.alt}
+      className="max-h-svh max-w-full object-contain"
+    />
   );
 }
 
