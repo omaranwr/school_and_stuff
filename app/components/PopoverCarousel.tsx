@@ -77,12 +77,12 @@ function PopoverCarousel({
         className="bg-popover fixed inset-0"
         style={{ opacity: yPercentage }}
       />
-      <motion.div style={{ opacity: yPercentage }}>
+      <motion.div style={{ opacity: yPercentage }} className="z-50 relative">
         <motion.div animate={{ opacity: showBar ? 1 : 0 }}>
           <Button
             size={"icon-xs"}
             variant={"outline"}
-            className="absolute inset-s-5 inset-bs-5 z-10"
+            className="absolute inset-s-5 inset-bs-5"
             onClick={() => setClosed()}
           >
             <X />
