@@ -101,7 +101,7 @@ function PopoverCarousel({
             >
               <ArrowLeft />
             </Button>
-            <h3 className="text-sm">
+            <h3 className="px-2 text-[max(min(4vh,4vw),0.75rem)]">
               {selectedTitle ? selectedTitle : selectedImages[imageIndex].alt}
             </h3>
           </div>
