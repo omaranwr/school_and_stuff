@@ -227,7 +227,6 @@ function PopoverCarouselInner({
             <PopoverCarouselItem
               image={image}
               isTransitioning={isTransitioning}
-              isZoomed={isZoomed}
               setIsZoomed={setIsZoomed}
               setShowBar={setShowBar}
               setWasPointerDown={setWasPointerDown}
@@ -242,7 +241,6 @@ function PopoverCarouselInner({
 function PopoverCarouselItem({
   image,
   isTransitioning,
-  isZoomed,
   setIsZoomed,
   setShowBar,
   setWasPointerDown,
@@ -255,7 +253,6 @@ function PopoverCarouselItem({
     height: number | null;
   };
   isTransitioning: boolean;
-  isZoomed: boolean;
   setIsZoomed: Dispatch<SetStateAction<boolean>>;
   setShowBar: Dispatch<SetStateAction<boolean>>;
   setWasPointerDown: (val: boolean) => void;
@@ -264,8 +261,8 @@ function PopoverCarouselItem({
     <PrismaZoom
       allowZoom={!isTransitioning}
       onZoomChange={(zoom) => {
-        if (!isZoomed && zoom > 1) setShowBar(false);
-        else if (zoom <= 1) setShowBar(true);
+        if (zoom > 1) setShowBar(false);
+        else setShowBar(true);
         setIsZoomed(zoom > 1);
       }}
       onPanChange={() => setWasPointerDown(false)}
