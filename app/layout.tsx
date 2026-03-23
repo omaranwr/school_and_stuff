@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import { Noto_Sans, Noto_Sans_Arabic } from "next/font/google";
+import { Rubik } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/app/lib/utils";
 import Providers from "@/app/lib/providers";
 import { Toaster } from "@/app/components/ui/sonner";
 
-const notoSans = Noto_Sans({ variable: "--font-sans" });
-const notoSansArabic = Noto_Sans_Arabic({
+const rubik = Rubik({ variable: "--font-sans" });
+const rubikArabic = Rubik({
   variable: "--font-arabic",
   subsets: ["arabic"],
 });
@@ -24,7 +24,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn("font-sans", notoSans.variable, notoSansArabic.variable)}
+      className={cn("font-sans", rubik.variable, rubikArabic.variable)}
       suppressHydrationWarning
     >
       <body className={`antialiased`}>
