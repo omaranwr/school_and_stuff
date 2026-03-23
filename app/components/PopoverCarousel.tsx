@@ -15,7 +15,14 @@ import {
   useMotionValue,
   useTransform,
 } from "motion/react";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import {
+  RefObject,
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useState,
+  useRef,
+} from "react";
 import PrismaZoom from "react-prismazoom";
 
 const screenHeight = typeof window !== "undefined" ? window.screen.height : 1;
@@ -38,6 +45,7 @@ function PopoverCarousel({
   const [api, setApi] = useState<CarouselApi>();
 
   const [showBar, setShowBar] = useState<boolean>(true);
+  const wasPointerDown = useRef<boolean>(false);
 
   const y = useMotionValue(0);
   const yPercentage = useTransform(
@@ -83,6 +91,13 @@ function PopoverCarousel({
       </motion.div>
       <div className="flex h-full w-full justify-center">
         <Carousel
+          onPointerDown={() => {
+            wasPointerDown.current = true;
+          }}
+          onPointerUp={() => {
+            if (!wasPointerDown.current) return;
+            setShowBar((s) => !s);
+          }}
           opts={{ dragFree: false, startIndex: imageIndex, dragThreshold: 3 }}
           className="h-full"
           setApi={setApi}
@@ -93,6 +108,8 @@ function PopoverCarousel({
             api={api}
             y={y}
             setShowBar={setShowBar}
+            wasPointerDown={wasPointerDown}
+            setWasPointerDown={(value) => (wasPointerDown.current = value)}
           />
         </Carousel>
       </div>
@@ -106,6 +123,7 @@ function PopoverCarouselInner({
   api,
   y,
   setShowBar,
+  setWasPointerDown,
 }: {
   selectedImages: {
     alt: string;
@@ -118,6 +136,8 @@ function PopoverCarouselInner({
   api: CarouselApi;
   y: MotionValue;
   setShowBar: Dispatch<SetStateAction<boolean>>;
+  wasPointerDown: RefObject<boolean>;
+  setWasPointerDown: (val: boolean) => void;
 }) {
   const [isTransitioning, setIsTransitioning] = useState<boolean>(false);
   const [isZoomed, setIsZoomed] = useState<boolean>(false);
@@ -138,6 +158,7 @@ function PopoverCarouselInner({
       const settlePixelThreshold = 50;
       const { dragHandler, location, target } = emblaApi.internalEngine();
       if (dragHandler.pointerDown()) {
+        setWasPointerDown(false);
         setIsTransitioning(true);
         return;
       }
@@ -148,13 +169,14 @@ function PopoverCarouselInner({
         return;
       }
 
+      setWasPointerDown(false);
       setIsTransitioning(true);
     });
 
     return () => {
       destroyed = true;
     };
-  }, [api]);
+  }, [api, setWasPointerDown]);
 
   useEffect(() => {
     api?.reInit({ watchDrag: !isZoomed });
@@ -187,6 +209,7 @@ function PopoverCarouselInner({
             <PopoverCarouselItem
               image={image}
               isTransitioning={isTransitioning}
+              isZoomed={isZoomed}
               setIsZoomed={setIsZoomed}
               setShowBar={setShowBar}
             />
@@ -200,6 +223,7 @@ function PopoverCarouselInner({
 function PopoverCarouselItem({
   image,
   isTransitioning,
+  isZoomed,
   setIsZoomed,
   setShowBar,
 }: {
@@ -211,6 +235,7 @@ function PopoverCarouselItem({
     height: number | null;
   };
   isTransitioning: boolean;
+  isZoomed: boolean;
   setIsZoomed: Dispatch<SetStateAction<boolean>>;
   setShowBar: Dispatch<SetStateAction<boolean>>;
 }) {
@@ -218,8 +243,8 @@ function PopoverCarouselItem({
     <PrismaZoom
       allowZoom={!isTransitioning}
       onZoomChange={(zoom) => {
-        if (zoom > 1) setShowBar(false);
-        else setShowBar(true);
+        if (!isZoomed && zoom > 1) setShowBar(false);
+        else if (zoom <= 1) setShowBar(true);
         setIsZoomed(zoom > 1);
       }}
     >
