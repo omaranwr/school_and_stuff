@@ -108,7 +108,6 @@ function List({
         ) {
           setNumberToShow((n) => n + 10);
         }
-        console.log(numberToShow);
       },
       { signal },
     );
