@@ -77,7 +77,7 @@ function PopoverCarousel({
         className="bg-popover fixed inset-0"
         style={{ opacity: yPercentage }}
       />
-      <motion.div style={{ opacity: yPercentage }} className="z-50 relative">
+      <motion.div style={{ opacity: yPercentage }} className="relative z-50">
         <motion.div animate={{ opacity: showBar ? 1 : 0 }}>
           <Button
             size={"icon-xs"}
@@ -212,6 +212,7 @@ function PopoverCarouselInner({
               isZoomed={isZoomed}
               setIsZoomed={setIsZoomed}
               setShowBar={setShowBar}
+              setWasPointerDown={setWasPointerDown}
             />
           </CarouselItem>
         ))}
@@ -226,6 +227,7 @@ function PopoverCarouselItem({
   isZoomed,
   setIsZoomed,
   setShowBar,
+  setWasPointerDown,
 }: {
   image: {
     alt: string;
@@ -238,6 +240,7 @@ function PopoverCarouselItem({
   isZoomed: boolean;
   setIsZoomed: Dispatch<SetStateAction<boolean>>;
   setShowBar: Dispatch<SetStateAction<boolean>>;
+  setWasPointerDown: (val: boolean) => void;
 }) {
   return (
     <PrismaZoom
@@ -247,6 +250,7 @@ function PopoverCarouselItem({
         else if (zoom <= 1) setShowBar(true);
         setIsZoomed(zoom > 1);
       }}
+      onPanChange={() => setWasPointerDown(false)}
     >
       {image.width && image.height ? (
         <Image
