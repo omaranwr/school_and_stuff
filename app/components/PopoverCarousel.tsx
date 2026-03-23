@@ -1,6 +1,6 @@
 "use client";
 
-import { X } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { Button } from "./ui/button";
 import {
   Carousel,
@@ -80,12 +80,12 @@ function PopoverCarousel({
       <motion.div style={{ opacity: yPercentage }} className="relative z-50">
         <motion.div animate={{ opacity: showBar ? 1 : 0 }}>
           <Button
-            size={"icon-xs"}
-            variant={"outline"}
-            className="absolute inset-s-5 inset-bs-5"
+            size={"icon"}
+            variant={"ghost"}
+            className="text-popover-foreground absolute inset-s-3 inset-bs-3"
             onClick={() => setClosed()}
           >
-            <X />
+            <ArrowLeft />
           </Button>
         </motion.div>
       </motion.div>
