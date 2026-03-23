@@ -1,6 +1,6 @@
 "use client";
 
-import { use, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { parseAsInteger, useQueryState } from "nuqs";
 import Post from "./Post";
 import {
@@ -53,6 +53,7 @@ function List({
     parseAsInteger.withDefault(0),
   );
   const [isClosing, setIsClosing] = useState(false);
+  const [numberToShow, setNumberToShow] = useState<number>(10);
 
   const posts = uncontentedPosts.map((post) => {
     let newContent: string = "";
@@ -94,6 +95,26 @@ function List({
     return true;
   });
 
+  useEffect(() => {
+    const controller = new AbortController();
+    const { signal } = controller;
+    window.addEventListener(
+      "scroll",
+      () => {
+        if (numberToShow >= filteredPosts.length) return;
+        if (
+          document.body.scrollHeight - window.scrollY <
+          screen.availHeight * 2
+        ) {
+          setNumberToShow((n) => n + 10);
+        }
+        console.log(numberToShow);
+      },
+      { signal },
+    );
+    return () => controller.abort();
+  }, [numberToShow, filteredPosts.length]);
+
   if (filteredPosts.length === 0)
     return (
       <h2 className="grid w-full justify-center py-10">No answers found.</h2>
@@ -102,7 +123,7 @@ function List({
   return (
     <>
       <div className="wrapper grid gap-3 py-3">
-        {filteredPosts.map((post, index) => (
+        {filteredPosts.slice(0, numberToShow).map((post, index) => (
           <Post
             key={post.id}
             week={post.week}
