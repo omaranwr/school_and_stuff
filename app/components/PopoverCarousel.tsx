@@ -47,6 +47,8 @@ function PopoverCarousel({
   const [showBar, setShowBar] = useState<boolean>(true);
   const wasPointerDown = useRef<boolean>(false);
 
+  const [selectedTitle, setSelectedTitle] = useState<string>("");
+
   const y = useMotionValue(0);
   const yPercentage = useTransform(
     y,
@@ -56,6 +58,17 @@ function PopoverCarousel({
   useEffect(() => {
     if (selectedImages.length > 0) y.set(0);
   }, [selectedImages, y]);
+
+  useEffect(() => {
+    let destroyed = false;
+    api?.on("select", () => {
+      if (destroyed) return;
+      setSelectedTitle(selectedImages[api.selectedScrollSnap()].alt);
+    });
+    return () => {
+      destroyed = true;
+    };
+  }, [api, selectedImages]);
 
   return (
     <motion.div
@@ -79,14 +92,19 @@ function PopoverCarousel({
       />
       <motion.div style={{ opacity: yPercentage }} className="relative z-50">
         <motion.div animate={{ opacity: showBar ? 1 : 0 }}>
-          <Button
-            size={"icon"}
-            variant={"ghost"}
-            className="text-popover-foreground absolute inset-s-3 inset-bs-3"
-            onClick={() => setClosed()}
-          >
-            <ArrowLeft />
-          </Button>
+          <div className="bg-secondary/90 absolute inset-x-0 flex items-center justify-between px-1 py-1">
+            <Button
+              size={"icon"}
+              variant={"ghost"}
+              className="text-secondary-foreground"
+              onClick={() => setClosed()}
+            >
+              <ArrowLeft />
+            </Button>
+            <h3 className="text-sm">
+              {selectedTitle ? selectedTitle : selectedImages[imageIndex].alt}
+            </h3>
+          </div>
         </motion.div>
       </motion.div>
       <div className="flex h-full w-full justify-center">

@@ -84,7 +84,7 @@ function List({
     .filter((image) => image.postId === selectedPost?.id)
     .map((image, index) => ({
       ...image,
-      alt: `${selectedPost?.content} ${index}` || String(index),
+      alt: `${selectedPost?.content} (${index + 1})` || String(index),
     }));
 
   const filteredPosts = posts.filter((post) => {
