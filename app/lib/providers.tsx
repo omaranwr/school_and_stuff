@@ -4,6 +4,7 @@ import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 import { extractRouterConfig } from "uploadthing/server";
 import { postFileRouter } from "@/app/api/uploadthing/core";
 import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 function Providers({ children }: { children: React.ReactNode }) {
   return (
@@ -15,6 +16,7 @@ function Providers({ children }: { children: React.ReactNode }) {
         </ThemeProvider>
       </NuqsAdapter>
       <Analytics />
+      <SpeedInsights />
     </>
   );
 }
