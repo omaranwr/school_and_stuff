@@ -116,7 +116,7 @@ function PopoverCarousel({
             if (!wasPointerDown.current) return;
             setShowBar((s) => !s);
           }}
-          opts={{ dragFree: false, startIndex: imageIndex, dragThreshold: 3 }}
+          opts={{ dragFree: false, startIndex: imageIndex }}
           className="h-full"
           setApi={setApi}
         >
@@ -213,7 +213,7 @@ function PopoverCarouselInner({
         if (Math.abs(y.get()) < 1) return;
         if (
           Math.abs(info.offset.y) > screenHeight / 3 ||
-          info.velocity.y > 500
+          Math.abs(info.velocity.y) > 500
         ) {
           y.stop();
           setClosed();
