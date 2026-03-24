@@ -82,6 +82,7 @@ function PostCarousel({
                     src={image.url}
                     alt={image.alt}
                     className="max-h-128 w-min object-contain"
+                    loading={eager ? "eager" : "lazy"}
                   />
                 )}
               </div>
