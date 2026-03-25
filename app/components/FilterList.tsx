@@ -68,7 +68,7 @@ function FilterList({
   return (
     <div className="wrapper flex flex-col justify-center gap-4 px-2 py-3 sm:flex-row sm:items-center">
       <div className="flex grow items-center gap-1">
-        <Label htmlFor="subject">Subject: </Label>
+        <Label htmlFor="subject">المادة: </Label>
 
         <Select
           id="subject"
@@ -76,12 +76,12 @@ function FilterList({
           onValueChange={(value) => setCurrentSubject(value)}
         >
           <SelectTrigger className="grow">
-            <SelectValue placeholder="Select a subject" />
+            <SelectValue placeholder="اختر مادة" />
           </SelectTrigger>
 
           <SelectContent alignItemWithTrigger={false}>
             <SelectGroup>
-              <SelectItem value="">All</SelectItem>
+              <SelectItem value="">كل المواد</SelectItem>
             </SelectGroup>
             <SelectSeparator />
             <SelectGroup>
@@ -104,7 +104,7 @@ function FilterList({
       </div>
 
       <div className="flex grow items-center gap-1">
-        <Label htmlFor="type">Type: </Label>
+        <Label htmlFor="type">النوع: </Label>
 
         <Select
           id="type"
@@ -112,12 +112,12 @@ function FilterList({
           onValueChange={(value) => setCurrentType(value)}
         >
           <SelectTrigger className="grow">
-            <SelectValue placeholder="Select a Type" />
+            <SelectValue placeholder="اختر نوع" />
           </SelectTrigger>
 
           <SelectContent alignItemWithTrigger={false}>
             <SelectGroup>
-              <SelectItem value="">All</SelectItem>
+              <SelectItem value="">كل الأنواع</SelectItem>
             </SelectGroup>
             <SelectSeparator />
             <SelectGroup>
@@ -141,7 +141,7 @@ function FilterList({
 
       <div className="flex items-center gap-3">
         <div className="flex grow items-center gap-1">
-          <Label htmlFor="week">Week: </Label>
+          <Label htmlFor="week">الأسبوع: </Label>
 
           <Select
             id="week"
@@ -150,13 +150,13 @@ function FilterList({
           >
             <SelectTrigger className="grow" size="sm">
               <SelectValue>
-                {(value) => (value ? "Week " + value : "Select a week")}
+                {(value) => (value ? "أسبوع " + value : "اختر أسبوع")}
               </SelectValue>
             </SelectTrigger>
 
             <SelectContent alignItemWithTrigger={false}>
               <SelectGroup>
-                <SelectItem value={null}>All</SelectItem>
+                <SelectItem value={null}>كل الأسابيع</SelectItem>
               </SelectGroup>
               <SelectSeparator />
               <SelectGroup>
@@ -170,7 +170,7 @@ function FilterList({
                         : "text-muted-foreground"
                     }
                   >
-                    Week {i + 1}
+                    أسبوع {i + 1}
                   </SelectItem>
                 ))}
               </SelectGroup>
