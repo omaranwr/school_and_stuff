@@ -13,8 +13,7 @@ import Image from "next/image";
 import {
   selectedImageIndexParamName,
   selectedPostIdParamName,
-  shimmer,
-  toBase64,
+  shimmerUrl,
 } from "@/app/lib/constants";
 import { parseAsInteger, useQueryState } from "nuqs";
 
@@ -73,7 +72,7 @@ function PostCarousel({
                     className="max-h-128 w-min object-contain"
                     width={image.width}
                     height={image.height}
-                    placeholder={`data:image/svg+xml;base64,${toBase64(shimmer(image.width, image.width))}`}
+                    placeholder={shimmerUrl(image.width, image.height)}
                     loading={eager ? "eager" : "lazy"}
                   />
                 ) : (

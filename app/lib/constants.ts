@@ -1,3 +1,5 @@
+import { PlaceholderValue } from "next/dist/shared/lib/get-img-props";
+
 export const newValue = "new" as const;
 
 export const toBase64 = (str: string) =>
@@ -18,6 +20,8 @@ export const shimmer = (w: number, h: number) => `
   <rect id="r" width="${w}" height="${h}" fill="url(#g)" />
   <animate xlink:href="#r" attributeName="x" from="-${w}" to="${w}" dur="1s" repeatCount="indefinite"  />
 </svg>`;
+export const shimmerUrl = (w: number, h: number): PlaceholderValue =>
+  `data:image/svg+xml;base64,${toBase64(shimmer(w, h))}`;
 
 export const weekParamName = "week";
 export const subjectParamName = "subject";

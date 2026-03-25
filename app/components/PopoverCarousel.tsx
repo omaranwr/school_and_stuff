@@ -24,6 +24,7 @@ import {
   useRef,
 } from "react";
 import PrismaZoom from "react-prismazoom";
+import { shimmerUrl } from "../lib/constants";
 
 const screenHeight = typeof window !== "undefined" ? window.screen.height : 1;
 
@@ -274,6 +275,8 @@ function PopoverCarouselItem({
           width={image.width}
           height={image.height}
           className="max-h-svh max-w-full object-contain"
+          placeholder={shimmerUrl(image.width, image.height)}
+          loading="eager"
         />
       ) : (
         // eslint-disable-next-line @next/next/no-img-element
@@ -281,6 +284,7 @@ function PopoverCarouselItem({
           src={image.url}
           alt={image.alt}
           className="max-h-svh max-w-full object-contain"
+          loading="eager"
         />
       )}
     </PrismaZoom>
