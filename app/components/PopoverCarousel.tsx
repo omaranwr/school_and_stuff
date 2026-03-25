@@ -118,7 +118,7 @@ function PopoverCarousel({
             setShowBar((s) => !s);
           }}
           opts={{ dragFree: false, startIndex: imageIndex }}
-          className="h-full"
+          className="h-full w-full"
           setApi={setApi}
         >
           <PopoverCarouselInner
@@ -274,7 +274,7 @@ function PopoverCarouselItem({
           alt={image.alt}
           width={image.width}
           height={image.height}
-          className="max-h-svh max-w-full object-contain"
+          className="max-h-svh w-min max-w-full object-contain"
           placeholder={shimmerUrl(image.width, image.height)}
           loading="eager"
         />
@@ -283,7 +283,7 @@ function PopoverCarouselItem({
         <img
           src={image.url}
           alt={image.alt}
-          className="max-h-svh max-w-full object-contain"
+          className="max-h-svh w-min max-w-full object-contain"
           loading="eager"
         />
       )}
