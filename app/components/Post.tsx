@@ -35,8 +35,8 @@ function Post({
       {(!weekSelected || !subjectSelected) && (
         <CardFooter>
           <h3 className="text-muted-foreground text-sm">
-            {!weekSelected && <div>week: {week}</div>}
-            {!subjectSelected && <div>subject: {subject}</div>}
+            {!weekSelected && <div>أسبوع: {week}</div>}
+            {!subjectSelected && <div>المادة: {subject}</div>}
           </h3>
         </CardFooter>
       )}
