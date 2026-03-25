@@ -93,6 +93,9 @@ function PopoverCarousel({
       <motion.div style={{ opacity: yPercentage }} className="relative z-50">
         <motion.div animate={{ opacity: showBar ? 1 : 0 }}>
           <div className="bg-secondary/90 absolute inset-x-0 flex items-center justify-between px-1 py-1">
+            <h3 className="px-2 text-[max(min(4vh,4vw),0.75rem)]">
+              {selectedTitle ? selectedTitle : selectedImages[imageIndex].alt}
+            </h3>
             <Button
               size={"icon"}
               variant={"ghost"}
@@ -101,9 +104,6 @@ function PopoverCarousel({
             >
               <ArrowLeft />
             </Button>
-            <h3 className="px-2 text-[max(min(4vh,4vw),0.75rem)]">
-              {selectedTitle ? selectedTitle : selectedImages[imageIndex].alt}
-            </h3>
           </div>
         </motion.div>
       </motion.div>
