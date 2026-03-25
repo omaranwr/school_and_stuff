@@ -100,7 +100,7 @@ function PostCarousel({
           size={"icon-lg"}
         />
       </Carousel>
-      <div className="hidden justify-center lg:grid">
+      <div className="hidden justify-center lg:grid" dir="ltr">
         {current + 1} of {length}
       </div>
     </div>
