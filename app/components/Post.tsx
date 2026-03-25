@@ -4,17 +4,21 @@ import PostCarousel from "./PostCarousel";
 function Post({
   week,
   subject,
+  type,
   content = "",
   weekSelected = false,
   subjectSelected = false,
+  typeSelected = false,
   eager = false,
   images = [],
 }: {
   week: number;
   subject: string;
+  type?: string | null;
   content: string | null;
   weekSelected?: boolean;
   subjectSelected?: boolean;
+  typeSelected?: boolean;
   eager?: boolean;
   images?: {
     postId: number;
@@ -37,6 +41,7 @@ function Post({
           <h3 className="text-muted-foreground text-sm">
             {!weekSelected && <div>أسبوع: {week}</div>}
             {!subjectSelected && <div>المادة: {subject}</div>}
+            {!typeSelected && type && <div>النوع: {type}</div>}
           </h3>
         </CardFooter>
       )}

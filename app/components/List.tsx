@@ -125,9 +125,11 @@ function List({
             key={post.id}
             week={post.week}
             subject={post.subject}
+            type={post.type}
             content={post.content}
             subjectSelected={Boolean(querySubject)}
             weekSelected={Boolean(queryWeek)}
+            typeSelected={Boolean(queryType)}
             eager={index < 2}
             images={images
               .filter((image) => image.postId === post.id)
