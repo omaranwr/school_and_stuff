@@ -5,6 +5,7 @@ import { extractRouterConfig } from "uploadthing/server";
 import { postFileRouter } from "@/app/api/uploadthing/core";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { DirectionProvider } from "@/app/components/ui/direction";
 
 function Providers({ children }: { children: React.ReactNode }) {
   return (
@@ -12,7 +13,7 @@ function Providers({ children }: { children: React.ReactNode }) {
       <NextSSRPlugin routerConfig={extractRouterConfig(postFileRouter)} />
       <NuqsAdapter>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          {children}
+          <DirectionProvider direction="rtl">{children}</DirectionProvider>
         </ThemeProvider>
       </NuqsAdapter>
       <Analytics />

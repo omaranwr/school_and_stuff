@@ -23,7 +23,8 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
+      lang="ar"
+      dir="rtl"
       className={cn("font-sans", rubik.variable, rubikArabic.variable)}
       suppressHydrationWarning
     >

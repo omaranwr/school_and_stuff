@@ -54,6 +54,7 @@ function Carousel({
   const [carouselRef, api] = useEmblaCarousel(
     {
       axis: orientation === "horizontal" ? "x" : "y",
+      direction: "rtl",
       dragFree: true,
       containScroll: "trimSnaps",
       align: "center",
@@ -193,15 +194,15 @@ function CarouselPrevious({
       className={cn(
         "absolute touch-manipulation rounded-full",
         orientation === "horizontal"
-          ? "top-1/2 -left-12 -translate-y-1/2"
-          : "-top-12 left-1/2 -translate-x-1/2 rotate-90",
+          ? "-inset-s-12 top-1/2 -translate-y-1/2"
+          : "inset-s-1/2 -top-12 -translate-x-1/2 rotate-90 rtl:translate-x-1/2",
         className,
       )}
       disabled={!canScrollPrev}
       onClick={scrollPrev}
       {...props}
     >
-      <ChevronLeftIcon />
+      <ChevronRightIcon />
       <span className="sr-only">Previous slide</span>
     </Button>
   );
@@ -223,15 +224,15 @@ function CarouselNext({
       className={cn(
         "absolute touch-manipulation rounded-full",
         orientation === "horizontal"
-          ? "top-1/2 -right-12 -translate-y-1/2"
-          : "-bottom-12 left-1/2 -translate-x-1/2 rotate-90",
+          ? "-inset-e-12 top-1/2 -translate-y-1/2"
+          : "inset-s-1/2 -bottom-12 -translate-x-1/2 rotate-90 rtl:translate-x-1/2",
         className,
       )}
       disabled={!canScrollNext}
       onClick={scrollNext}
       {...props}
     >
-      <ChevronRightIcon />
+      <ChevronLeftIcon />
       <span className="sr-only">Next slide</span>
     </Button>
   );

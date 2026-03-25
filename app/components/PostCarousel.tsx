@@ -90,12 +90,12 @@ function PostCarousel({
           ))}
         </CarouselContent>
         <CarouselPrevious
-          className="inset-s-16! left-0 hidden lg:flex"
+          className="inset-s-16! hidden lg:flex"
           variant={"default"}
           size={"icon-lg"}
         />
         <CarouselNext
-          className="inset-e-16! right-0 hidden lg:flex"
+          className="inset-e-16! hidden lg:flex"
           variant={"default"}
           size={"icon-lg"}
         />
