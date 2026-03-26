@@ -36,7 +36,7 @@ function Post({
           {content && <h2 className="text-xl">{content}</h2>}
         </div>
       </CardContent>
-      {(!weekSelected || !subjectSelected) && (
+      {(!weekSelected || !subjectSelected || !typeSelected) && (
         <CardFooter>
           <h3 className="text-muted-foreground text-sm">
             {!weekSelected && <div>أسبوع: {week}</div>}
