@@ -1,6 +1,6 @@
 "use client";
 
-import { use, useEffect, useState } from "react";
+import { use, useEffect, useState, useRef } from "react";
 import { parseAsInteger, useQueryState } from "nuqs";
 import Post from "./Post";
 import {
@@ -53,7 +53,13 @@ function List({
     parseAsInteger.withDefault(0),
   );
   const [isClosing, setIsClosing] = useState(false);
-  const [numberToShow, setNumberToShow] = useState<number>(10);
+
+  const optimalNumberToShow = useRef(3);
+  const [numberToShow, setNumberToShow] = useState<number>(3);
+  useEffect(() => {
+    optimalNumberToShow.current = Math.ceil(screen.height / 500);
+    console.log(optimalNumberToShow.current);
+  }, []);
 
   const posts = uncontentedPosts.map((post) => {
     let newContent: string = "";
@@ -106,7 +112,7 @@ function List({
           document.body.scrollHeight - window.scrollY <
           screen.availHeight * 2
         ) {
-          setNumberToShow((n) => n + 10);
+          setNumberToShow((n) => n + optimalNumberToShow.current);
         }
       },
       { signal },
