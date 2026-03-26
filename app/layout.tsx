@@ -12,8 +12,8 @@ const rubikArabic = Rubik({
 });
 
 export const metadata: Metadata = {
-  title: "Answered school assessments",
-  description: "Hopefully soon",
+  title: "تقييمات وأداءات",
+  description: "مجموعة تقييمات وأداءات لأولى ثانوي",
 };
 
 export default function RootLayout({
