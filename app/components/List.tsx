@@ -120,25 +120,27 @@ function List({
   return (
     <>
       <div className="wrapper grid gap-3 py-3">
-        {filteredPosts.slice(0, numberToShow).map((post, index) => (
-          <Post
-            key={post.id}
-            week={post.week}
-            subject={post.subject}
-            type={post.type}
-            content={post.content}
-            subjectSelected={Boolean(querySubject)}
-            weekSelected={Boolean(queryWeek)}
-            typeSelected={Boolean(queryType)}
-            eager={index < 2}
-            images={images
-              .filter((image) => image.postId === post.id)
-              .map((image, index) => ({
-                ...image,
-                alt: `${post.content} ${index}` || String(index),
-              }))}
-          />
-        ))}
+        <AnimatePresence>
+          {filteredPosts.slice(0, numberToShow).map((post, index) => (
+            <Post
+              key={post.id}
+              week={post.week}
+              subject={post.subject}
+              type={post.type}
+              content={post.content}
+              subjectSelected={Boolean(querySubject)}
+              weekSelected={Boolean(queryWeek)}
+              typeSelected={Boolean(queryType)}
+              eager={index < 2}
+              images={images
+                .filter((image) => image.postId === post.id)
+                .map((image, index) => ({
+                  ...image,
+                  alt: `${post.content} ${index}` || String(index),
+                }))}
+            />
+          ))}
+        </AnimatePresence>
       </div>
       <AnimatePresence
         onExitComplete={() => {
