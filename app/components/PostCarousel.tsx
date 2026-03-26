@@ -51,7 +51,7 @@ function PostCarousel({
   return (
     <div className="grid gap-1">
       <Carousel setApi={setApi}>
-        <CarouselContent>
+        <CarouselContent className="min-h-60">
           {images.map((image, index) => (
             <CarouselItem
               key={index}
