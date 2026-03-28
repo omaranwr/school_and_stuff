@@ -74,7 +74,7 @@ function PopoverCarousel({
 
   return (
     <motion.div
-      className={`${selectedImages.length > 0 ? "fixed" : "hidden"} inset-0 touch-none lg:hidden`}
+      className={`${selectedImages.length > 0 ? "fixed" : "hidden"} inset-0 touch-none md:hidden`}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{

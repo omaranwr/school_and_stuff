@@ -56,12 +56,12 @@ function PostCarousel({
           {images.map((image, index) => (
             <CarouselItem
               key={index}
-              className={`${images.length > 1 && "max-w-[80vw]"} lg:max-w-full`}
+              className={`${images.length > 1 && "max-w-[80vw]"} md:max-w-full`}
             >
               <div
-                className="border-secondary relative overflow-hidden lg:rounded-xl"
+                className="border-secondary relative overflow-hidden md:rounded-xl"
                 onClick={() => {
-                  if (window.matchMedia("(min-width: 64rem)").matches) return;
+                  if (window.matchMedia("(min-width: 48rem)").matches) return;
                   setPostId(image.postId);
                   setImageIndex(index);
                 }}
@@ -96,12 +96,12 @@ function PostCarousel({
           ))}
         </CarouselContent>
         <CarouselPrevious
-          className="inset-s-16! hidden lg:flex"
+          className="inset-s-16! hidden md:flex"
           variant={"default"}
           size={"icon-lg"}
         />
         <CarouselNext
-          className="inset-e-16! hidden lg:flex"
+          className="inset-e-16! hidden md:flex"
           variant={"default"}
           size={"icon-lg"}
         />
