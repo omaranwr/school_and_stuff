@@ -69,7 +69,7 @@ function PostCarousel({
                 <Skeleton className="absolute inset-0 rounded-none" />
                 {image.height && image.width ? (
                   <AspectRatio
-                    ratio={(image.width || 1) / (image.height || 2)}
+                    ratio={image.width / image.height}
                     className="max-h-128"
                   >
                     <Image
