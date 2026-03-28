@@ -16,6 +16,7 @@ import {
   shimmerUrl,
 } from "@/app/lib/constants";
 import { parseAsInteger, useQueryState } from "nuqs";
+import { AspectRatio } from "./ui/aspect-ratio";
 
 function PostCarousel({
   images = [],
@@ -51,7 +52,7 @@ function PostCarousel({
   return (
     <div className="grid gap-1">
       <Carousel setApi={setApi}>
-        <CarouselContent className="min-h-60">
+        <CarouselContent>
           {images.map((image, index) => (
             <CarouselItem
               key={index}
@@ -66,15 +67,20 @@ function PostCarousel({
                 }}
               >
                 {image.height && image.width ? (
-                  <Image
-                    src={image.url}
-                    alt={image.alt}
-                    className="max-h-128 w-min object-contain"
-                    width={image.width}
-                    height={image.height}
-                    placeholder={shimmerUrl(image.width, image.height)}
-                    loading={eager ? "eager" : "lazy"}
-                  />
+                  <AspectRatio
+                    ratio={(image.width || 1) / (image.height || 2)}
+                    className="max-h-128"
+                  >
+                    <Image
+                      src={image.url}
+                      alt={image.alt}
+                      className="object-contain"
+                      width={image.width}
+                      height={image.height}
+                      placeholder={shimmerUrl(image.width, image.height)}
+                      loading={eager ? "eager" : "lazy"}
+                    />
+                  </AspectRatio>
                 ) : (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
