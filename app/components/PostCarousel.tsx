@@ -13,10 +13,10 @@ import Image from "next/image";
 import {
   selectedImageIndexParamName,
   selectedPostIdParamName,
-  shimmerUrl,
 } from "@/app/lib/constants";
 import { parseAsInteger, useQueryState } from "nuqs";
 import { AspectRatio } from "./ui/aspect-ratio";
+import { Skeleton } from "./ui/skeleton";
 
 function PostCarousel({
   images = [],
@@ -59,13 +59,14 @@ function PostCarousel({
               className={`${images.length > 1 && "max-w-[80vw]"} lg:max-w-full`}
             >
               <div
-                className="border-secondary overflow-hidden lg:rounded-xl lg:border-4"
+                className="border-secondary relative overflow-hidden lg:rounded-xl"
                 onClick={() => {
                   if (window.matchMedia("(min-width: 64rem)").matches) return;
                   setPostId(image.postId);
                   setImageIndex(index);
                 }}
               >
+                <Skeleton className="absolute inset-0 rounded-none" />
                 {image.height && image.width ? (
                   <AspectRatio
                     ratio={(image.width || 1) / (image.height || 2)}
@@ -77,7 +78,7 @@ function PostCarousel({
                       className="object-contain"
                       width={image.width}
                       height={image.height}
-                      placeholder={shimmerUrl(image.width, image.height)}
+                      blurDataURL={""}
                       loading={eager ? "eager" : "lazy"}
                     />
                   </AspectRatio>

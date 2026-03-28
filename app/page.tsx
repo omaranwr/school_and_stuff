@@ -28,9 +28,9 @@ export default async function Home() {
     .orderBy(image.order)
     .all();
   return (
-    <>
+    <div className="flex min-h-svh flex-col">
       <FilterList postsPromise={postsPromise} />
       <List postsPromise={postsPromise} imagesPromise={imagesPromise} />
-    </>
+    </div>
   );
 }

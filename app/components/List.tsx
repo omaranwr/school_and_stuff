@@ -13,6 +13,7 @@ import {
 import { post } from "@/db/schema";
 import PopoverCarousel from "./PopoverCarousel";
 import { AnimatePresence, motion } from "motion/react";
+import { Spinner } from "./ui/spinner";
 
 function List({
   postsPromise,
@@ -55,10 +56,10 @@ function List({
   const [isClosing, setIsClosing] = useState(false);
 
   const optimalNumberToShow = useRef(3);
-  const [numberToShow, setNumberToShow] = useState<number>(3);
+  const [numberToShow, setNumberToShow] = useState<number>(0);
   useEffect(() => {
     optimalNumberToShow.current = Math.ceil(screen.height / 500);
-    console.log(optimalNumberToShow.current);
+    setNumberToShow(optimalNumberToShow.current);
   }, []);
 
   const posts = uncontentedPosts.map((post) => {
@@ -122,6 +123,14 @@ function List({
 
   if (filteredPosts.length === 0)
     return <h2 className="grid w-full justify-center py-10">ﻻ نتائج.</h2>;
+
+  if (numberToShow === 0) {
+    return (
+      <div className="grid grow items-center justify-center">
+        <Spinner />
+      </div>
+    );
+  }
 
   return (
     <>
