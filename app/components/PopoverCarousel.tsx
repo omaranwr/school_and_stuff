@@ -24,7 +24,8 @@ import {
   useRef,
 } from "react";
 import PrismaZoom from "react-prismazoom";
-import { shimmerUrl } from "../lib/constants";
+import { Skeleton } from "./ui/skeleton";
+import { AspectRatio } from "./ui/aspect-ratio";
 
 const screenHeight = typeof window !== "undefined" ? window.screen.height : 1;
 
@@ -268,16 +269,21 @@ function PopoverCarouselItem({
       }}
       onPanChange={() => setWasPointerDown(false)}
     >
+      <Skeleton className="absolute inset-0 rounded-none" />
       {image.width && image.height ? (
-        <Image
-          src={image.url}
-          alt={image.alt}
-          width={image.width}
-          height={image.height}
-          className="max-h-svh w-min max-w-full object-contain"
-          placeholder={shimmerUrl(image.width, image.height)}
-          loading="eager"
-        />
+        <AspectRatio
+          ratio={image.width / image.height}
+          className="max-h-svh max-w-full"
+        >
+          <Image
+            src={image.url}
+            alt={image.alt}
+            width={image.width}
+            height={image.height}
+            className="relative object-contain"
+            loading="eager"
+          />
+        </AspectRatio>
       ) : (
         // eslint-disable-next-line @next/next/no-img-element
         <img
