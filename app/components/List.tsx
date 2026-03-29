@@ -94,13 +94,19 @@ function List({
     return true;
   });
 
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setIsLoading(false);
+  }, []);
+
   return (
     <>
       <AnimatePresence mode="wait">
         <motion.div
           key={String(filteredPosts)}
           className="wrapper grid gap-3 py-3"
-          initial={{ opacity: 0 }}
+          initial={{ opacity: isLoading ? 1 : 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
         >
