@@ -13,7 +13,6 @@ import {
 import { post } from "@/db/schema";
 import PopoverCarousel from "./PopoverCarousel";
 import { AnimatePresence, motion } from "motion/react";
-import { Spinner } from "./ui/spinner";
 
 function List({
   postsPromise,
@@ -55,13 +54,6 @@ function List({
   );
   const [isClosing, setIsClosing] = useState(false);
 
-  const optimalNumberToShow = useRef(3);
-  const [numberToShow, setNumberToShow] = useState<number>(0);
-  useEffect(() => {
-    optimalNumberToShow.current = Math.ceil(screen.height / 500);
-    setNumberToShow(optimalNumberToShow.current);
-  }, []);
-
   const posts = uncontentedPosts.map((post) => {
     let newContent: string = "";
     switch (post.type) {
@@ -102,66 +94,30 @@ function List({
     return true;
   });
 
-  useEffect(() => {
-    const controller = new AbortController();
-    const { signal } = controller;
-    window.addEventListener(
-      "scroll",
-      () => {
-        if (numberToShow >= filteredPosts.length) return;
-        if (
-          document.body.scrollHeight - window.scrollY <
-          screen.availHeight * 2
-        ) {
-          setNumberToShow((n) => n + optimalNumberToShow.current);
-        }
-      },
-      { signal },
-    );
-    return () => controller.abort();
-  }, [numberToShow, filteredPosts.length]);
-
-  if (filteredPosts.length === 0)
-    return <h2 className="grid w-full justify-center py-10">ﻻ توجد نتائج.</h2>;
-
-  if (numberToShow === 0) {
-    return (
-      <div className="grid grow items-center justify-center">
-        <Spinner />
-      </div>
-    );
-  }
-
   return (
     <>
       <AnimatePresence mode="wait">
         <motion.div
-          key={`${querySubject}${queryWeek}${queryType}`}
+          key={String(filteredPosts)}
+          className="wrapper grid gap-3 py-3"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.2 }}
-          className="wrapper grid gap-3 py-3"
         >
-          {filteredPosts.slice(0, numberToShow).map((post, index) => (
-            <Post
-              key={post.id}
-              week={post.week}
-              subject={post.subject}
-              type={post.type}
-              content={post.content}
-              subjectSelected={Boolean(querySubject)}
-              weekSelected={Boolean(queryWeek)}
-              typeSelected={Boolean(queryType)}
-              eager={index < 2}
-              images={images
+          <InnerList
+            subject={querySubject}
+            week={queryWeek}
+            type={queryType}
+            posts={filteredPosts.map((post) => ({
+              ...post,
+              images: images
                 .filter((image) => image.postId === post.id)
-                .map((image, index) => ({
+                .map((image) => ({
                   ...image,
-                  alt: `${post.content} ${index}` || String(index),
-                }))}
-            />
-          ))}
+                  alt: post.content,
+                })),
+            }))}
+          />
         </motion.div>
       </AnimatePresence>
 
@@ -185,5 +141,78 @@ function List({
     </>
   );
 }
+
+const InnerList = ({
+  subject,
+  week,
+  type,
+  posts,
+}: {
+  subject: string;
+  week: number;
+  type: string | null;
+  posts: {
+    content: string;
+    id: number;
+    week: number;
+    subject: string;
+    type?: "تقييم" | "أداء منزلي" | "أداء صفي" | null | undefined;
+    images: {
+      postId: number;
+      url: string;
+      width: number | null;
+      height: number | null;
+      alt: string;
+    }[];
+  }[];
+}) => {
+  const optimalNumberToShow = useRef(3);
+  const [numberToShow, setNumberToShow] = useState<number>(3);
+  useEffect(() => {
+    optimalNumberToShow.current = Math.ceil(screen.height / 500);
+    setNumberToShow((n) => Math.max(optimalNumberToShow.current, n));
+  }, []);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    const { signal } = controller;
+    window.addEventListener(
+      "scroll",
+      () => {
+        if (numberToShow >= posts.length) return;
+        if (
+          document.body.scrollHeight - window.scrollY <
+          screen.availHeight * 2
+        ) {
+          setNumberToShow((n) => n + optimalNumberToShow.current);
+        }
+      },
+      { signal },
+    );
+    return () => controller.abort();
+  }, [numberToShow, posts.length]);
+
+  if (posts.length === 0)
+    return <h2 className="grid w-full justify-center py-10">ﻻ توجد نتائج.</h2>;
+
+  return (
+    <>
+      {posts.slice(0, numberToShow).map((post, index) => (
+        <Post
+          key={post.id}
+          week={post.week}
+          subject={post.subject}
+          type={post.type}
+          content={post.content}
+          subjectSelected={Boolean(subject)}
+          weekSelected={Boolean(week)}
+          typeSelected={Boolean(type)}
+          eager={index < 2}
+          images={post.images}
+        />
+      ))}
+    </>
+  );
+};
 
 export default List;
