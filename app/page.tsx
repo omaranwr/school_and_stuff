@@ -25,7 +25,7 @@ export default async function Home() {
       height: image.height,
     })
     .from(image)
-    .orderBy(image.order)
+    .orderBy(image.postId, image.order)
     .all();
   return (
     <div className="flex min-h-svh flex-col">

@@ -37,7 +37,7 @@ function List({
   >;
 }) {
   const uncontentedPosts = use(postsPromise);
-  const images = use(imagesPromise);
+  const untitledImages = use(imagesPromise);
   const [querySubject] = useQueryState(subjectParamName, { defaultValue: "" });
   const [queryWeek] = useQueryState(
     weekParamName,
@@ -76,16 +76,32 @@ function List({
     };
   });
 
+  const images = untitledImages.map((image, index, array) => {
+    const post = posts.filter((post) => post.id === image.postId)[0];
+    let order = 0;
+    let prevPostId = image.postId;
+    while (prevPostId === image.postId) {
+      order++;
+      if (index - order < 0) break;
+      prevPostId = array[index - order].postId;
+    }
+    const isLone =
+      order === 1 &&
+      (index === array.length - 1 || array[index + 1].postId !== image.postId);
+    const alt = post.content + (isLone ? "" : ` (${order})`);
+    return {
+      ...image,
+      alt,
+    };
+  });
+
   const selectedPost = !isClosing
     ? posts.find((post) => post.id === selectedPostId)
     : undefined;
 
-  const selectedImages = images
-    .filter((image) => image.postId === selectedPost?.id)
-    .map((image, index) => ({
-      ...image,
-      alt: `${selectedPost?.content} (${index + 1})` || String(index),
-    }));
+  const selectedImages = images.filter(
+    (image) => image.postId === selectedPost?.id,
+  );
 
   const filteredPosts = posts.filter((post) => {
     if (queryWeek && post.week !== queryWeek) return false;
@@ -116,12 +132,7 @@ function List({
             type={queryType}
             posts={filteredPosts.map((post) => ({
               ...post,
-              images: images
-                .filter((image) => image.postId === post.id)
-                .map((image) => ({
-                  ...image,
-                  alt: post.content,
-                })),
+              images: images.filter((image) => image.postId === post.id),
             }))}
           />
         </motion.div>
