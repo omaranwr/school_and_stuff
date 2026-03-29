@@ -122,7 +122,7 @@ function List({
   }, [numberToShow, filteredPosts.length]);
 
   if (filteredPosts.length === 0)
-    return <h2 className="grid w-full justify-center py-10">ﻻ نتائج.</h2>;
+    return <h2 className="grid w-full justify-center py-10">ﻻ توجد نتائج.</h2>;
 
   if (numberToShow === 0) {
     return (
