@@ -12,7 +12,7 @@ const rubikArabic = Rubik({
 });
 
 export const metadata: Metadata = {
-  title: "تقييمات وأداءات",
+  title: "تقييمات وأداءات أولى ثانوي",
   description: "مجموعة تقييمات وأداءات لأولى ثانوي",
 };
 
