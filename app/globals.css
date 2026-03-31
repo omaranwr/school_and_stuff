@@ -52,7 +52,7 @@
 
 @layer components {
   .wrapper {
-    @apply mx-auto w-full max-w-5xl;
+    @apply mx-auto w-full max-w-5xl px-2;
   }
 }
 

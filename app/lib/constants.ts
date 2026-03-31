@@ -28,3 +28,21 @@ export const subjectParamName = "subject";
 export const typeParamName = "type";
 export const selectedPostIdParamName = "post";
 export const selectedImageIndexParamName = "index";
+
+export const credits = [
+  {
+    name: "عمر حمام",
+  },
+  {
+    name: "أدهم الأنصاري",
+  },
+  {
+    name: "إسماعيل طايل",
+  },
+  {
+    name: "عز الدين محمد",
+  },
+  {
+    name: "سيف الدين وليد",
+  },
+];

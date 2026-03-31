@@ -66,7 +66,7 @@ function FilterList({
   const subjects = [...new Set(posts.map((post) => post.subject))];
 
   return (
-    <div className="wrapper flex flex-col justify-center gap-4 px-2 py-3 sm:flex-row sm:items-center">
+    <div className="wrapper flex flex-col justify-center gap-4 gap-y-2 py-3 sm:flex-row sm:items-center">
       <div className="flex grow items-center gap-1">
         <Label htmlFor="subject">المادة: </Label>
 
