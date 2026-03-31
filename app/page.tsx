@@ -3,6 +3,7 @@ import FilterList from "./components/FilterList";
 import { db } from "@/db";
 import { image, post, subject as subjectTable } from "@/db/schema";
 import { desc, eq } from "drizzle-orm";
+import { credits } from "@/app/lib/constants";
 
 export default async function Home() {
   const postsPromise = db
@@ -30,6 +31,19 @@ export default async function Home() {
   return (
     <div className="flex min-h-svh flex-col">
       <FilterList postsPromise={postsPromise} />
+      <div className="text-muted-foreground wrapper py-3 text-sm">
+        <span>الأداءات مأخوذة من: </span>
+        <ul className="inline-flex flex-wrap gap-3 gap-y-0.5 ps-3">
+          {credits.map(({ name }, index) => {
+            return (
+              <li key={index} className="flex grow-0 items-center gap-1">
+                <div className="bg-muted-foreground h-1 w-1 rounded-full" />
+                {name}
+              </li>
+            );
+          })}
+        </ul>
+      </div>
       <List postsPromise={postsPromise} imagesPromise={imagesPromise} />
     </div>
   );
