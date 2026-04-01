@@ -32,12 +32,15 @@ export default async function Home() {
     <div className="flex min-h-svh flex-col">
       <FilterList postsPromise={postsPromise} />
       <div className="text-muted-foreground wrapper py-3 text-sm">
-        <span>الأداءات مأخوذة من: </span>
-        <ul className="inline-flex flex-wrap gap-3 gap-y-0.5 ps-3">
+        <ul className="inline-flex flex-wrap items-center">
+          <span className="pe-0.75">الأداءات مأخوذة من: </span>
           {credits.map(({ name }, index) => {
             return (
-              <li key={index} className="flex grow-0 items-center gap-1">
-                <div className="bg-muted-foreground h-1 w-1 rounded-full" />
+              <li
+                key={index}
+                className="flex grow-0 items-center gap-0.5 ps-1.5"
+              >
+                <div className="bg-muted-foreground h-0.75 w-0.75 rounded-full" />
                 {name}
               </li>
             );
