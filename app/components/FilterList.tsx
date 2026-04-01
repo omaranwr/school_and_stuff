@@ -12,8 +12,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/app/components/ui/select";
-import Link from "next/link";
-import { Button } from "./ui/button";
 import {
   subjectParamName,
   typeParamName,
@@ -66,121 +64,110 @@ function FilterList({
   const subjects = [...new Set(posts.map((post) => post.subject))];
 
   return (
-    <div className="wrapper flex flex-col justify-center gap-4 gap-y-2 py-3 sm:flex-row sm:items-center">
-      <div className="flex grow items-center gap-1">
-        <Label htmlFor="subject">المادة: </Label>
+    <div className="wrapper grid grid-cols-[min-content_1fr] gap-1 gap-y-2 py-3">
+      <Label htmlFor="subject">المادة: </Label>
 
-        <Select
-          id="subject"
-          value={currentSubject}
-          onValueChange={(value) => setCurrentSubject(value)}
-        >
-          <SelectTrigger className="grow">
-            <SelectValue placeholder="اختر مادة" />
-          </SelectTrigger>
+      <Select
+        id="subject"
+        value={currentSubject}
+        onValueChange={(value) => setCurrentSubject(value)}
+      >
+        <SelectTrigger className="w-full">
+          <SelectValue placeholder="اختر مادة" />
+        </SelectTrigger>
 
-          <SelectContent alignItemWithTrigger={false}>
-            <SelectGroup>
-              <SelectItem value="">كل المواد</SelectItem>
-            </SelectGroup>
-            <SelectSeparator />
-            <SelectGroup>
-              {subjects.map((subject) => (
-                <SelectItem
-                  key={subject}
-                  value={subject}
-                  className={
-                    postHas(currentWeek, subject, currentType)
-                      ? ""
-                      : "text-muted-foreground"
-                  }
-                >
-                  {subject}
-                </SelectItem>
-              ))}
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-      </div>
+        <SelectContent alignItemWithTrigger={false}>
+          <SelectGroup>
+            <SelectItem value="">كل المواد</SelectItem>
+          </SelectGroup>
+          <SelectSeparator />
+          <SelectGroup>
+            {subjects.map((subject) => (
+              <SelectItem
+                key={subject}
+                value={subject}
+                className={
+                  postHas(currentWeek, subject, currentType)
+                    ? ""
+                    : "text-muted-foreground"
+                }
+              >
+                {subject}
+              </SelectItem>
+            ))}
+          </SelectGroup>
+        </SelectContent>
+      </Select>
 
-      <div className="flex grow items-center gap-1">
-        <Label htmlFor="type">النوع: </Label>
+      <Label htmlFor="type">النوع: </Label>
 
-        <Select
-          id="type"
-          value={currentType}
-          onValueChange={(value) => setCurrentType(value)}
-        >
-          <SelectTrigger className="grow">
-            <SelectValue placeholder="اختر نوع" />
-          </SelectTrigger>
+      <Select
+        id="type"
+        value={currentType}
+        onValueChange={(value) => setCurrentType(value)}
+      >
+        <SelectTrigger className="w-full">
+          <SelectValue placeholder="اختر نوع" />
+        </SelectTrigger>
 
-          <SelectContent alignItemWithTrigger={false}>
-            <SelectGroup>
-              <SelectItem value="">كل الأنواع</SelectItem>
-            </SelectGroup>
-            <SelectSeparator />
-            <SelectGroup>
-              {post.type.enumValues.map((type) => (
-                <SelectItem
-                  key={type}
-                  value={type}
-                  className={
-                    postHas(currentWeek, currentSubject, type)
-                      ? ""
-                      : "text-muted-foreground"
-                  }
-                >
-                  {type}
-                </SelectItem>
-              ))}
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-      </div>
+        <SelectContent alignItemWithTrigger={false}>
+          <SelectGroup>
+            <SelectItem value="">كل الأنواع</SelectItem>
+          </SelectGroup>
+          <SelectSeparator />
+          <SelectGroup>
+            {post.type.enumValues.map((type) => (
+              <SelectItem
+                key={type}
+                value={type}
+                className={
+                  postHas(currentWeek, currentSubject, type)
+                    ? ""
+                    : "text-muted-foreground"
+                }
+              >
+                {type}
+              </SelectItem>
+            ))}
+          </SelectGroup>
+        </SelectContent>
+      </Select>
 
-      <div className="flex items-center gap-3">
-        <div className="flex grow items-center gap-1">
-          <Label htmlFor="week">الأسبوع: </Label>
+      <Label htmlFor="week">الأسبوع: </Label>
 
-          <Select
-            id="week"
-            value={currentWeek}
-            onValueChange={(value) => setCurrentWeek(value)}
-          >
-            <SelectTrigger className="grow" size="sm">
-              <SelectValue>
-                {(value) => (value ? "أسبوع " + value : "اختر أسبوع")}
-              </SelectValue>
-            </SelectTrigger>
+      <Select
+        id="week"
+        value={currentWeek}
+        onValueChange={(value) => setCurrentWeek(value)}
+      >
+        <SelectTrigger className="w-full">
+          <SelectValue>
+            {(value) => (value ? "أسبوع " + value : "اختر أسبوع")}
+          </SelectValue>
+        </SelectTrigger>
 
-            <SelectContent alignItemWithTrigger={false}>
-              <SelectGroup>
-                <SelectItem value={null}>كل الأسابيع</SelectItem>
-              </SelectGroup>
-              <SelectSeparator />
-              <SelectGroup>
-                {new Array(maxWeek).fill(0).map((_, i) => (
-                  <SelectItem
-                    key={i + 1}
-                    value={i + 1}
-                    className={
-                      postHas(i + 1, currentSubject, currentType)
-                        ? ""
-                        : "text-muted-foreground"
-                    }
-                  >
-                    أسبوع {i + 1}
-                  </SelectItem>
-                ))}
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-        </div>
-        <Link href={"/admin"} className="hidden">
-          <Button variant={"secondary"}>Add a post</Button>
-        </Link>
-      </div>
+        <SelectContent alignItemWithTrigger={false}>
+          <SelectGroup>
+            <SelectItem value={null}>كل الأسابيع</SelectItem>
+          </SelectGroup>
+          <SelectSeparator />
+          <SelectGroup>
+            {new Array(maxWeek).fill(0).map((_, i) => (
+              <SelectItem
+                key={i + 1}
+                value={i + 1}
+                className={
+                  postHas(i + 1, currentSubject, currentType)
+                    ? ""
+                    : "text-muted-foreground"
+                }
+              >
+                أسبوع {i + 1}
+              </SelectItem>
+            ))}
+          </SelectGroup>
+        </SelectContent>
+      </Select>
     </div>
   );
 }
