@@ -38,7 +38,7 @@ export default async function Home() {
             return (
               <li
                 key={index}
-                className="flex grow-0 items-center gap-0.5 ps-1.5"
+                className="flex grow-0 items-center gap-0.5 ps-1.75"
               >
                 <div className="bg-muted-foreground h-0.75 w-0.75 rounded-full" />
                 {name}
