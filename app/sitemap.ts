@@ -3,6 +3,7 @@ import { db } from "@/db";
 import { post, subject } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { subjectParamName, weekParamName } from "./lib/constants";
+import xmlescape from "xml-escape";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.BASE_URL;
@@ -48,7 +49,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     posts.forEach((post) => {
       pages.push({
-        url: `${baseUrl}/?${subjectParamName}=${post.subject}&${weekParamName}=${post.week}`,
+        url: xmlescape(
+          `${baseUrl}/?${subjectParamName}=${post.subject}&${weekParamName}=${post.week}`,
+        ),
         lastModified: new Date(),
         changeFrequency: "monthly",
         priority: 0.5,
