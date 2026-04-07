@@ -1,4 +1,4 @@
-import { Card, CardContent, CardFooter } from "@/app/components/ui/card";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import PostCarousel from "./PostCarousel";
 
 function Post({

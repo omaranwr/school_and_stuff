@@ -1,6 +1,6 @@
 import { db } from "@/db";
 import { post, subject } from "@/db/schema";
-import AdminForm from "@/app/components/AdminForm";
+import AdminForm from "@/components/AdminForm";
 
 async function AdminPage() {
   const subjects = db

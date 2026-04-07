@@ -3,7 +3,7 @@ import { Rubik } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import Providers from "@/lib/providers";
-import { Toaster } from "@/app/components/ui/sonner";
+import { Toaster } from "@/components/ui/sonner";
 import { credits } from "@/lib/constants";
 
 const rubik = Rubik({ variable: "--font-sans" });

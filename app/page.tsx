@@ -1,5 +1,5 @@
-import List from "@/app/components/List";
-import FilterList from "./components/FilterList";
+import List from "@/components/List";
+import FilterList from "../components/FilterList";
 import { db } from "@/db";
 import { image, post, subject as subjectTable } from "@/db/schema";
 import { desc, eq } from "drizzle-orm";

@@ -1,4 +1,4 @@
-import { Spinner } from "@/app/components/ui/spinner";
+import { Spinner } from "@/components/ui/spinner";
 
 function loading() {
   return (

@@ -2,7 +2,7 @@
 
 import { use, useEffect } from "react";
 import { parseAsInteger, useQueryState } from "nuqs";
-import { Label } from "@/app/components/ui/label";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -11,7 +11,7 @@ import {
   SelectSeparator,
   SelectTrigger,
   SelectValue,
-} from "@/app/components/ui/select";
+} from "@/components/ui/select";
 import {
   generateTitle,
   subjectParamName,
