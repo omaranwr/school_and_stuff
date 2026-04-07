@@ -63,7 +63,7 @@ export const generateTitle = (
   type?: string | null,
 ) => {
   const end = "للصف الأول الثانوي لغات 2026";
-  const subjectAndWeek = `${subject && addArticle(subject)}${week && " أسبوع " + week}`;
+  const subjectAndWeek = `${subject ? addArticle(subject) : ""}${week ? " أسبوع " + week : ""}`;
   if (!type) {
     if (!subject && !week)
       return "التقييمات والأداءات الأسبوعية للصف الأول الثانوي لغات 2026";
@@ -72,13 +72,13 @@ export const generateTitle = (
   let typedSubject = "";
   switch (type) {
     case "تقييم":
-      typedSubject = `تقييمات ${subjectAndWeek}`;
+      typedSubject = `${!subject ? "ال" : ""}تقييمات ${subjectAndWeek}`;
       break;
     case "أداء منزلي":
-      typedSubject = `أداءات ${subject && addArticle(subject)} المنزلية${week && " أسبوع " + week}`;
+      typedSubject = `${!subject ? "ال" : ""}أداءات ${subject ? addArticle(subject) : ""} المنزلية${week ? " أسبوع " + week : ""}`;
       break;
     case "أداء صفي":
-      typedSubject = `أداءات ${subject && addArticle(subject)} الصفية${week && " أسبوع " + week}`;
+      typedSubject = `${!subject ? "ال" : ""}أداءات ${subject ? addArticle(subject) : ""} الصفية${week ? " أسبوع " + week : ""}`;
       break;
   }
   return typedSubject + " " + end;
