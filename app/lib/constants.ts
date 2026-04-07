@@ -47,7 +47,7 @@ export const credits = [
   },
 ];
 
-const addArticle = (string: string) => {
+export const addArticle = (string: string) => {
   const words = string.split(" ");
   const articledWords = words.map((word) => {
     if (word[0] !== "و") return "ال" + word;

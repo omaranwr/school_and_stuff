@@ -4,6 +4,7 @@ import { use, useEffect, useState, useRef } from "react";
 import { parseAsInteger, useQueryState } from "nuqs";
 import Post from "./Post";
 import {
+  addArticle,
   selectedImageIndexParamName,
   selectedPostIdParamName,
   subjectParamName,
@@ -56,15 +57,16 @@ function List({
 
   const posts = uncontentedPosts.map((post) => {
     let newContent: string = "";
+    const articledSubject = addArticle(post.subject);
     switch (post.type) {
       case "تقييم":
-        newContent = "تقييم ال" + post.subject + " أسبوع " + post.week;
+        newContent = "تقييم " + articledSubject + " أسبوع " + post.week;
         break;
       case "أداء صفي":
-        newContent = "أداء ال" + post.subject + " الصفي أسبوع " + post.week;
+        newContent = "أداء " + articledSubject + " الصفي أسبوع " + post.week;
         break;
       case "أداء منزلي":
-        newContent = "أداء ال" + post.subject + " المنزلي أسبوع " + post.week;
+        newContent = "أداء " + articledSubject + " المنزلي أسبوع " + post.week;
         break;
       default:
         newContent = post.subject + " أسبوع " + post.week;
