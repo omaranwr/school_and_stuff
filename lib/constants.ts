@@ -54,7 +54,6 @@ export const addArticle = (string: string) => {
     if (word.length === 1) return word;
     return "وال" + word.slice(1);
   });
-  console.log(articledWords);
   return articledWords.join(" ");
 };
 
