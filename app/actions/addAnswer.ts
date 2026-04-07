@@ -3,7 +3,7 @@
 import { db } from "@/db";
 import { eq } from "drizzle-orm";
 import { post, subject } from "@/db/schema";
-import { newValue } from "@/app/lib/constants";
+import { newValue } from "@/lib/constants";
 import { revalidatePath } from "next/cache";
 
 export async function addAnswer(formData: FormData) {

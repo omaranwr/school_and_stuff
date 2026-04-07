@@ -2,7 +2,7 @@ import { MetadataRoute } from "next";
 import { db } from "@/db";
 import { post, subject } from "@/db/schema";
 import { eq } from "drizzle-orm";
-import { subjectParamName, weekParamName } from "./lib/constants";
+import { subjectParamName, weekParamName } from "../lib/constants";
 import xmlescape from "xml-escape";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {

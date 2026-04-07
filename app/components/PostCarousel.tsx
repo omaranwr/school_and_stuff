@@ -13,7 +13,7 @@ import Image from "next/image";
 import {
   selectedImageIndexParamName,
   selectedPostIdParamName,
-} from "@/app/lib/constants";
+} from "@/lib/constants";
 import { parseAsInteger, useQueryState } from "nuqs";
 import { AspectRatio } from "./ui/aspect-ratio";
 import { Skeleton } from "./ui/skeleton";

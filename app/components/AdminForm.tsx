@@ -1,8 +1,8 @@
 "use client";
 
 import { use, useCallback, useRef, useState } from "react";
-import { newValue } from "@/app/lib/constants";
-import { useUploadThing } from "@/app/lib/utils";
+import { newValue } from "@/lib/constants";
+import { useUploadThing } from "@/lib/utils";
 import { addAnswer } from "@/app/actions/addAnswer";
 import { useDropzone } from "@uploadthing/react";
 import {

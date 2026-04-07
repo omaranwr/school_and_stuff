@@ -17,7 +17,7 @@ import {
   subjectParamName,
   typeParamName,
   weekParamName,
-} from "@/app/lib/constants";
+} from "@/lib/constants";
 import { post } from "@/db/schema";
 
 function FilterList({

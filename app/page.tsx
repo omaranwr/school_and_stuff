@@ -3,7 +3,7 @@ import FilterList from "./components/FilterList";
 import { db } from "@/db";
 import { image, post, subject as subjectTable } from "@/db/schema";
 import { desc, eq } from "drizzle-orm";
-import { credits, generateTitle } from "@/app/lib/constants";
+import { credits, generateTitle } from "@/lib/constants";
 import { type Metadata } from "next";
 
 export async function generateMetadata({

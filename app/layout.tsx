@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { Rubik } from "next/font/google";
 import "./globals.css";
-import { cn } from "@/app/lib/utils";
-import Providers from "@/app/lib/providers";
+import { cn } from "@/lib/utils";
+import Providers from "@/lib/providers";
 import { Toaster } from "@/app/components/ui/sonner";
-import { credits } from "@/app/lib/constants";
+import { credits } from "@/lib/constants";
 
 const rubik = Rubik({ variable: "--font-sans" });
 const rubikArabic = Rubik({

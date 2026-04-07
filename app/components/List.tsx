@@ -10,7 +10,7 @@ import {
   subjectParamName,
   typeParamName,
   weekParamName,
-} from "@/app/lib/constants";
+} from "@/lib/constants";
 import { post } from "@/db/schema";
 import PopoverCarousel from "./PopoverCarousel";
 import { AnimatePresence, motion } from "motion/react";
