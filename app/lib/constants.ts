@@ -46,3 +46,41 @@ export const credits = [
     name: "عز الدين محمد",
   },
 ];
+
+const addArticle = (string: string) => {
+  const words = string.split(" ");
+  const articledWords = words.map((word) => {
+    if (word[0] !== "و") return "ال" + word;
+    if (word.length === 1) return word;
+    return "وال" + word.slice(1);
+  });
+  console.log(articledWords);
+  return articledWords.join(" ");
+};
+
+export const generateTitle = (
+  subject?: string | null,
+  week?: number | null,
+  type?: string | null,
+) => {
+  const end = "للصف الأول الثانوي لغات 2026";
+  const subjectAndWeek = `${subject && addArticle(subject)}${week && " أسبوع " + week}`;
+  if (!type) {
+    if (!subject && !week)
+      return "التقييمات والأداءات الأسبوعية للصف الأول الثانوي لغات 2026";
+    return `تقييمات و أداءات ${subjectAndWeek} ${end}`;
+  }
+  let typedSubject = "";
+  switch (type) {
+    case "تقييم":
+      typedSubject = `تقييمات ${subjectAndWeek}`;
+      break;
+    case "أداء منزلي":
+      typedSubject = `أداءات ${subject && addArticle(subject)} المنزلية${week && " أسبوع " + week}`;
+      break;
+    case "أداء صفي":
+      typedSubject = `أداءات ${subject && addArticle(subject)} الصفية${week && " أسبوع " + week}`;
+      break;
+  }
+  return typedSubject + " " + end;
+};

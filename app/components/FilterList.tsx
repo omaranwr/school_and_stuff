@@ -1,6 +1,6 @@
 "use client";
 
-import { use } from "react";
+import { use, useEffect } from "react";
 import { parseAsInteger, useQueryState } from "nuqs";
 import { Label } from "@/app/components/ui/label";
 import {
@@ -13,6 +13,7 @@ import {
   SelectValue,
 } from "@/app/components/ui/select";
 import {
+  generateTitle,
   subjectParamName,
   typeParamName,
   weekParamName,
@@ -41,6 +42,14 @@ function FilterList({
   const [currentType, setCurrentType] = useQueryState(typeParamName, {
     defaultValue: "",
   });
+
+  useEffect(() => {
+    document.title = generateTitle(
+      currentSubject,
+      currentWeek || undefined,
+      currentType,
+    );
+  }, [currentSubject, currentType, currentWeek]);
 
   let maxWeek = 0;
   for (const post of posts) {

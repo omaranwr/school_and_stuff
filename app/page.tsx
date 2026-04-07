@@ -3,7 +3,17 @@ import FilterList from "./components/FilterList";
 import { db } from "@/db";
 import { image, post, subject as subjectTable } from "@/db/schema";
 import { desc, eq } from "drizzle-orm";
-import { credits } from "@/app/lib/constants";
+import { credits, generateTitle } from "@/app/lib/constants";
+import { type Metadata } from "next";
+
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string }>;
+}): Promise<Metadata> {
+  const { subject, type, week } = await searchParams;
+  return { title: generateTitle(subject, Number(week), type) };
+}
 
 export default async function Home() {
   const postsPromise = db
