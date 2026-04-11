@@ -13,11 +13,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import {
-  generateTitle,
   subjectParamName,
   typeParamName,
   weekParamName,
 } from "@/lib/constants";
+import { generateTitle } from "@/lib/utils";
 import { post } from "@/db/schema";
 
 function FilterList({

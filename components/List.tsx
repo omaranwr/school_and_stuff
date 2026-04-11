@@ -4,13 +4,13 @@ import { use, useEffect, useState, useRef } from "react";
 import { parseAsInteger, useQueryState } from "nuqs";
 import Post from "./Post";
 import {
-  addArticle,
   selectedImageIndexParamName,
   selectedPostIdParamName,
   subjectParamName,
   typeParamName,
   weekParamName,
 } from "@/lib/constants";
+import { addArticle } from "@/lib/utils";
 import { post } from "@/db/schema";
 import PopoverCarousel from "./PopoverCarousel";
 import { AnimatePresence, motion } from "motion/react";
