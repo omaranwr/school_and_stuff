@@ -56,6 +56,7 @@ function AdminForm({
       onUploadProgress: (progress) => {
         setProgress(progress);
       },
+      onUploadError: (e) => console.log(e),
     },
   );
   const { getRootProps, getInputProps } = useDropzone({
