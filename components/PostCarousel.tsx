@@ -61,7 +61,6 @@ function PostCarousel({
               <div
                 className="border-secondary relative overflow-hidden md:rounded-xl"
                 onClick={() => {
-                  if (window.matchMedia("(min-width: 48rem)").matches) return;
                   setPostId(image.postId);
                   setImageIndex(index);
                 }}

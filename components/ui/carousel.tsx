@@ -61,7 +61,6 @@ function Carousel({
       breakpoints: {
         "(min-width: 48rem)": {
           dragFree: false,
-          watchDrag: false,
           containScroll: "keepSnaps",
         },
       },
