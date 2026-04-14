@@ -58,6 +58,13 @@ function PopoverCarousel({
   );
 
   useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, []);
+
+  useEffect(() => {
     if (selectedImages.length > 0) y.set(0);
   }, [selectedImages, y]);
 
