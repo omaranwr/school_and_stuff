@@ -8,7 +8,7 @@ const f = createUploadthing();
 
 export const postFileRouter = {
   imageUploader: f({
-    image: { maxFileSize: "512KB", maxFileCount: 10 },
+    image: { maxFileSize: "16MB", maxFileCount: 10 },
   })
     .input(
       z.object({
