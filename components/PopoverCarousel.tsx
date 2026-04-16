@@ -58,9 +58,21 @@ function PopoverCarousel({
   );
 
   useEffect(() => {
+    let destroyed = false;
+
     document.body.style.overflow = "hidden";
+
+    let wakeLocker: WakeLockSentinel;
+    const wakeLock = async () => {
+      wakeLocker = await navigator.wakeLock.request("screen");
+      if (destroyed && !wakeLocker.released) wakeLocker.release();
+    };
+    if ("wakeLock" in navigator) wakeLock();
+
     return () => {
+      destroyed = true;
       document.body.style.overflow = "auto";
+      if (wakeLocker) wakeLocker.release();
     };
   }, []);
 
