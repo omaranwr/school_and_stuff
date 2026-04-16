@@ -26,6 +26,7 @@ import {
 import PrismaZoom from "react-prismazoom";
 import { Skeleton } from "./ui/skeleton";
 import { AspectRatio } from "./ui/aspect-ratio";
+import { toast } from "sonner";
 
 const screenHeight = typeof window !== "undefined" ? window.screen.height : 1;
 
@@ -68,6 +69,7 @@ function PopoverCarousel({
       if (destroyed && !wakeLocker.released) wakeLocker.release();
     };
     if ("wakeLock" in navigator) wakeLock();
+    else toast.warning("wake lock unavailable");
 
     return () => {
       destroyed = true;
