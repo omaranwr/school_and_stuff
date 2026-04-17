@@ -19,13 +19,40 @@ export const addArticle = (string: string) => {
   return articledWords.join(" ");
 };
 
+export const getOrdinal = (number: number, articled: boolean = true) => {
+  const firstTwenty = [
+    "أول",
+    "ثاني",
+    "ثالث",
+    "رابع",
+    "خامس",
+    "سادس",
+    "سابع",
+    "ثامن",
+    "تاسع",
+    "عاشر",
+    "حادي عشر",
+    "ثاني عشر",
+    "ثالث عشر",
+    "رابع عشر",
+    "خامس عشر",
+    "سادس عشر",
+    "سابع عشر",
+    "ثامن عشر",
+    "تاسع عشر",
+    "عشرون",
+  ] as const;
+  if (number <= 0 || number > 20) return "رقم: " + number;
+  return `${articled && "ال"}${firstTwenty[number - 1]}`;
+};
+
 export const generateTitle = (
   subject?: string | null,
   week?: number | null,
   type?: string | null,
 ) => {
   const end = "للصف الأول الثانوي لغات 2026";
-  const subjectAndWeek = `${subject ? addArticle(subject) : ""}${week ? " أسبوع " + week : ""}`;
+  const subjectAndWeek = `${subject ? addArticle(subject) : ""}${week ? " الأسبوع " + getOrdinal(week) : ""}`;
   if (!type) {
     if (!subject && !week)
       return "التقييمات والأداءات الأسبوعية للصف الأول الثانوي لغات 2026";
@@ -37,10 +64,10 @@ export const generateTitle = (
       typedSubject = `${!subject ? "ال" : ""}تقييمات ${subjectAndWeek}`;
       break;
     case "أداء منزلي":
-      typedSubject = `${!subject ? "ال" : ""}أداءات ${subject ? addArticle(subject) : ""} المنزلية${week ? " أسبوع " + week : ""}`;
+      typedSubject = `${!subject ? "ال" : ""}أداءات ${subject ? addArticle(subject) : ""} المنزلية${week ? " الأسبوع " + getOrdinal(week) : ""}`;
       break;
     case "أداء صفي":
-      typedSubject = `${!subject ? "ال" : ""}أداءات ${subject ? addArticle(subject) : ""} الصفية${week ? " أسبوع " + week : ""}`;
+      typedSubject = `${!subject ? "ال" : ""}أداءات ${subject ? addArticle(subject) : ""} الصفية${week ? " الأسبوع " + getOrdinal(week) : ""}`;
       break;
   }
   return typedSubject + " " + end;

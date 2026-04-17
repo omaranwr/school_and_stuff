@@ -10,7 +10,7 @@ import {
   typeParamName,
   weekParamName,
 } from "@/lib/constants";
-import { addArticle } from "@/lib/utils";
+import { addArticle, getOrdinal } from "@/lib/utils";
 import { post } from "@/db/schema";
 import PopoverCarousel from "./PopoverCarousel";
 import { AnimatePresence, motion } from "motion/react";
@@ -60,16 +60,22 @@ function List({
     const articledSubject = addArticle(post.subject);
     switch (post.type) {
       case "تقييم":
-        newContent = "تقييم " + articledSubject + " أسبوع " + post.week;
+        newContent =
+          "تقييم " + articledSubject + " الأسبوع " + getOrdinal(post.week);
         break;
       case "أداء صفي":
-        newContent = "أداء " + articledSubject + " الصفي أسبوع " + post.week;
+        newContent =
+          "أداء " + articledSubject + " الصفي الأسبوع " + getOrdinal(post.week);
         break;
       case "أداء منزلي":
-        newContent = "أداء " + articledSubject + " المنزلي أسبوع " + post.week;
+        newContent =
+          "أداء " +
+          articledSubject +
+          " المنزلي الأسبوع " +
+          getOrdinal(post.week);
         break;
       default:
-        newContent = post.subject + " أسبوع " + post.week;
+        newContent = post.subject + " الأسبوع " + getOrdinal(post.week);
         break;
     }
     return {
