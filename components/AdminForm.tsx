@@ -24,6 +24,7 @@ import { Button } from "./ui/button";
 import { Textarea } from "./ui/textarea";
 import { Progress } from "./ui/progress";
 import { toast } from "sonner";
+import ImageThumbs from "./ImageThumbs";
 
 function AdminForm({
   subjectsPromise,
@@ -171,6 +172,9 @@ function AdminForm({
                 Drop files here!
               </Button>
             </div>
+          </Field>
+          <ImageThumbs files={files} />
+          <Field>
             <Button variant={"destructive"} onClick={() => setFiles([])}>
               Remove files
             </Button>
