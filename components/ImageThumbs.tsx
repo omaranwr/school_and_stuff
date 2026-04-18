@@ -8,17 +8,19 @@ import {
 
 function ImageThumbs({ files }: { files: File[] }) {
   return (
-    <Carousel opts={{ align: "start" }} className="justify-start">
+    <Carousel className="justify-start">
       <CarouselContent>
         {files.map((file, index) => {
           const preview = URL.createObjectURL(file);
+          const alt = file.name;
           return (
             <CarouselItem key={index}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={preview}
-                alt={`Image number ${index}`}
+                alt={alt}
                 onLoad={() => URL.revokeObjectURL(preview)}
-                className="max-h-30"
+                className="max-h-40"
               />
             </CarouselItem>
           );
