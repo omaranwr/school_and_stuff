@@ -27,7 +27,7 @@ function ImageThumbs({ files }: { files: File[] }) {
                 <img
                   src={preview}
                   alt={alt}
-                  className="max-h-40"
+                  className="max-h-30"
                   onLoad={() => URL.revokeObjectURL(preview)}
                   onClick={() => {
                     setSelectedIndex(index);
