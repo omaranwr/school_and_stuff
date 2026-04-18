@@ -58,12 +58,6 @@ function Carousel({
       dragFree: true,
       containScroll: "trimSnaps",
       align: "center",
-      breakpoints: {
-        "(min-width: 48rem)": {
-          dragFree: false,
-          containScroll: "keepSnaps",
-        },
-      },
       ...opts,
     },
     plugins,
@@ -169,7 +163,7 @@ function CarouselItem({ className, ...props }: React.ComponentProps<"div">) {
       aria-roledescription="slide"
       data-slot="carousel-item"
       className={cn(
-        "grid max-w-full min-w-0 shrink-0 grow-0 items-center justify-center md:basis-full",
+        "grid max-w-full min-w-0 shrink-0 grow-0 items-center justify-center",
         className,
       )}
       {...props}

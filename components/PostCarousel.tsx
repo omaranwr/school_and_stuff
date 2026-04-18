@@ -51,12 +51,22 @@ function PostCarousel({
   }, [api]);
   return (
     <div className="grid gap-1">
-      <Carousel setApi={setApi}>
+      <Carousel
+        setApi={setApi}
+        opts={{
+          breakpoints: {
+            "(min-width: 48rem)": {
+              dragFree: false,
+              containScroll: "keepSnaps",
+            },
+          },
+        }}
+      >
         <CarouselContent>
           {images.map((image, index) => (
             <CarouselItem
               key={index}
-              className={`${images.length > 1 && "max-w-[80vw]"} md:max-w-full`}
+              className={`${images.length > 1 && "max-w-[80vw]"} md:max-w-full md:basis-full`}
             >
               <div
                 className="border-secondary relative overflow-hidden md:rounded-xl"
