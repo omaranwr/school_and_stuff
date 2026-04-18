@@ -323,7 +323,7 @@ function PopoverCarouselItem({
           src={src}
           alt={alt}
           {...props}
-          className="max-h-svh w-min max-w-full object-contain"
+          className="relative max-h-svh w-min max-w-full object-contain"
           loading="eager"
         />
       )}
