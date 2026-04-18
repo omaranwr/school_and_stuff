@@ -21,7 +21,6 @@ import {
 } from "./ui/select";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
-import { Textarea } from "./ui/textarea";
 import { Progress } from "./ui/progress";
 import { toast } from "sonner";
 import ImageThumbs from "./ImageThumbs";
@@ -92,7 +91,7 @@ function AdminForm({
       >
         <FieldGroup>
           <Field>
-            <FieldLabel htmlFor="subjectId">Select a subject: </FieldLabel>
+            <FieldLabel htmlFor="subjectId">المادة: </FieldLabel>
             <Select
               name="subjectId"
               id="subjectId"
@@ -104,13 +103,13 @@ function AdminForm({
               required
             >
               <SelectTrigger>
-                <SelectValue placeholder="Select a subject">
+                <SelectValue placeholder="اختر المادة">
                   {(value) =>
                     value && value !== newValue
                       ? subjects.find((s) => s.id === value)?.name
                       : value === newValue
-                        ? "Add new subject"
-                        : "Select a subject"
+                        ? "ضع مادة جديدة"
+                        : "اختر مادة"
                   }
                 </SelectValue>
               </SelectTrigger>
@@ -124,7 +123,7 @@ function AdminForm({
                 </SelectGroup>
                 <SelectSeparator />
                 <SelectGroup>
-                  <SelectItem value={newValue}>Add new subject</SelectItem>
+                  <SelectItem value={newValue}>ضع مادة جديدة</SelectItem>
                 </SelectGroup>
               </SelectContent>
             </Select>
@@ -132,26 +131,26 @@ function AdminForm({
           {subjectIsNew && (
             <Field>
               <FieldLabel htmlFor="newSubjectName">
-                New Subject Name:
+                اسم المادة الجديدة:
               </FieldLabel>
               <Input name="newSubjectName" id="newSubjectName" required />
             </Field>
           )}
           <Field>
-            <FieldLabel htmlFor="week">Week Number:</FieldLabel>
+            <FieldLabel htmlFor="week">رقم الأسبوع:</FieldLabel>
             <Input
               type="number"
               name="week"
               id="week"
-              placeholder="Week number"
+              placeholder="اختر رقم الأسبوع"
               required
             />
           </Field>
           <Field>
-            <FieldLabel htmlFor="type">Type: </FieldLabel>
+            <FieldLabel htmlFor="type">النوع: </FieldLabel>
             <Select id="type" name="type">
               <SelectTrigger>
-                <SelectValue placeholder="Select a type" />
+                <SelectValue placeholder="اختر النوع" />
               </SelectTrigger>
               <SelectContent alignItemWithTrigger={false}>
                 {types.map((type) => (
@@ -165,22 +164,19 @@ function AdminForm({
         </FieldGroup>
         <FieldGroup>
           <Field>
-            <FieldLabel htmlFor="uploadFiles">Upload files:</FieldLabel>
+            <FieldLabel htmlFor="uploadFiles">نزل الصور:</FieldLabel>
             <div {...getRootProps()} className="w-full">
               <Button className="w-full" type="button">
                 <input {...getInputProps()} id="uploadFiles" />
-                Drop files here!
+                نرل الصور هنا
               </Button>
             </div>
           </Field>
           <ImageThumbs files={files} />
           <Field>
             <Button variant={"destructive"} onClick={() => setFiles([])}>
-              Remove files
+              امسح الصور
             </Button>
-          </Field>
-          <Field>
-            <Textarea name="content" placeholder="Content"></Textarea>
           </Field>
         </FieldGroup>
         <FieldSeparator />
@@ -196,7 +192,17 @@ function AdminForm({
             />
           </Field>
           <Button type="submit" disabled={isUploading}>
-            {loading ? "Uploading..." : `Submit ${files.length} image(s)`}
+            {loading
+              ? "Uploading..."
+              : files.length === 0
+                ? "اختر الصور"
+                : files.length === 1
+                  ? "نزل الصورة"
+                  : files.length === 2
+                    ? "نزل صورتين"
+                    : files.length <= 10
+                      ? `نزل ${files.length} صور`
+                      : `نزل ${files.length} صورة`}
           </Button>
           {isUploading && <Progress value={progress} />}
         </FieldGroup>
