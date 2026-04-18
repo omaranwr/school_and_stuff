@@ -10,6 +10,7 @@ import {
 } from "./ui/carousel";
 import Image from "next/image";
 import {
+  AnimatePresence,
   motion,
   MotionValue,
   useMotionValue,
@@ -22,6 +23,7 @@ import {
   useEffect,
   useState,
   useRef,
+  type ComponentPropsWithoutRef,
 } from "react";
 import PrismaZoom from "react-prismazoom";
 import { Skeleton } from "./ui/skeleton";
@@ -32,15 +34,39 @@ const screenHeight = typeof window !== "undefined" ? window.screen.height : 1;
 function PopoverCarousel({
   selectedImages,
   imageIndex,
+  onExitComplete,
+}: {
+  selectedImages: ComponentPropsWithoutRef<"img">[];
+  imageIndex: number;
+  onExitComplete: () => void | undefined;
+}) {
+  const [isClosing, setIsClosing] = useState(false);
+  return (
+    <AnimatePresence
+      onExitComplete={() => {
+        onExitComplete();
+        setIsClosing(false);
+      }}
+    >
+      {selectedImages.length > 0 && !isClosing && (
+        <PopoverCarouselUnAnimated
+          selectedImages={selectedImages}
+          imageIndex={imageIndex}
+          setClosed={() => {
+            setIsClosing(true);
+          }}
+        />
+      )}
+    </AnimatePresence>
+  );
+}
+
+function PopoverCarouselUnAnimated({
+  selectedImages,
+  imageIndex,
   setClosed,
 }: {
-  selectedImages: {
-    alt: string;
-    postId: number;
-    url: string;
-    width: number | null;
-    height: number | null;
-  }[];
+  selectedImages: ComponentPropsWithoutRef<"img">[];
   imageIndex: number;
   setClosed: () => void;
 }) {
@@ -84,7 +110,7 @@ function PopoverCarousel({
     let destroyed = false;
     api?.on("select", () => {
       if (destroyed) return;
-      setSelectedTitle(selectedImages[api.selectedScrollSnap()].alt);
+      setSelectedTitle(selectedImages[api.selectedScrollSnap()].alt || "");
     });
     return () => {
       destroyed = true;
@@ -164,13 +190,7 @@ function PopoverCarouselInner({
   setShowBar,
   setWasPointerDown,
 }: {
-  selectedImages: {
-    alt: string;
-    postId: number;
-    url: string;
-    width: number | null;
-    height: number | null;
-  }[];
+  selectedImages: ComponentPropsWithoutRef<"img">[];
   setClosed: () => void;
   api: CarouselApi;
   y: MotionValue;
@@ -260,24 +280,20 @@ function PopoverCarouselInner({
 }
 
 function PopoverCarouselItem({
-  image,
+  image: { src, width: stringWidth, height: stringHeight, alt, ...props },
   isTransitioning,
   setIsZoomed,
   setShowBar,
   setWasPointerDown,
 }: {
-  image: {
-    alt: string;
-    postId: number;
-    url: string;
-    width: number | null;
-    height: number | null;
-  };
+  image: ComponentPropsWithoutRef<"img">;
   isTransitioning: boolean;
   setIsZoomed: Dispatch<SetStateAction<boolean>>;
   setShowBar: Dispatch<SetStateAction<boolean>>;
   setWasPointerDown: (val: boolean) => void;
 }) {
+  const width = Number(stringWidth);
+  const height = Number(stringHeight);
   return (
     <PrismaZoom
       allowZoom={!isTransitioning}
@@ -289,16 +305,14 @@ function PopoverCarouselItem({
       onPanChange={() => setWasPointerDown(false)}
     >
       <Skeleton className="absolute inset-0 rounded-none" />
-      {image.width && image.height ? (
-        <AspectRatio
-          ratio={image.width / image.height}
-          className="max-h-svh max-w-full"
-        >
+      {stringWidth && stringHeight && typeof src === "string" ? (
+        <AspectRatio ratio={width / height} className="max-h-svh max-w-full">
           <Image
-            src={image.url}
-            alt={image.alt}
-            width={image.width}
-            height={image.height}
+            src={src}
+            alt={alt || ""}
+            width={width}
+            height={height}
+            {...props}
             className="relative object-contain"
             loading="eager"
           />
@@ -306,8 +320,9 @@ function PopoverCarouselItem({
       ) : (
         // eslint-disable-next-line @next/next/no-img-element
         <img
-          src={image.url}
-          alt={image.alt}
+          src={src}
+          alt={alt}
+          {...props}
           className="max-h-svh w-min max-w-full object-contain"
           loading="eager"
         />

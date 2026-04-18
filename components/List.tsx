@@ -53,7 +53,6 @@ function List({
     selectedImageIndexParamName,
     parseAsInteger.withDefault(0),
   );
-  const [isClosing, setIsClosing] = useState(false);
 
   const posts = uncontentedPosts.map((post) => {
     let newContent: string = "";
@@ -103,9 +102,7 @@ function List({
     };
   });
 
-  const selectedPost = !isClosing
-    ? posts.find((post) => post.id === selectedPostId)
-    : undefined;
+  const selectedPost = posts.find((post) => post.id === selectedPostId);
 
   const selectedImages = images.filter(
     (image) => image.postId === selectedPost?.id,
@@ -146,23 +143,19 @@ function List({
         </motion.div>
       </AnimatePresence>
 
-      <AnimatePresence
+      <PopoverCarousel
+        selectedImages={selectedImages.map(({ alt, url, width, height }) => ({
+          alt,
+          width: String(width),
+          height: String(height),
+          src: url,
+        }))}
+        imageIndex={imageIndex}
         onExitComplete={() => {
           setSelectedPostId(null);
           setImageIndex(null);
-          setIsClosing(false);
         }}
-      >
-        {selectedImages.length > 0 && !isClosing && (
-          <PopoverCarousel
-            selectedImages={selectedImages}
-            imageIndex={imageIndex}
-            setClosed={() => {
-              setIsClosing(true);
-            }}
-          />
-        )}
-      </AnimatePresence>
+      />
     </>
   );
 }
