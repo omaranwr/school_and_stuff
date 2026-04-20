@@ -17,13 +17,20 @@ export async function addAnswer(formData: FormData) {
   if (adminPassword !== process.env.ADMIN_PASSWORD) {
     return { status: "error", message: "Wrong password" } as const;
   }
+
   const content = formData.get("content");
 
-  if (typeof week !== "string" || typeof content !== "string") {
-    const problem = typeof week !== "string" ? "week" : "content";
+  if (typeof week !== "string") {
     return {
       status: "error",
-      message: `Invalid form data for ${problem}`,
+      message: "Invalid form data for week",
+    } as const;
+  }
+
+  if (content && typeof content !== "string") {
+    return {
+      status: "error",
+      message: "Invalid form data for content",
     } as const;
   }
 
