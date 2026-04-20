@@ -167,7 +167,7 @@ function AdminForm({
             <FieldLabel htmlFor="uploadFiles">نزل الصور:</FieldLabel>
             <div {...getRootProps()} className="w-full">
               <Button className="w-full" type="button">
-                <input {...getInputProps()} id="uploadFiles" />
+                <input {...getInputProps()} id="uploadFiles" required />
                 نرل الصور هنا
               </Button>
             </div>
