@@ -54,7 +54,7 @@ export default async function Home() {
   return (
     <div className="flex min-h-svh flex-col">
       <FilterList postsPromise={postsPromise} />
-      <div className="text-muted-foreground wrapper py-3 text-sm">
+      {/* <div className="text-muted-foreground wrapper py-3 text-sm">
         <ul className="inline-flex flex-wrap items-center">
           <span className="pe-0.75">الأداءات مأخوذة من: </span>
           {credits.map(({ name }, index) => {
@@ -69,7 +69,7 @@ export default async function Home() {
             );
           })}
         </ul>
-      </div>
+      </div> */}
       <List postsPromise={postsPromise} imagesPromise={imagesPromise} />
     </div>
   );
